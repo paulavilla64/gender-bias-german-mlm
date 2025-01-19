@@ -3,99 +3,99 @@ import matplotlib.pyplot as plt
 
 
 # Load the datasets
-epoch_3_data = pd.read_csv("../data/results_EN.csv", sep='\t')
-# epoch_2_data = pd.read_csv("../data/epoch_2_results.csv", sep='\t')
-# epoch_1_data = pd.read_csv("../data/epoch_1_results.csv", sep='\t')
+epoch_3_data = pd.read_csv("../data/epochs/replicated_results_epoch3.csv", sep='\t')
+epoch_2_data = pd.read_csv("../data/epochs/replicated_results_epoch2.csv", sep='\t')
+epoch_1_data = pd.read_csv("../data/epochs/replicated_results_epoch1.csv", sep='\t')
 
 
 # Filter for the "balanced" profession group
 balanced_data_3 = epoch_3_data[epoch_3_data['Prof_Gender'] == 'balanced']
-# balanced_data_2 = epoch_2_data[epoch_2_data['Prof_Gender'] == 'balanced']
-# balanced_data_1 = epoch_1_data[epoch_1_data['Prof_Gender'] == 'balanced']
+balanced_data_2 = epoch_2_data[epoch_2_data['Prof_Gender'] == 'balanced']
+balanced_data_1 = epoch_1_data[epoch_1_data['Prof_Gender'] == 'balanced']
 
 # Separate male and female person words for each epoch
 balanced_male_data_3 = balanced_data_3[balanced_data_3['Gender'] == 'male']
 balanced_female_data_3 = balanced_data_3[balanced_data_3['Gender'] == 'female']
 
-# balanced_male_data_2 = balanced_data_2[balanced_data_2['Gender'] == 'male']
-# balanced_female_data_2 = balanced_data_2[balanced_data_2['Gender'] == 'female']
+balanced_male_data_2 = balanced_data_2[balanced_data_2['Gender'] == 'male']
+balanced_female_data_2 = balanced_data_2[balanced_data_2['Gender'] == 'female']
 
-# balanced_male_data_1 = balanced_data_1[balanced_data_1['Gender'] == 'male']
-# balanced_female_data_1 = balanced_data_1[balanced_data_1['Gender'] == 'female']
+balanced_male_data_1 = balanced_data_1[balanced_data_1['Gender'] == 'male']
+balanced_female_data_1 = balanced_data_1[balanced_data_1['Gender'] == 'female']
 
 # Calculate mean association scores for each epoch
 balanced_male_means = [
     balanced_male_data_3['Pre_Assoc'].mean(),  # Epoch 0
-    # balanced_male_data_1['Post_Assoc'].mean(),  # Epoch 1
-    # balanced_male_data_2['Post_Assoc'].mean(),  # Epoch 2
+    balanced_male_data_1['Post_Assoc'].mean(),  # Epoch 1
+    balanced_male_data_2['Post_Assoc'].mean(),  # Epoch 2
     balanced_male_data_3['Post_Assoc'].mean()   # Epoch 3
 ]
 
 balanced_female_means = [
     balanced_female_data_3['Pre_Assoc'].mean(),  # Epoch 0
-    # balanced_female_data_1['Post_Assoc'].mean(),  # Epoch 1
-    # balanced_female_data_2['Post_Assoc'].mean(),  # Epoch 2
+    balanced_female_data_1['Post_Assoc'].mean(),  # Epoch 1
+    balanced_female_data_2['Post_Assoc'].mean(),  # Epoch 2
     balanced_female_data_3['Post_Assoc'].mean()   # Epoch 3
 ]
 
 
 # Filter for the "female" profession group
 female_data_3 = epoch_3_data[epoch_3_data['Prof_Gender'] == 'female']
-# female_data_2 = epoch_2_data[epoch_2_data['Prof_Gender'] == 'female']
-# female_data_1 = epoch_1_data[epoch_1_data['Prof_Gender'] == 'female']
+female_data_2 = epoch_2_data[epoch_2_data['Prof_Gender'] == 'female']
+female_data_1 = epoch_1_data[epoch_1_data['Prof_Gender'] == 'female']
 
 # Separate male and female person words for each epoch
 female_male_data_3 = female_data_3[female_data_3['Gender'] == 'male']
 female_female_data_3 = female_data_3[female_data_3['Gender'] == 'female']
 
-# female_male_data_2 = female_data_2[female_data_2['Gender'] == 'male']
-# female_female_data_2 = female_data_2[female_data_2['Gender'] == 'female']
+female_male_data_2 = female_data_2[female_data_2['Gender'] == 'male']
+female_female_data_2 = female_data_2[female_data_2['Gender'] == 'female']
 
-# female_male_data_1 = female_data_1[female_data_1['Gender'] == 'male']
-# female_female_data_1 = female_data_1[female_data_1['Gender'] == 'female']
+female_male_data_1 = female_data_1[female_data_1['Gender'] == 'male']
+female_female_data_1 = female_data_1[female_data_1['Gender'] == 'female']
 
 # Calculate mean association scores for each epoch
 female_male_means = [
     female_male_data_3['Pre_Assoc'].mean(),  # Epoch 0
-    # female_male_data_1['Post_Assoc'].mean(),  # Epoch 1
-    # female_male_data_2['Post_Assoc'].mean(),  # Epoch 2
+    female_male_data_1['Post_Assoc'].mean(),  # Epoch 1
+    female_male_data_2['Post_Assoc'].mean(),  # Epoch 2
     female_male_data_3['Post_Assoc'].mean()   # Epoch 3
 ]
 
 female_female_means = [
     female_female_data_3['Pre_Assoc'].mean(),  # Epoch 0
-    # female_female_data_1['Post_Assoc'].mean(),  # Epoch 1
-    # female_female_data_2['Post_Assoc'].mean(),  # Epoch 2
+    female_female_data_1['Post_Assoc'].mean(),  # Epoch 1
+    female_female_data_2['Post_Assoc'].mean(),  # Epoch 2
     female_female_data_3['Post_Assoc'].mean()   # Epoch 3
 ]
 
 # Filter for the "male" profession group
 male_data_3 = epoch_3_data[epoch_3_data['Prof_Gender'] == 'male']
-# male_data_2 = epoch_2_data[epoch_2_data['Prof_Gender'] == 'male']
-# male_data_1 = epoch_1_data[epoch_1_data['Prof_Gender'] == 'male']
+male_data_2 = epoch_2_data[epoch_2_data['Prof_Gender'] == 'male']
+male_data_1 = epoch_1_data[epoch_1_data['Prof_Gender'] == 'male']
 
 # Separate male and female person words for each epoch
 male_male_data_3 = male_data_3[male_data_3['Gender'] == 'male']
 male_female_data_3 = male_data_3[male_data_3['Gender'] == 'female']
 
-# male_male_data_2 = male_data_2[male_data_2['Gender'] == 'male']
-# male_female_data_2 = male_data_2[male_data_2['Gender'] == 'female']
+male_male_data_2 = male_data_2[male_data_2['Gender'] == 'male']
+male_female_data_2 = male_data_2[male_data_2['Gender'] == 'female']
 
-# male_male_data_1 = male_data_1[male_data_1['Gender'] == 'male']
-# male_female_data_1 = male_data_1[male_data_1['Gender'] == 'female']
+male_male_data_1 = male_data_1[male_data_1['Gender'] == 'male']
+male_female_data_1 = male_data_1[male_data_1['Gender'] == 'female']
 
 # Calculate mean association scores for each epoch
 male_male_means = [
     male_male_data_3['Pre_Assoc'].mean(),  # Epoch 0
-    # male_male_data_1['Post_Assoc'].mean(),  # Epoch 1
-    # male_male_data_2['Post_Assoc'].mean(),  # Epoch 2
+    male_male_data_1['Post_Assoc'].mean(),  # Epoch 1
+    male_male_data_2['Post_Assoc'].mean(),  # Epoch 2
     male_male_data_3['Post_Assoc'].mean()   # Epoch 3
 ]
 
 male_female_means = [
     male_female_data_3['Pre_Assoc'].mean(),  # Epoch 0
-    # male_female_data_1['Post_Assoc'].mean(),  # Epoch 1
-    # male_female_data_2['Post_Assoc'].mean(),  # Epoch 2
+    male_female_data_1['Post_Assoc'].mean(),  # Epoch 1
+    male_female_data_2['Post_Assoc'].mean(),  # Epoch 2
     male_female_data_3['Post_Assoc'].mean()   # Epoch 3
 ]
 
@@ -103,7 +103,7 @@ male_female_means = [
 fig_bal, ax_bal = plt.subplots()
 
 # Plot the scores for B_male and B_female
-epochs = [0, 3]
+epochs = [0, 1, 2, 3]
 ax_bal.plot(epochs, balanced_male_means, marker='o',
             color='blue', label='B_male')
 ax_bal.plot(epochs, balanced_female_means, marker='o',
@@ -137,7 +137,7 @@ plt.show()
 fig_fem, ax_fem = plt.subplots()
 
 # Plot the scores for F_male and F_female
-epochs = [0, 3]
+epochs = [0, 1, 2, 3]
 ax_fem.plot(epochs, female_male_means, marker='o',
             color='blue', label='F_male')
 ax_fem.plot(epochs, female_female_means, marker='o',
@@ -170,7 +170,7 @@ plt.show()
 fig_mal, ax_mal = plt.subplots()
 
 # Plot the scores for M_male and M_female
-epochs = [0, 3]
+epochs = [0, 1, 2, 3]
 ax_mal.plot(epochs, male_male_means, marker='o', color='blue', label='M_male')
 ax_mal.plot(epochs, male_female_means, marker='o',
             color='pink', label='M_female')
