@@ -15,7 +15,6 @@ from torch.utils.data import TensorDataset, RandomSampler, DataLoader
 import torch
 from nltk import sent_tokenize
 from transformers import BertTokenizer, BertForMaskedLM, AdamW, get_linear_schedule_with_warmup
-import os
 
 from bias_utils.utils import model_evaluation, statistics, input_pipeline, format_time, mask_tokens
 
@@ -74,14 +73,7 @@ pre_associations = model_evaluation(data, tokenizer, model, device)
 data = data.assign(Pre_Assoc=pre_associations)
 
 
-def fine_tune(model, dataloader, epochs, tokenizer, device, checkpoint_dir="checkpoints_epochs", result_dir="../data/results_epochs"):
-    # Ensure the checkpoint directory exists
-    os.makedirs(checkpoint_dir, exist_ok=True)
-    os.makedirs(result_dir, exist_ok=True)
-
-    # Define the checkpoint file path
-    checkpoint_path = os.path.join(checkpoint_dir, "cp-{epoch:02d}.ckpt")
-
+def fine_tune(model, dataloader, epochs, tokenizer, device):
     model.to(device)
     model.train()
 
@@ -151,21 +143,6 @@ def fine_tune(model, dataloader, epochs, tokenizer, device, checkpoint_dir="chec
             # Update the learning rate.
             scheduler.step()
 
-        # Save checkpoint at the end of the epoch
-        checkpoint_path = os.path.join(
-            checkpoint_dir, f"epoch-{epoch_i + 1}.pt")
-        torch.save(model.state_dict(), checkpoint_path)
-        print(f"Checkpoint saved at {checkpoint_path}")
-
-        # Evaluate associations after the epoch
-        print('-- Calculating associations after each epoch --')
-        epoch_associations = model_evaluation(data, tokenizer, model, device)
-        epoch_output_file = os.path.join(
-            result_dir, f"results_epoch_{epoch_i + 1}.csv")
-        epoch_data = data.assign(Epoch_Assoc=epoch_associations)
-        epoch_data.to_csv(epoch_output_file, sep='\t', index=False)
-        print(f"Association scores for epoch {epoch_i + 1} saved to {epoch_output_file}")
-
         # Calculate the average loss over the training data.
         avg_train_loss = total_loss / len(train_dataloader)
 
@@ -219,8 +196,7 @@ train_dataloader = DataLoader(
 
 print('-- Set up model fine-tuning --')
 epochs = 3
-model = fine_tune(model, train_dataloader,
-                  epochs, tokenizer, device, checkpoint_dir="checkpoints_epochs", result_dir="../data/results")
+model = fine_tune(model, train_dataloader, epochs, tokenizer, device)
 
 print('-- Calculate associations after fine-tuning --')
 # calculate associations after fine-tuning
@@ -242,6 +218,6 @@ statistics(data.Pre_Assoc, data.Post_Assoc, data)
 # statistics(eval_f.Post_Assoc, eval_m.Post_Assoc)
 
 # Save the results
-output_file = "../data/replicated_epochs_test.csv"
+output_file = "../data/epochs/replicated_results_epoch3.csv"
 data.to_csv(output_file, sep='\t', index=False)
 print(f"Results saved to {output_file}")
