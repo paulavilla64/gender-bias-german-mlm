@@ -26,20 +26,31 @@ def mask_tokens(inputs: torch.Tensor, tokenizer: PreTrainedTokenizer, mlm_probab
             "This tokenizer does not have a mask token which is necessary for masked language modeling. Remove the "
             "--mlm flag if you want to use this tokenizer. "
         )
-
+    
+    # Create a copy of the input tensor to serve as the labels. This ensures the original input remains unchanged.
     labels = inputs.clone().long()
     # We sample a few tokens in each sequence for masked-LM training (with probability args.mlm_probability defaults
     # to 0.15 in Bert/RoBERTa)
+
+    # Create a tensor of the same shape as labels with all values set to the masking probability (mlm_probability).
     probability_matrix = torch.full(labels.shape, mlm_probability)
+    # Identify positions of special tokens (e.g., [CLS], [SEP], [PAD]) in each sequence. These tokens are not masked during MLM.
     special_tokens_mask = [
         tokenizer.get_special_tokens_mask(val, already_has_special_tokens=True) for val in labels.tolist()
     ]
 
+    # Set the probability of masking special tokens to 0.0 to prevent them from being masked
     probability_matrix.masked_fill_(torch.tensor(
         special_tokens_mask, dtype=torch.bool), value=0.0)
+    
+    # If the tokenizer has a padding token, ensure padding tokens are not masked by setting their probability to 0.0
     if tokenizer._pad_token is not None:
         padding_mask = labels.eq(tokenizer.pad_token_id)
         probability_matrix.masked_fill_(padding_mask, value=0.0)
+    
+    # Uses torch.bernoulli to randomly decide which tokens to mask based on the probability_matrix.
+    # Tokens not selected for masking have their corresponding positions in labels set to -100. 
+    # This ensures these positions are ignored during loss calculation.
     masked_indices = torch.bernoulli(probability_matrix).bool()
     labels[~masked_indices] = -100  # We only compute loss on masked tokens
 
