@@ -2,11 +2,11 @@ from transformers import AutoTokenizer
 
 tokenizer = AutoTokenizer.from_pretrained("dbmdz/bert-base-german-cased")
 
-sentence = "Sie arbeitet als Ärztin."
+sentence = "Er ist ein Schreiner."
 tokens = tokenizer.tokenize(sentence)
 print(tokens)
 
-sentence = "Sie ist eine Kindergarten Erzieherin."
+sentence = "Sie ist eine Schreinerin."
 tokens = tokenizer.tokenize(sentence)
 print(tokens)
 
