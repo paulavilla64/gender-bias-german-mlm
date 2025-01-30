@@ -15,6 +15,7 @@ import torch
 from nltk import sent_tokenize
 from torch.utils.data import TensorDataset, RandomSampler, DataLoader
 from transformers import BertTokenizer, BertForMaskedLM, AdamW, get_linear_schedule_with_warmup
+from transformers import AutoModelForMaskedLM, AutoTokenizer
 
 from bias_utils.utils import model_evaluation, mask_tokens, input_pipeline, format_time, statistics
 
@@ -152,12 +153,17 @@ if __name__ == '__main__':
     # import the evaluation data; data should be a tab-separated dataframe
     eval_data = pd.read_csv(args.eval, sep='\t')
 
+    # Take only the first 50 rows of data
+    # eval_data = eval_data[:50]
+    # print("Loaded first 50 rows of the dataset:")
+    # print(eval_data)
+
     # eval_data = eval_data[:100]
 
     print('-- Import BERT model --')
-    tokenizer = BertTokenizer.from_pretrained(pretrained_model)
+    tokenizer = AutoTokenizer.from_pretrained(pretrained_model)
     # set up the model
-    model = BertForMaskedLM.from_pretrained(pretrained_model,
+    model = AutoModelForMaskedLM.from_pretrained(pretrained_model,
                                             output_attentions=False,
                                             output_hidden_states=False)
 
@@ -217,16 +223,16 @@ if __name__ == '__main__':
     # save df+associations in out-file (to be processed in R)
     eval_data.to_csv(args.out + '_' + args.lang + '.csv', sep='\t', encoding='utf-8', index=False)
 
-    if 'Prof_Gender' in eval_data.columns:
-        # divide by gender of person term
-        eval_m = eval_data.loc[eval_data.Prof_Gender == 'male']
-        eval_f = eval_data.loc[eval_data.Prof_Gender == 'female']
+    # if 'Prof_Gender' in eval_data.columns:
+    #     # divide by gender of person term
+    #     eval_m = eval_data.loc[eval_data.Prof_Gender == 'male']
+    #     eval_f = eval_data.loc[eval_data.Prof_Gender == 'female']
 
-        print('-- Statistics Before --')
-        statistics(eval_f.Pre_Assoc, eval_m.Pre_Assoc)
-        if args.tune:
-            print('-- Statistics After --')
-            statistics(eval_f.Post_Assoc, eval_m.Post_Assoc)
-        print('End code.')
-    else:
-        print('Statistics cannot be printed, code ends here.')
+    #     print('-- Statistics Before --')
+    #     statistics(eval_f.Pre_Assoc, eval_m.Pre_Assoc)
+    #     if args.tune:
+    #         print('-- Statistics After --')
+    #         statistics(eval_f.Post_Assoc, eval_m.Post_Assoc)
+    #     print('End code.')
+    # else:
+    #     print('Statistics cannot be printed, code ends here.')
