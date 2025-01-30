@@ -26,7 +26,7 @@ def mask_tokens(inputs: torch.Tensor, tokenizer: PreTrainedTokenizer, mlm_probab
             "This tokenizer does not have a mask token which is necessary for masked language modeling. Remove the "
             "--mlm flag if you want to use this tokenizer. "
         )
-    
+
     # Create a copy of the input tensor to serve as the labels. This ensures the original input remains unchanged.
     labels = inputs.clone().long()
     # We sample a few tokens in each sequence for masked-LM training (with probability args.mlm_probability defaults
@@ -42,14 +42,14 @@ def mask_tokens(inputs: torch.Tensor, tokenizer: PreTrainedTokenizer, mlm_probab
     # Set the probability of masking special tokens to 0.0 to prevent them from being masked
     probability_matrix.masked_fill_(torch.tensor(
         special_tokens_mask, dtype=torch.bool), value=0.0)
-    
+
     # If the tokenizer has a padding token, ensure padding tokens are not masked by setting their probability to 0.0
     if tokenizer._pad_token is not None:
         padding_mask = labels.eq(tokenizer.pad_token_id)
         probability_matrix.masked_fill_(padding_mask, value=0.0)
-    
+
     # Uses torch.bernoulli to randomly decide which tokens to mask based on the probability_matrix.
-    # Tokens not selected for masking have their corresponding positions in labels set to -100. 
+    # Tokens not selected for masking have their corresponding positions in labels set to -100.
     # This ensures these positions are ignored during loss calculation.
     masked_indices = torch.bernoulli(probability_matrix).bool()
     labels[~masked_indices] = -100  # We only compute loss on masked tokens
@@ -484,7 +484,7 @@ def input_pipeline(sequence, tokenizer, MAX_LEN):
     # Step 2: Pad the sequences to the specified MAX_LEN
     input_ids = pad_sequences(input_ids, maxlen=MAX_LEN,
                               dtype="long",
-                              value=tokenizer.mask_token_id,
+                              value=tokenizer.pad_token_id,
                               truncating="post", padding="post")
     # Print the first 5 padded sequences
     # print(f"Padded input IDs (first 5): {input_ids[:5]}")
@@ -515,6 +515,7 @@ def prob_with_prior(pred_TM, pred_TAM, input_ids_TAM, original_ids, tokenizer):
     pred_TM = pred_TM.cpu()
     pred_TAM = pred_TAM.cpu()
     input_ids_TAM = input_ids_TAM.cpu()
+    print("Prob_with_prior function starts")
 
     probs = []
     for doc_idx, id_list in enumerate(input_ids_TAM):
@@ -541,7 +542,11 @@ def prob_with_prior(pred_TM, pred_TAM, input_ids_TAM, original_ids, tokenizer):
         # get its prior probability (masked profession)
         # p_prior
         prior = pred_TAM[doc_idx][mask_indices[0]][target_id].item()
-        print(f"Prior probability (p_prior): {prior}")
+        prior_female = pred_TAM[doc_idx][mask_indices[0]][286].item()
+        prior_male = pred_TAM[doc_idx][mask_indices[0]][279].item()
+        print(f"Prior probability (p_prior): {prior} for {target_id}")
+        print(f"Prior probability (p_prior) for sie: {prior_female} (target word token id=286)")
+        print(f"Prior probability (p_prior) for er: {prior_male} (target word token id=279)")
 
         # Normalization:
         # Calculate the association by dividing the target probability by the prior and take the natural logarithm
@@ -569,7 +574,7 @@ def model_evaluation(eval_df, tokenizer, model, device):
     max_len_eval = int(math.pow(2, pos))
     # This ensures compatibility with model padding and improves computational efficiency.
 
-    # print('max_len evaluation: {}'.format(max_len_eval))
+    print('max_len evaluation: {}'.format(max_len_eval))
 
     # Step 2: Tokenize the inputs for different scenarios.
     # create BERT-ready inputs: target masked, target and attribute masked,
@@ -587,8 +592,8 @@ def model_evaluation(eval_df, tokenizer, model, device):
     eval_tokens_TAM, eval_attentions_TAM = input_pipeline(eval_df.Sent_TAM,
                                                           tokenizer,
                                                           max_len_eval)
-    # print(f'Tokens (Sent_TAM): {eval_tokens_TAM.shape}')
-    # print(f'Attention Masks (Sent_TAM): {eval_attentions_TAM.shape}')
+    print(f'Tokens (Sent_TAM): {eval_tokens_TAM.shape}')
+    print(f'Attention Masks (Sent_TAM): {eval_attentions_TAM.shape}')
 
     print('--- Tokenizing Original Sentence...')
     # Tokenize the original sentences to recover the target word for probability calculations later.
