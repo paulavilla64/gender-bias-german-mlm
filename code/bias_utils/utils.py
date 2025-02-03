@@ -476,10 +476,10 @@ def input_pipeline(sequence, tokenizer, MAX_LEN):
     """function to tokenize, pad and create attention masks"""
     # Step 1: Tokenize the input sequence to IDs
     # Print the first 5 sequences for inspection
-    # print(f"Input sequence (first 5): {sequence[:5]}")
+    print(f"Input sequence (first 5): {sequence[:5]}")
     input_ids = tokenize_to_id(sequence, tokenizer)
     # Print the first 5 tokenized inputs
-    # print(f"Tokenized input IDs (first 5): {input_ids[:5]}")
+    print(f"Tokenized input IDs (first 5): {input_ids[:5]}")
 
     # Step 2: Pad the sequences to the specified MAX_LEN
     input_ids = pad_sequences(input_ids, maxlen=MAX_LEN,
@@ -487,7 +487,7 @@ def input_pipeline(sequence, tokenizer, MAX_LEN):
                               value=tokenizer.pad_token_id,
                               truncating="post", padding="post")
     # Print the first 5 padded sequences
-    # print(f"Padded input IDs (first 5): {input_ids[:5]}")
+    print(f"Padded input IDs (first 5): {input_ids[:5]}")
 
     # Convert to tensor
     input_ids = torch.tensor(input_ids)
@@ -497,7 +497,7 @@ def input_pipeline(sequence, tokenizer, MAX_LEN):
     # Step 3: Create attention masks
     attention_masks = attention_mask_creator(input_ids)
     # Print the first 5 attention masks
-    # print(f"Attention masks (first 5): {attention_masks[:5]}")
+    print(f"Attention masks (first 5): {attention_masks[:5]}")
     # Print the shape of attention masks
     # print(f"Attention masks shape: {attention_masks.shape}")
 
@@ -520,8 +520,8 @@ def prob_with_prior(pred_TM, pred_TAM, input_ids_TAM, original_ids, tokenizer):
     probs = []
     for doc_idx, id_list in enumerate(input_ids_TAM):
         print(f"Processing sentence {doc_idx}")
-        # print("Input IDs for first document:", input_ids_TAM[0])
-        # print("Decoded tokens:", tokenizer.convert_ids_to_tokens(input_ids_TAM[0]))
+        print("Input IDs for first document:", input_ids_TAM[0])
+        print("Decoded tokens:", tokenizer.convert_ids_to_tokens(input_ids_TAM[0]))
 
         # see where the masks were placed in this sentence
         # Finds the positions of all [MASK] tokens in the input, e.g., [0, 3, 4]
@@ -547,6 +547,8 @@ def prob_with_prior(pred_TM, pred_TAM, input_ids_TAM, original_ids, tokenizer):
         print(f"Prior probability (p_prior): {prior} for {target_id}")
         print(f"Prior probability (p_prior) for sie: {prior_female} (target word token id=286)")
         print(f"Prior probability (p_prior) for er: {prior_male} (target word token id=279)")
+
+        # get the predicted tokens for the masked profession
 
         # Normalization:
         # Calculate the association by dividing the target probability by the prior and take the natural logarithm
@@ -651,6 +653,32 @@ def model_evaluation(eval_df, tokenizer, model, device):
             predictions_TM = softmax(outputs_TM[0], dim=2)
             # Shape: [batch_size, seq_len, vocab_size]
             predictions_TAM = softmax(outputs_TAM[0], dim=2)
+        
+        # Identify [MASK] positions at column TM
+        for doc_idx, id_list in enumerate(b_input_TM):
+            mask_indices = (id_list == tokenizer.mask_token_id).nonzero(as_tuple=True)[0]
+
+            print(f"\nSentence {step * eval_batch + doc_idx}:")
+            print(f"Original: {tokenizer.convert_ids_to_tokens(id_list.tolist())}")
+
+            for mask_pos in mask_indices:
+                top_predictions = torch.topk(predictions_TAM[doc_idx, mask_pos], k=5)
+                predicted_tokens = tokenizer.convert_ids_to_tokens(top_predictions.indices.tolist())
+
+                print(f"For TM: MASK at position {mask_pos}: {predicted_tokens} (top-5 predictions)")
+        
+        # Identify [MASK] positions at column TAM
+        for doc_idx, id_list in enumerate(b_input_TAM):
+            mask_indices = (id_list == tokenizer.mask_token_id).nonzero(as_tuple=True)[0]
+
+            print(f"\nSentence {step * eval_batch + doc_idx}:")
+            print(f"Original: {tokenizer.convert_ids_to_tokens(id_list.tolist())}")
+
+            for mask_pos in mask_indices:
+                top_predictions = torch.topk(predictions_TAM[doc_idx, mask_pos], k=5)
+                predicted_tokens = tokenizer.convert_ids_to_tokens(top_predictions.indices.tolist())
+
+                print(f"For TAM: MASK at position {mask_pos}: {predicted_tokens} (top-5 predictions)")
 
         # Verify that the output shapes match between Sent_TM and Sent_TAM.
         assert predictions_TM.shape == predictions_TAM.shape
