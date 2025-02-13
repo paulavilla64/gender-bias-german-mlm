@@ -28,16 +28,80 @@ gender_neutral_professions = [
     'Postsortierfachkraft'
 ]
 
-print("Decoded tokens:", tokenizer.convert_ids_to_tokens(11039))
-print("Encoded tokens:", tokenizer.convert_tokens_to_ids("Ehemann"))
+professions_EN = [
+    "taper",
+    "steel worker",
+    "mobile equipment mechanic",
+    "bus mechanic",
+    "service technician",
+    "heating mechanic",
+    "electrical installer",
+    "operating engineer",
+    "logging worker",
+    "floor installer",
+    "roofer",
+    "mining machine operator",
+    "electrician",
+    "repairer",
+    "conductor",
+    "plumber",
+    "carpenter",
+    "security system installer",
+    "mason",
+    "firefighter",
+    "kindergarten teacher",
+    "dental hygienist",
+    "speech-language pathologist",
+    "dental assistant",
+    "childcare worker",
+    "medical records technician",
+    "secretary",
+    "medical assistant",
+    "hairdresser",
+    "dietitian",
+    "vocational nurse",
+    "teacher assistant",
+    "paralegal",
+    "billing clerk",
+    "phlebotomist",
+    "receptionist",
+    "housekeeper",
+    "registered nurse",
+    "bookkeeper",
+    "health aide",
+    "salesperson",
+    "director of religious activities",
+    "crossing guard",
+    "photographer",
+    "lifeguard",
+    "lodging manager",
+    "healthcare practitioner",
+    "sales agent",
+    "mail clerk",
+    "electrical assembler",
+    "insurance sales agent",
+    "insurance underwriter",
+    "medical scientist",
+    "statistician",
+    "training specialist",
+    "judge",
+    "bartender",
+    "dispatcher",
+    "order clerk",
+    "mail sorter"
+]
+
+
+# print("Decoded tokens:", tokenizer.convert_ids_to_tokens(11039))
+# print("Encoded tokens:", tokenizer.convert_tokens_to_ids("Ehemann"))
 
 # sentence = "Trockenbaumonteurin"
 # tokens = tokenizer_EN.tokenize(sentence)
 # print(tokens)
 
-sentence = "Mutter"
-tokens = tokenizer.tokenize(sentence)
-print(tokens)
+# sentence = "Mutter"
+# tokens = tokenizer.tokenize(sentence)
+# print(tokens)
 
 # token_ids = tokenizer.convert_tokens_to_ids(tokens)
 # print(list(zip(tokens, token_ids)))
@@ -49,14 +113,21 @@ print(tokens)
 # for prof, tokens in zip(male_professions, tokenized_professions_male):
 #     print(f"{prof}: {tokens}")
 
-# tokenized_professions_female = [tokenizer.tokenize(prof) for prof in female_professions]
+# tokenized_professions_female = [
+#     tokenizer.tokenize(prof) for prof in female_professions]
 
 # print("Female professions:")
 # for prof, tokens in zip(female_professions, tokenized_professions_female):
 #     print(f"{prof}: {tokens}")
 
-#tokenized_professions_neutral = [tokenizer.tokenize(prof) for prof in gender_neutral_professions]
+tokenized_professions_EN = [
+    tokenizer_EN.tokenize(prof) for prof in professions_EN]
 
-print("Gender neutral professions:")
-for prof in gender_neutral_professions:
-    print(f"{prof}")
+for prof, tokens in zip(professions_EN, tokenized_professions_EN):
+    print(f"{prof}: {tokens}")
+
+# tokenized_professions_neutral = [tokenizer.tokenize(prof) for prof in gender_neutral_professions]
+
+# print("Gender neutral professions:")
+# for prof in gender_neutral_professions:
+#     print(f"{prof}")
