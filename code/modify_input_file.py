@@ -2,7 +2,25 @@ import pandas as pd
 import re
 import chardet
 
-df = pd.read_csv("../BEC-Pro/BEC-Pro_DE.tsv", sep='\t')
+df = pd.read_csv("../BEC-Pro/BEC-Pro_EN.tsv", sep='\t')
+
+def save_unique_professions(tsv_path, output_txt_path):
+    # Read the TSV file
+    df = pd.read_csv(tsv_path, delimiter='\t', keep_default_na=False)  # Ensure NaNs don't cause issues
+    
+    # Convert 'Profession' column to a list while preserving order
+    seen = set()
+    unique_professions = [prof for prof in df['Profession'] if prof not in seen and not seen.add(prof)]
+    
+    # Write to a text file
+    with open(output_txt_path, 'w', encoding='utf-8') as f:
+        for profession in unique_professions:
+            f.write(profession + '\n')
+
+    print(f"Saved {len(unique_professions)} unique professions to {output_txt_path}")
+
+# Example usage
+# save_unique_professions("../BEC-Pro/BEC-Pro_EN.tsv", "../BEC-Pro/Professions/tokenized_professions_EN.txt")
 
 # modify the columns "Sent_AM" and "Sent_TAM"
 # for any MASK except the first one, there should be BERUF or [PROF]
@@ -59,13 +77,13 @@ def compare_text_files(file1, file2):
             return False
     return True  # Files are identical
 
-# Example usage
-file1 = "../data/modified_input/results_DE_with_padding_DE.csv"
-file2 = "../data/results_with_tokens_DE.csv"
-if compare_text_files(file1, file2):
-   print("Files are identical.")
-else:
-   print("Files are different.")
+# # Example usage
+# file1 = "../data/output_csv_files/results_sent_TAM_DE.csv"
+# file2 = "../data/output_csv_files/results_padding_tokenized_DE.csv"
+# if compare_text_files(file1, file2):
+#    print("Files are identical.")
+# else:
+#    print("Files are different.")
 
 
 def detect_encoding(file_path):
@@ -90,9 +108,9 @@ def add_token_counts_to_file(input_file, output_file):
             f.write(f"{token_count} {profession}: {tokens}\n")
 
 
-input_file = "tokenized_professions_DE.txt"  
-#input_encoding = detect_encoding(input_file)
-output_file = "output_professions.txt" 
+# input_file = "../BEC-Pro/Professions/tokenized_professions_EN.txt"  
+# input_encoding = detect_encoding(input_file)
+# output_file = "tokenized_professions_EN.txt" 
 # add_token_counts_to_file(input_file, output_file)
 
 def update_sent_am(tsv_file, professions_file, output_file):
@@ -214,7 +232,7 @@ def update_sent_am(tsv_file, professions_file, output_file):
     df.loc[540:719, 'Sent_AM'] = [replace_mask(row, idx, professions_list_1_female, token_counts_1_female) for idx, row in df.loc[540:719].iterrows()]
     df.loc[900:1079, 'Sent_AM'] = [replace_mask(row, idx, professions_list_1_female, token_counts_1_female) for idx, row in df.loc[900:1079].iterrows()]
     df.loc[1260:1439, 'Sent_AM'] = [replace_mask(row, idx, professions_list_1_female, token_counts_1_female) for idx, row in df.loc[1260:1439].iterrows()]
-    df.loc[1620:1779, 'Sent_AM'] = [replace_mask(row, idx, professions_list_1_female, token_counts_1_female) for idx, row in df.loc[1620:1779].iterrows()]
+    df.loc[1620:1799, 'Sent_AM'] = [replace_mask(row, idx, professions_list_1_female, token_counts_1_female) for idx, row in df.loc[1620:1779].iterrows()]
 
     df.loc[1980:2159, 'Sent_AM'] = [replace_mask(row, idx, professions_list_2_female, token_counts_2_female) for idx, row in df.loc[1980:2159].iterrows()]
     df.loc[2340:2519, 'Sent_AM'] = [replace_mask(row, idx, professions_list_2_female, token_counts_2_female) for idx, row in df.loc[2340:2519].iterrows()]
@@ -231,9 +249,9 @@ def update_sent_am(tsv_file, professions_file, output_file):
     df.to_csv(output_file, sep='\t', index=False, encoding='utf-8')
 
 # Example usage:
-output_file = "output_tokenized_professions_DE.txt"  
-ts_file = "../BEC-Pro/BEC-Pro_DE.tsv"  
-updated_file = "updated_data_fixed_compounds.tsv"  
+# output_file = "output_tokenized_professions_DE.txt"  
+# ts_file = "../BEC-Pro/BEC-Pro_DE.tsv"  
+# updated_file = "updated_data_fixed_compounds.tsv"  
 
 #update_sent_am(ts_file, output_file, updated_file)
 
@@ -273,12 +291,397 @@ def modify_sent_tam(row):
     return new_sentence
 
 # Load the TSV file
-#df = pd.read_csv("updated_data_fixed_compounds.tsv", sep='\t', encoding='utf-8')
+# df = pd.read_csv("../BEC-Pro/modified_file_EN_tokenized.tsv", sep='\t', encoding='utf-8')
 
 
-# Apply the function to modify Sent_TAM column
-#df["Sent_TAM"] = df.apply(modify_sent_tam, axis=1)
+# # Apply the function to modify Sent_TAM column
+# df["Sent_TAM"] = df.apply(modify_sent_tam, axis=1)
 
-# Save the updated dataframe to a new file
-#df.to_csv("updated_data_sent_TAM_fixed.tsv", sep='\t', index=False, encoding='utf-8')
+# # Save the updated dataframe to a new file
+# df.to_csv("updated_data_sent_TAM.tsv", sep='\t', index=False, encoding='utf-8')
+
+
+def compare_profession_numbers(file_path):
+    with open(file_path, 'r', encoding='utf-8') as f:
+        lines = f.readlines()
+    
+    # Split into male and female professions
+    male_professions = lines[:60]
+    female_professions = lines[60:120]
+    
+    difference_count = 0
+    
+    for male_line, female_line in zip(male_professions, female_professions):
+        male_number, male_profession = male_line.split(' ', 1)
+        female_number, female_profession = female_line.split(' ', 1)
+        
+        male_number, female_number = int(male_number), int(female_number)
+        difference = male_number - female_number
+        
+        if difference != 0:
+            difference_count += 1
+        
+        print(f"{male_profession.strip()} vs {female_profession.strip()} -> Difference: {difference}")
+    
+    print(f"Total professions with a non-zero difference: {difference_count}")
+
+
+# Example usage:
+#file_path = "../BEC-Pro/tokenized_professions_DE.txt"  # Replace with actual file path
+#compare_profession_numbers(file_path)
+
+def replace_professions(csv_file, professions_file, output_file):
+    encoding = detect_encoding(professions_file)
+
+    # Read first 20 lines from the text file
+    with open(professions_file, 'r', encoding=encoding, errors='replace') as f:
+        professions = [line.split(':')[0].strip() for line in f.readlines()]
+
+    # Divide professions into three lists
+    professions_1 = professions[:20]    # First 20 for lines 0-1800
+    professions_2 = professions[20:40]  # Next 20 for lines 1800-3600
+    professions_3 = professions[40:60]  # Next 20 for lines 3600-5400
+
+    # Load the CSV file
+    df = pd.read_csv(csv_file, sep='\t', encoding='utf-8')
+
+     # Replace professions in specified line ranges
+    for i in range(1800):  # First 1800 rows
+        df.at[i, 'Profession'] = professions_1[i % 20]  # Cycle through 20 professions
+
+    for i in range(1800, 3600):  # Rows 1800-3600
+        df.at[i, 'Profession'] = professions_2[(i - 1800) % 20]  # Cycle through professions_2
+
+    for i in range(3600, 5400):  # Rows 3600-5400
+        df.at[i, 'Profession'] = professions_3[(i - 3600) % 20]  # Cycle through professions_3
+
+
+    # Save the modified CSV
+    df.to_csv(output_file, sep='\t', index=False, encoding='utf-8')
+
+# Example usage
+# csv_file = "../BEC-Pro/BEC-Pro_DE.tsv"  # Your actual input CSV file
+# professions_file = "../BEC-Pro/professions_DE_gender_neutral.txt"  # Your actual text file
+# output_file = "updated_data.csv"  # Output CSV file
+
+# replace_professions(csv_file, professions_file, output_file)
+
+def fill_templates(csv_file, output_file):
+    # Load the CSV file
+    df = pd.read_csv(csv_file, sep='\t', encoding='utf-8')
+
+    # Function to replace placeholders with actual values
+    def generate_sentence(row):
+        template = row['Template']
+        person = row['Person']
+        profession = row['Profession']
+        
+        # Replace placeholders
+        sentence = template.replace("<person subject>", person).replace("<profession>", profession)
+        return sentence
+
+    # Apply the function to update the 'Sentence' column
+    df['Sentence'] = df.apply(generate_sentence, axis=1)
+
+    # Save the modified CSV
+    df.to_csv(output_file, sep='\t', index=False, encoding='utf-8')
+
+# Example usage
+# csv_file = "updated_data.csv"  # Your input CSV file
+# output_file = "final_data.csv"  # Output CSV file
+
+#fill_templates(csv_file, output_file)
+
+
+def modify_sentences(csv_file, output_file):
+    # Load the CSV file
+    df = pd.read_csv(csv_file, sep='\t', encoding='utf-8')
+
+    # Define word mappings
+    dieser_words = {"Mann"}
+    diese_words = {"Frau"}
+    mein_words = {"Bruder", "Sohn", "Ehemann", "Freund", "Vater", "Onkel", "Papa"}
+    meine_words = {"Schwester", "Tochter", "Frau", "Freundin", "Mutter", "Tante", "Mama"}
+
+    # Function to modify sentences
+    def modify_sentence(sentence):
+        words = sentence.split()
+
+        # Iterate through words to modify them if needed
+        for i, word in enumerate(words):
+            if word in dieser_words:
+                words[i] = "Dieser " + word
+            elif word in diese_words:
+                words[i] = "Diese " + word
+            elif word in mein_words:
+                words[i] = "Mein " + word
+            elif word in meine_words:
+                words[i] = "Meine " + word
+
+        return " ".join(words)
+
+    # Apply modifications to the 'Sentence' column
+    df['Sentence'] = df['Sentence'].apply(modify_sentence)
+
+    # Save the modified CSV
+    df.to_csv(output_file, sep='\t', index=False, encoding='utf-8')
+
+def modify_sent_tm(csv_file, output_file):
+    # Load the CSV file
+    df = pd.read_csv(csv_file, sep='\t', encoding='utf-8')
+
+    # Function to replace person words with [MASK]
+    def mask_person(sentence, person_word):
+        if pd.isna(person_word) or person_word.strip() == "":
+            return sentence  # If no person word, keep the sentence unchanged
+        return re.sub(r'\b' + re.escape(person_word) + r'\b', '[MASK]', sentence)
+
+    # Modify the Sent_TM column
+    df['Sent_TM'] = df.apply(lambda row: mask_person(row['Sentence'], row['Person']), axis=1)
+
+    # Save the modified CSV
+    df.to_csv(output_file, sep='\t', index=False, encoding='utf-8')
+
+
+# Example usage
+# csv_file = "final_data_test.csv"  # Your input CSV file
+# output_file = "final_data_test_1.csv"  # Output CSV file
+
+#modify_sent_tm(csv_file, output_file)
+
+def add_word_counts_to_professions(input_file, output_file):
+    # Detect encoding
+    encoding = detect_encoding(input_file)
+
+    # Read the file
+    with open(input_file, 'r', encoding=encoding, errors='replace') as f:
+        lines = f.readlines()
+
+    # Process each line and count words
+    with open(output_file, 'w', encoding='utf-8') as f:
+        for line in lines:
+            profession = line.strip()
+            word_count = len(profession.split())  # Count words in profession name
+            f.write(f"{word_count} {profession}\n")
+
+# Example usage
+# input_file = "../BEC-Pro/professions_DE_gender_neutral.txt"  # Replace with your input file
+# output_file = "output_professions.txt"  # Replace with desired output file
+
+# add_word_counts_to_professions(input_file, output_file)
+
+
+def update_mask_count(csv_file, output_file):
+    # Load the CSV file
+    df = pd.read_csv(csv_file, sep='\t', encoding='utf-8')
+
+    # Define professions with specific MASK token counts
+    professions_2_mask = {"Dentalhygiene Fachkraft", "Naturheil Kraft", "Sachbearbeitende Person"}
+    professions_3_mask = {
+        "Fachkraft für Heizungstechnik", "Fachkraft für Kfz-Mechanik", "Einsatzkraft der Feuerwehr",
+        "Fachkraft für Medizintechnik", "Fachkraft im Haarsalon", "Person am Empfang",
+        "Fotografie betreibende Person", "medizinisch forschende Person", "Recht sprechende Person"
+    }
+    professions_4_mask = {
+        "Mechanik Fachkraft für Busse", "Fachkraft für Holz-und Bautenschutzarbeiten",
+        "Fachkraft in der Eisenbahn", "Servicekraft an der Bar"
+    }
+    professions_6_mask = {"Fachkraft für Kurier-, Express- und Postdienstleistungen"}
+
+    all_target_professions = professions_2_mask | professions_3_mask | professions_4_mask | professions_6_mask
+
+    # Function to modify Sent_AM based on profession
+    def modify_sent_am(row):
+        profession = row['Profession']
+
+        # Determine the required MASK count
+        if profession in professions_2_mask:
+            mask_count = 2
+        elif profession in professions_3_mask:
+            mask_count = 3
+        elif profession in professions_4_mask:
+            mask_count = 4
+        elif profession in professions_6_mask:
+            mask_count = 6
+        else:
+            return row['Sent_AM']  # Keep unchanged if profession is not in the list
+
+        # Step 1: Only replace multiple [MASK] tokens if the profession is in the list
+        sentence_with_single_mask = row['Sent_AM']
+        if profession in all_target_professions:
+            sentence_with_single_mask = re.sub(r'\[MASK\]+', '[MASK]', row['Sent_AM'])
+
+        # Step 2: Multiply the single [MASK] by the required count
+        return sentence_with_single_mask.replace('[MASK]', ' '.join(['[MASK]'] * mask_count), 1)
+
+    # Apply function to modify Sent_AM column
+    df['Sent_AM'] = df.apply(modify_sent_am, axis=1)
+
+    # Save the modified file
+    df.to_csv(output_file, sep='\t', index=False, encoding='utf-8')
+
+# Example usage
+# csv_file = "final_data_test_1.csv"  # Replace with actual input file
+# output_file = "final_data_test_2.csv"  # Replace with desired output file
+
+#update_mask_count(csv_file, output_file)
+
+def update_sent_tam(csv_file, output_file):
+    # Load the CSV file
+    df = pd.read_csv(csv_file, sep='\t', encoding='utf-8')
+
+    def modify_sent_tam(row):
+        sent_tam = row['Sent_TAM']
+        sent_am = row['Sent_AM']
+
+        # Count the number of [MASK] tokens in Sent_AM
+        mask_count_am = len(re.findall(r'\[MASK\]', sent_am))
+
+        if mask_count_am < 1:
+            return sent_tam  # No change needed if Sent_AM has no MASKs
+
+        # Step 1: Ensure only the first TWO [MASK] remain
+        mask_placeholders = ["[FIRST_MASK]", "[SECOND_MASK]"]  # Temporary markers
+        new_sentence = sent_tam.replace("[MASK]", mask_placeholders[0], 1)  # Keep first MASK
+        new_sentence = new_sentence.replace("[MASK]", mask_placeholders[1], 1)  # Keep second MASK
+        new_sentence = re.sub(r'\[MASK\]', '', new_sentence).strip()  # Remove all other MASKs
+
+        # Step 2: Expand the second [MASK] to the correct count
+        new_sentence = new_sentence.replace(mask_placeholders[0], "[MASK]", 1)  # Restore first MASK
+        new_sentence = new_sentence.replace(mask_placeholders[1], ' '.join(['[MASK]'] * mask_count_am), 1)  # Expand second MASK
+
+        return new_sentence
+
+    # Apply the function to the dataframe
+    df['Sent_TAM'] = df.apply(modify_sent_tam, axis=1)
+
+    # Save the modified dataframe
+    df.to_csv(output_file, sep='\t', index=False, encoding='utf-8')
+
+
+# # Example usage
+# csv_file = "final_data_test_2.csv"  # Replace with actual input file
+# output_file = "final_data_test_3.csv"  # Replace with desired output file
+
+# update_sent_tam(csv_file, output_file)
+
+
+
+
+
+
+def update_sent_am_EN(tsv_file, professions_file, output_file):
+    df = pd.read_csv(tsv_file, sep='\t', encoding='utf-8')
+    
+    with open(professions_file, 'r', encoding='utf-8') as f:
+        lines = f.readlines()
+    
+    token_counts_1 = {}
+    token_counts_2 = {}
+    token_counts_3 = {}
+    token_counts_1_female = {}
+    token_counts_2_female = {}
+    token_counts_3_female = {}
+    professions_list_1 = []
+    professions_list_2 = []
+    professions_list_3 = []
+    professions_list_1_female = []
+    professions_list_2_female = []
+    professions_list_3_female= []
+
+    for line in lines[:20]:  # Only process the first 20 lines
+        parts = line.split(' ', 1)
+        if len(parts) < 2:
+            continue
+        count, profession = parts
+        count = int(count)
+        profession = profession.split(':')[0].strip()
+        token_counts_1[profession] = count
+        professions_list_1.append(profession)
+    
+    for line in lines[20:40]:  # Next 20 professions
+        parts = line.split(' ', 1)
+        if len(parts) < 2:
+            continue
+        count, profession = parts
+        count = int(count)
+        profession = profession.split(':')[0].strip()
+        token_counts_2[profession] = count
+        professions_list_2.append(profession)
+    
+    for line in lines[40:60]:  # Next 20 professions
+        parts = line.split(' ', 1)
+        if len(parts) < 2:
+            continue
+        count, profession = parts
+        count = int(count)
+        profession = profession.split(':')[0].strip()
+        token_counts_3[profession] = count
+        professions_list_3.append(profession)
+    
+    # fix: for compounds, it should not just replace one MASK, but all MASKs
+    def replace_mask(row, index, professions_list, token_counts):
+        profession_index = index % 20  # Cycle through the first 20 professions
+        profession = professions_list[profession_index]
+        token_count = token_counts.get(profession, 1)  # Default to 1 if not found
+
+        # Step 1: Ensure only ONE [MASK] remains
+        mask_placeholder = "[TEMP_MASK]"  # Temporary marker to preserve first occurrence
+        new_sentence = row['Sent_AM'].replace("[MASK]", mask_placeholder, 1)  # Keep first MASK
+        new_sentence = re.sub(r'\[MASK\]', '', new_sentence).strip()  # Remove all other MASKs
+
+        # Step 2: Expand the preserved [MASK] to the correct count
+        new_sentence = new_sentence.replace(mask_placeholder, ' '.join(['[MASK]'] * token_count), 1)
+
+        return new_sentence
+    
+    # male professions for templates
+    df.loc[:1799, 'Sent_AM'] = [replace_mask(row, idx, professions_list_1, token_counts_1) for idx, row in df.loc[:1799].iterrows()]
+
+    df.loc[1800:3599, 'Sent_AM'] = [replace_mask(row, idx, professions_list_2, token_counts_2) for idx, row in df.loc[1800:3599].iterrows()]
+    
+    df.loc[3600:5399, 'Sent_AM'] = [replace_mask(row, idx, professions_list_3, token_counts_3) for idx, row in df.loc[3600:5399].iterrows()]
+
+    
+    df.to_csv(output_file, sep='\t', index=False, encoding='utf-8')
+
+# Example usage:
+# output_file = "../BEC-Pro/Professions/tokenized_professions_EN.txt"  
+# ts_file = "../BEC-Pro/BEC-Pro_EN.tsv"  
+# updated_file = "../BEC-Pro/modified_file_EN_tokenized.tsv"  
+
+# update_sent_am_EN(ts_file, output_file, updated_file)
+
+
+# Read CSV file
+df = pd.read_csv("../BEC-Pro/BEC-Pro_DE.tsv", delimiter="\t")  
+
+# Function to keep only the first [MASK]
+def process_sent_tam(sent_tam):
+    parts = sent_tam.split("[MASK]")
+    if len(parts) > 1:
+        return "[MASK]" + parts[1]  # Keep only the first MASK and the text after it
+    return sent_tam  # Return unchanged if there's only one or no MASK
+
+# Apply function to create new column
+df["Sent_TM_prior"] = df["Sent_TAM"].apply(process_sent_tam)
+
+df.loc[1080:1439, "Sent_TM_prior"] += ", hatte einen guten Arbeitstag."
+df.loc[2880:3239, "Sent_TM_prior"] += ", hatte einen guten Arbeitstag."
+df.loc[4680:5039, "Sent_TM_prior"] += ", hatte einen guten Arbeitstag."
+
+df.loc[720:1079, "Sent_TM_prior"] += "beworben."
+df.loc[2520:2879, "Sent_TM_prior"] += "beworben."
+df.loc[4320:4679, "Sent_TM_prior"] += "beworben."
+
+df.loc[1440:1799, "Sent_TM_prior"] += "werden."
+df.loc[3240:3559, "Sent_TM_prior"] += "werden."
+df.loc[5040:5399, "Sent_TM_prior"] += "werden."
+
+# Save updated DataFrame
+df.to_csv("../BEC-Pro/modified_input/modified_file_DE_adapted_prior.csv", index=False, sep="\t")
+
+
+
+
 
