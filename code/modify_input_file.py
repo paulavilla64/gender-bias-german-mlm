@@ -1,6 +1,14 @@
 import pandas as pd
 import re
 import chardet
+import json
+import csv
+import glob
+import nltk
+from nltk.tokenize import sent_tokenize
+
+# Ensure you have the necessary NLTK resources
+nltk.download('punkt')
 
 df = pd.read_csv("../BEC-Pro/BEC-Pro_EN.tsv", sep='\t')
 
@@ -78,12 +86,12 @@ def compare_text_files(file1, file2):
     return True  # Files are identical
 
 # # Example usage
-# file1 = "../data/output_csv_files/results_sent_TAM_DE.csv"
-# file2 = "../data/output_csv_files/results_padding_tokenized_DE.csv"
-# if compare_text_files(file1, file2):
-#    print("Files are identical.")
-# else:
-#    print("Files are different.")
+file1 = "../Gap/gap_flipped.tsv"
+file2 = "../Gap/gap_flipped_adapted.tsv"
+if compare_text_files(file1, file2):
+   print("Files are identical.")
+else:
+   print("Files are different.")
 
 
 def detect_encoding(file_path):
@@ -560,13 +568,10 @@ def update_sent_tam(csv_file, output_file):
 
 
 # # Example usage
-# csv_file = "final_data_test_2.csv"  # Replace with actual input file
+# csv_file = "modified_file_DE_gender_neutral_tokenized.tsv"  # Replace with actual input file
 # output_file = "final_data_test_3.csv"  # Replace with desired output file
 
 # update_sent_tam(csv_file, output_file)
-
-
-
 
 
 
@@ -636,19 +641,19 @@ def update_sent_am_EN(tsv_file, professions_file, output_file):
         return new_sentence
     
     # male professions for templates
-    df.loc[:1799, 'Sent_AM'] = [replace_mask(row, idx, professions_list_1, token_counts_1) for idx, row in df.loc[:1799].iterrows()]
+    # df.loc[:1799, 'Sent_AM'] = [replace_mask(row, idx, professions_list_1, token_counts_1) for idx, row in df.loc[:1799].iterrows()]
 
-    df.loc[1800:3599, 'Sent_AM'] = [replace_mask(row, idx, professions_list_2, token_counts_2) for idx, row in df.loc[1800:3599].iterrows()]
+    # df.loc[1800:3599, 'Sent_AM'] = [replace_mask(row, idx, professions_list_2, token_counts_2) for idx, row in df.loc[1800:3599].iterrows()]
     
-    df.loc[3600:5399, 'Sent_AM'] = [replace_mask(row, idx, professions_list_3, token_counts_3) for idx, row in df.loc[3600:5399].iterrows()]
+    # df.loc[3600:5399, 'Sent_AM'] = [replace_mask(row, idx, professions_list_3, token_counts_3) for idx, row in df.loc[3600:5399].iterrows()]
 
     
-    df.to_csv(output_file, sep='\t', index=False, encoding='utf-8')
+    # df.to_csv(output_file, sep='\t', index=False, encoding='utf-8')
 
 # Example usage:
-# output_file = "../BEC-Pro/Professions/tokenized_professions_EN.txt"  
-# ts_file = "../BEC-Pro/BEC-Pro_EN.tsv"  
-# updated_file = "../BEC-Pro/modified_file_EN_tokenized.tsv"  
+# output_file = "../BEC-Pro/Professions/tokenized_professions_DE_gender_neutral.txt"  
+# ts_file = "../BEC-Pro/modified_input/modified_file_DE_gender_neutral.csv"  
+# updated_file = "../BEC-Pro/modified_file_DE_gender_neutral_tokenized.tsv"  
 
 # update_sent_am_EN(ts_file, output_file, updated_file)
 
@@ -664,24 +669,174 @@ def process_sent_tam(sent_tam):
     return sent_tam  # Return unchanged if there's only one or no MASK
 
 # Apply function to create new column
-df["Sent_TM_prior"] = df["Sent_TAM"].apply(process_sent_tam)
+#df["Sent_TM_prior"] = df["Sent_TAM"].apply(process_sent_tam)
 
-df.loc[1080:1439, "Sent_TM_prior"] += ", hatte einen guten Arbeitstag."
-df.loc[2880:3239, "Sent_TM_prior"] += ", hatte einen guten Arbeitstag."
-df.loc[4680:5039, "Sent_TM_prior"] += ", hatte einen guten Arbeitstag."
+# df.loc[1080:1439, "Sent_TM_prior"] += ", hatte einen guten Arbeitstag."
+# df.loc[2880:3239, "Sent_TM_prior"] += ", hatte einen guten Arbeitstag."
+# df.loc[4680:5039, "Sent_TM_prior"] += ", hatte einen guten Arbeitstag."
 
-df.loc[720:1079, "Sent_TM_prior"] += "beworben."
-df.loc[2520:2879, "Sent_TM_prior"] += "beworben."
-df.loc[4320:4679, "Sent_TM_prior"] += "beworben."
+# df.loc[720:1079, "Sent_TM_prior"] += "beworben."
+# df.loc[2520:2879, "Sent_TM_prior"] += "beworben."
+# df.loc[4320:4679, "Sent_TM_prior"] += "beworben."
 
-df.loc[1440:1799, "Sent_TM_prior"] += "werden."
-df.loc[3240:3559, "Sent_TM_prior"] += "werden."
-df.loc[5040:5399, "Sent_TM_prior"] += "werden."
+# df.loc[1440:1799, "Sent_TM_prior"] += "werden."
+# df.loc[3240:3559, "Sent_TM_prior"] += "werden."
+# df.loc[5040:5399, "Sent_TM_prior"] += "werden."
 
 # Save updated DataFrame
-df.to_csv("../BEC-Pro/modified_input/modified_file_DE_adapted_prior.csv", index=False, sep="\t")
+# df.to_csv("../BEC-Pro/modified_input/modified_file_DE_adapted_prior.csv", index=False, sep="\t")
 
 
+def count_text_column_characters(file_path):
+    # Load the CSV file
+    df = pd.read_csv(file_path, delimiter="\t")  # Adjust delimiter if needed
 
+    # Ensure the "Text" column exists
+    if "Text" not in df.columns:
+        raise ValueError("The CSV file does not contain a 'Text' column.")
+
+    # Count the characters in the "Text" column
+    total_chars = df["Text"].astype(str).apply(len).sum()
+
+    return total_chars
+
+# Example usage
+# file_path = "../data/gap_flipped.csv"  
+# total_characters = count_text_column_characters(file_path)
+# print(f"Total number of characters in the 'Text' column: {total_characters}")
+
+def extract_text_and_id(input_file, output_file):
+    # Load the CSV file
+    df = pd.read_csv(input_file, delimiter="\t")  # Adjust delimiter if needed
+
+    # Ensure the required columns exist
+    required_columns = ["ID", "Text"]
+    for col in required_columns:
+        if col not in df.columns:
+            raise ValueError(f"The CSV file does not contain the '{col}' column.")
+
+    # Select only the "ID" and "Text" columns
+    df_filtered = df[["ID", "Text"]]
+
+    # Save to a new CSV file
+    df_filtered.to_csv(output_file, index=False, encoding="utf-8")
+
+    print(f"Extracted data saved to {output_file}")
+
+# Example usage
+# input_file = "../data/gap_flipped.csv"   # Replace with your actual file path
+# output_file = "../data/gap_flipped_structured.csv"   # Name of the new file
+# extract_text_and_id(input_file, output_file)
+
+def transfer_text_to_new_csv(input_csv, output_csv):
+    """
+    Reads text from the 'Text' column of the input CSV file and writes it into
+    a new 'Text_German' column in the output CSV file.
+
+    Args:
+        input_csv (str): Path to the input CSV file (containing 'Text' column).
+        output_csv (str): Path to the output CSV file (to which 'Text_German' is added).
+    """
+    try:
+        # Load the input CSV and extract the 'Text' column
+        df_input = pd.read_csv(input_csv)
+
+        if "Text" not in df_input.columns:
+            raise ValueError("Column 'Text' not found in the input CSV file.")
+
+        extracted_text = df_input["Text"]
+
+        # Load the output CSV
+        df_output = pd.read_csv(output_csv, delimiter='\t')
+
+        # Ensure lengths match, or trim/expand if needed
+        min_length = min(len(df_output), len(extracted_text))
+        df_output = df_output.iloc[:min_length]  # Trim output if it's longer
+        extracted_text = extracted_text.iloc[:min_length]  # Trim input if longer
+
+        # Add the new column
+        df_output["Text_German"] = extracted_text.values
+
+        # Save the updated CSV
+        df_output.to_csv(output_csv, sep='\t', index=False)
+
+        print(f"Updated CSV saved: {output_csv}")
+
+    except Exception as e:
+        print(f"Error: {e}")
+
+# Example usage:
+# transfer_text_to_new_csv("../Gap/gap_flipped_structured_translated.csv", "../Gap/gap_flipped.tsv")
+
+def extract_fields_to_tsv(jsonl_files, output_tsv):
+    """
+    Extracts text from 'Neutral' and 'GenderStern' fields in multiple JSONL files,
+    splits them by lines, and saves to a TSV file with an ID column.
+
+    Parameters:
+        jsonl_files (list): List of JSONL file paths.
+        output_tsv (str): Path for the output TSV file.
+    """
+    with open(output_tsv, 'w', newline='', encoding='utf-8') as tsv_file:
+        writer = csv.writer(tsv_file, delimiter='\t', quoting=csv.QUOTE_MINIMAL)
+        
+        # Write header
+        writer.writerow(["ID", "Neutral Text", "GenderStern Text"])
+
+        line_id = 1  # ID counter
+
+        for jsonl_file in jsonl_files:
+            with open(jsonl_file, 'r', encoding='utf-8') as f:
+                for line in f:
+                    data = json.loads(line.strip())
+
+                    # Extract and split 'Neutral' field
+                    neutral_texts = data.get("Neutral", "").strip().split("\n")
+                    neutral_texts = [text.strip() for text in neutral_texts if text.strip()]
+
+                    # Extract and split 'GenderStern' field
+                    genderstern_texts = data.get("GenderStern", "").strip().split("\n")
+                    genderstern_texts = [text.strip() for text in genderstern_texts if text.strip()]
+
+                    # Ensure we write rows even if one column is empty
+                    max_lines = max(len(neutral_texts), len(genderstern_texts))
+                    for i in range(max_lines):
+                        neutral_line = neutral_texts[i] if i < len(neutral_texts) else ""
+                        genderstern_line = genderstern_texts[i] if i < len(genderstern_texts) else ""
+                        writer.writerow([line_id, neutral_line, genderstern_line])
+                        line_id += 1  # Increment ID
+
+    print(f"✅ Extracted 'Neutral' and 'GenderStern' fields from {len(jsonl_files)} files into {output_tsv} with IDs.")
+
+# Example usage
+#jsonl_files = glob.glob("../Lou/*.jsonl")  # Collect all JSONL files in the directory
+#extract_fields_to_tsv(jsonl_files, "neutral_genderstern_texts.tsv")
+
+
+def count_sentences_in_column(file_path, column_name):
+    """
+    Counts the total number of sentences in a specific column of a .tsv file.
+
+    Parameters:
+    - file_path: str, path to the .tsv file
+    - column_name: str, name of the column to analyze
+
+    Returns:
+    - int, total count of sentences
+    """
+    # Read the TSV file
+    df = pd.read_csv(file_path, delimiter='\t', dtype=str)  # Read as string to avoid NaNs
+
+    # Check if the column exists
+    if column_name not in df.columns:
+        raise ValueError(f"Column '{column_name}' not found in the file.")
+
+    # Count sentences
+    total_sentences = sum(len(sent_tokenize(str(text))) for text in df[column_name].dropna())
+
+    return total_sentences
+
+# Example usage
+#print(count_sentences_in_column("../Gap/gap_flipped.tsv", "Text"))
 
 
