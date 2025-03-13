@@ -12,7 +12,7 @@ from keras.preprocessing.sequence import pad_sequences
 from scipy import stats
 from torch.nn.functional import softmax
 from torch.utils.data import TensorDataset, SequentialSampler, DataLoader
-from transformers import PreTrainedTokenizer
+from transformers import PreTrainedTokenizer, DataCollatorForLanguageModeling
 
 
 # Just needed for fine-tuning...check this function
@@ -52,7 +52,22 @@ def mask_tokens(inputs: torch.Tensor, tokenizer: PreTrainedTokenizer, mlm_probab
     # Tokens not selected for masking have their corresponding positions in labels set to -100.
     # This ensures these positions are ignored during loss calculation.
     masked_indices = torch.bernoulli(probability_matrix).bool()
+
+    # GET THIS BACK: Ensure at least one token is masked
+    # if masked_indices.sum() == 0:
+    #     random_idx = torch.randint(0, labels.numel(), (1,))
+    #     masked_indices.view(-1)[random_idx] = True
+    
+    # 🔥 Ensure at least one token is masked per sequence 🔥
+    for i in range(masked_indices.shape[0]):  # Iterate over batch dimension
+        if masked_indices[i].sum() == 0:  # If no tokens were masked in a sequence
+            random_idx = torch.randint(0, masked_indices.shape[1], (1,), device=inputs.device)
+            masked_indices[i, random_idx] = True  # Force one token to be masked
+
     labels[~masked_indices] = -100  # We only compute loss on masked tokens
+
+    print("Total masked tokens per sequence:", masked_indices.sum(dim=1))
+
 
     # 80% of the time, we replace masked input tokens with tokenizer.mask_token ([MASK])
     indices_replaced = torch.bernoulli(torch.full(
@@ -66,6 +81,29 @@ def mask_tokens(inputs: torch.Tensor, tokenizer: PreTrainedTokenizer, mlm_probab
     random_words = torch.randint(
         len(tokenizer), labels.shape, dtype=torch.long)
     inputs[indices_random] = random_words[indices_random].type_as(inputs)
+
+    # Debugging
+    print("Total tokens in batch:", labels.numel())
+    print("Total masked tokens:", torch.sum(masked_indices).item())
+    print(f"Percentage of masked tokens: {torch.sum(masked_indices).item() / labels.numel() * 100:.2f}%")
+
+    num_special_tokens = sum(sum(m) for m in special_tokens_mask)
+    print(f"Total special tokens in batch: {num_special_tokens}")
+
+    total_tokens = labels.numel()
+    num_masked = torch.sum(masked_indices).item()
+    num_non_special = total_tokens - num_special_tokens
+    print(f"Total tokens: {total_tokens}, Non-special tokens: {num_non_special}, Masked tokens: {num_masked}")
+
+
+
+    # Check label distribution
+    unique_labels, counts = torch.unique(labels, return_counts=True)
+    print("Unique label values and counts:", dict(zip(unique_labels.tolist(), counts.tolist())))
+
+    # Check if all labels are -100
+    if torch.all(labels == -100):
+        print("❌ All tokens are -100! Masking is too aggressive.")
 
     # The rest of the time (10% of the time) we keep the masked input tokens unchanged
     return inputs, labels
@@ -126,20 +164,20 @@ def statistics(group1, group2, data):
     balanced_professions_pre = data.loc[(
         data['Prof_Gender'] == 'balanced'), 'Pre_Assoc']
 
-    female_professions_post = data.loc[(
-        data['Prof_Gender'] == 'female'), 'Post_Assoc']
-    male_professions_post = data.loc[(
-        data['Prof_Gender'] == 'male'), 'Post_Assoc']
-    balanced_professions_post = data.loc[(
-        data['Prof_Gender'] == 'balanced'), 'Post_Assoc']
+    # female_professions_post = data.loc[(
+    #     data['Prof_Gender'] == 'female'), 'Post_Assoc']
+    # male_professions_post = data.loc[(
+    #     data['Prof_Gender'] == 'male'), 'Post_Assoc']
+    # balanced_professions_post = data.loc[(
+    #     data['Prof_Gender'] == 'balanced'), 'Post_Assoc']
 
     print("Female Professions Pre-Test:\n", female_professions_pre.head())
-    print("Female Professions Post-Test:\n", female_professions_post.head())
+    # print("Female Professions Post-Test:\n", female_professions_post.head())
     print("Male Professions Pre-Test:\n", male_professions_pre.head())
-    print("Male Professions Post-Test:\n", male_professions_post.head())
+    # print("Male Professions Post-Test:\n", male_professions_post.head())
     print("Balanced Professions Pre-Test:\n", balanced_professions_pre.head())
-    print("Balanced Professions Post-Test:\n",
-          balanced_professions_post.head())
+    # print("Balanced Professions Post-Test:\n",
+    #       balanced_professions_post.head())
 
     # print("Female Data Equals Male Data:",
     #       female_professions_pre.equals(male_professions_pre))
@@ -192,69 +230,69 @@ def statistics(group1, group2, data):
     print("Statistics after fine-tuning:")
 
     # Compute mean of the female gender within statistically female professions
-    female_gender_in_female_professions_mean_post = data.loc[
-        (data['Prof_Gender'] == 'female') & (data['Gender'] == 'female'),
-        'Post_Assoc'].mean()
-    print(f'Mean for female gender within statistically female professions: {female_gender_in_female_professions_mean_post}')
+    # female_gender_in_female_professions_mean_post = data.loc[
+    #     (data['Prof_Gender'] == 'female') & (data['Gender'] == 'female'),
+    #     'Post_Assoc'].mean()
+    # print(f'Mean for female gender within statistically female professions: {female_gender_in_female_professions_mean_post}')
 
-    # Compute mean of the male gender within statistically female professions
-    male_gender_in_female_professions_mean_post = data.loc[
-        (data['Prof_Gender'] == 'female') & (data['Gender'] == 'male'),
-        'Post_Assoc'].mean()
-    print(f'Mean for male gender within statistically female professions: {male_gender_in_female_professions_mean_post}')
+    # # Compute mean of the male gender within statistically female professions
+    # male_gender_in_female_professions_mean_post = data.loc[
+    #     (data['Prof_Gender'] == 'female') & (data['Gender'] == 'male'),
+    #     'Post_Assoc'].mean()
+    # print(f'Mean for male gender within statistically female professions: {male_gender_in_female_professions_mean_post}')
 
-    # Compute mean of female gender within statistically male professions
-    female_gender_in_male_professions_mean_post = data.loc[
-        (data['Prof_Gender'] == 'male') & (data['Gender'] == 'female'),
-        'Post_Assoc'
-    ].mean()
-    print(f'Mean for female gender within statistically male professions: {female_gender_in_male_professions_mean_post}')
+    # # Compute mean of female gender within statistically male professions
+    # female_gender_in_male_professions_mean_post = data.loc[
+    #     (data['Prof_Gender'] == 'male') & (data['Gender'] == 'female'),
+    #     'Post_Assoc'
+    # ].mean()
+    # print(f'Mean for female gender within statistically male professions: {female_gender_in_male_professions_mean_post}')
 
-    # Compute mean of male gender within statistically male professions
-    male_gender_in_male_professions_mean_post = data.loc[
-        (data['Prof_Gender'] == 'male') & (data['Gender'] == 'male'),
-        'Post_Assoc'
-    ].mean()
-    print(f'Mean for male gender within statistically male professions: {male_gender_in_male_professions_mean_post}')
+    # # Compute mean of male gender within statistically male professions
+    # male_gender_in_male_professions_mean_post = data.loc[
+    #     (data['Prof_Gender'] == 'male') & (data['Gender'] == 'male'),
+    #     'Post_Assoc'
+    # ].mean()
+    # print(f'Mean for male gender within statistically male professions: {male_gender_in_male_professions_mean_post}')
 
-    # Compute mean of female gender within statistically balanced professions
-    female_gender_in_balanced_professions_mean_post = data.loc[
-        (data['Prof_Gender'] == 'balanced') & (data['Gender'] == 'female'),
-        'Post_Assoc'
-    ].mean()
-    print(f'Mean for female gender within statistically balanced professions: {female_gender_in_balanced_professions_mean_post}')
+    # # Compute mean of female gender within statistically balanced professions
+    # female_gender_in_balanced_professions_mean_post = data.loc[
+    #     (data['Prof_Gender'] == 'balanced') & (data['Gender'] == 'female'),
+    #     'Post_Assoc'
+    # ].mean()
+    # print(f'Mean for female gender within statistically balanced professions: {female_gender_in_balanced_professions_mean_post}')
 
-    # Compute mean of male gender within statistically balanced professions
-    male_gender_in_balanced_professions_mean_post = data.loc[
-        (data['Prof_Gender'] == 'balanced') & (data['Gender'] == 'male'),
-        'Post_Assoc'
-    ].mean()
-    print(f'Mean for male gender within statistically balanced professions: {male_gender_in_balanced_professions_mean_post}')
+    # # Compute mean of male gender within statistically balanced professions
+    # male_gender_in_balanced_professions_mean_post = data.loc[
+    #     (data['Prof_Gender'] == 'balanced') & (data['Gender'] == 'male'),
+    #     'Post_Assoc'
+    # ].mean()
+    # print(f'Mean for male gender within statistically balanced professions: {male_gender_in_balanced_professions_mean_post}')
 
-    # Compute difference score between pre- and post association scores
-    diff_F_f = female_gender_in_female_professions_mean_post - \
-        female_gender_in_female_professions_mean
-    print(f"Difference score for F and f: {diff_F_f}")
+    # # Compute difference score between pre- and post association scores
+    # diff_F_f = female_gender_in_female_professions_mean_post - \
+    #     female_gender_in_female_professions_mean
+    # print(f"Difference score for F and f: {diff_F_f}")
 
-    diff_F_m = male_gender_in_female_professions_mean_post - \
-        male_gender_in_female_professions_mean
-    print(f"Difference score for F and m: {diff_F_m}")
+    # diff_F_m = male_gender_in_female_professions_mean_post - \
+    #     male_gender_in_female_professions_mean
+    # print(f"Difference score for F and m: {diff_F_m}")
 
-    diff_M_f = female_gender_in_male_professions_mean_post - \
-        female_gender_in_male_professions_mean
-    print(f"Difference score for M and f: {diff_M_f}")
+    # diff_M_f = female_gender_in_male_professions_mean_post - \
+    #     female_gender_in_male_professions_mean
+    # print(f"Difference score for M and f: {diff_M_f}")
 
-    diff_M_m = male_gender_in_male_professions_mean_post - \
-        male_gender_in_male_professions_mean
-    print(f"Difference score for M and m: {diff_M_m}")
+    # diff_M_m = male_gender_in_male_professions_mean_post - \
+    #     male_gender_in_male_professions_mean
+    # print(f"Difference score for M and m: {diff_M_m}")
 
-    diff_B_f = female_gender_in_balanced_professions_mean_post - \
-        female_gender_in_balanced_professions_mean
-    print(f"Difference score for B and f: {diff_B_f}")
+    # diff_B_f = female_gender_in_balanced_professions_mean_post - \
+    #     female_gender_in_balanced_professions_mean
+    # print(f"Difference score for B and f: {diff_B_f}")
 
-    diff_B_m = male_gender_in_balanced_professions_mean_post - \
-        male_gender_in_balanced_professions_mean
-    print(f"Difference score for B and m: {diff_B_m}")
+    # diff_B_m = male_gender_in_balanced_professions_mean_post - \
+    #     male_gender_in_balanced_professions_mean
+    # print(f"Difference score for B and m: {diff_B_m}")
 
     # Compute average difference score
 
@@ -276,33 +314,33 @@ def statistics(group1, group2, data):
     print(
         f'Mean for statistically balanced professions - PRE: {balanced_professions_mean}')
 
-    # Compute mean of statistically female professions - POST
-    female_professions_mean_post = data.loc[data['Prof_Gender']
-                                            == 'female', 'Post_Assoc'].mean()
-    print(
-        f'Mean for statistically female professions - POST: {female_professions_mean_post}')
+    # # Compute mean of statistically female professions - POST
+    # female_professions_mean_post = data.loc[data['Prof_Gender']
+    #                                         == 'female', 'Post_Assoc'].mean()
+    # print(
+    #     f'Mean for statistically female professions - POST: {female_professions_mean_post}')
 
-    # Compute mean for statistically male professions - POST
-    male_professions_mean_post = data.loc[data['Prof_Gender']
-                                          == 'male', 'Post_Assoc'].mean()
-    print(
-        f'Mean for statistically male professions - POST: {male_professions_mean_post}')
+    # # Compute mean for statistically male professions - POST
+    # male_professions_mean_post = data.loc[data['Prof_Gender']
+    #                                       == 'male', 'Post_Assoc'].mean()
+    # print(
+    #     f'Mean for statistically male professions - POST: {male_professions_mean_post}')
 
-    # Compute mean for statistically balanced professions - POST
-    balanced_professions_mean_post = data.loc[data['Prof_Gender']
-                                              == 'balanced', 'Post_Assoc'].mean()
-    print(
-        f'Mean for statistically balanced professions - POST: {balanced_professions_mean_post}')
+    # # Compute mean for statistically balanced professions - POST
+    # balanced_professions_mean_post = data.loc[data['Prof_Gender']
+    #                                           == 'balanced', 'Post_Assoc'].mean()
+    # print(
+    #     f'Mean for statistically balanced professions - POST: {balanced_professions_mean_post}')
 
-    # Compute difference score for F
-    dif_F = female_professions_mean_post - female_professions_mean
-    print(f"Difference score for F: {dif_F}")
+    # # Compute difference score for F
+    # dif_F = female_professions_mean_post - female_professions_mean
+    # print(f"Difference score for F: {dif_F}")
 
-    # Compute difference scores based on individual values from the Pre_Assoc and Post_Assoc columns
-    dif_F_ind = female_professions_pre.sub(
-        female_professions_post, fill_value=0)
-    print(f"Individual difference score for F_ind: {dif_F_ind}")
-    # print("Ranks for F differences:", stats.rankdata(np.abs(dif_F_ind)))
+    # # Compute difference scores based on individual values from the Pre_Assoc and Post_Assoc columns
+    # dif_F_ind = female_professions_pre.sub(
+    #     female_professions_post, fill_value=0)
+    # print(f"Individual difference score for F_ind: {dif_F_ind}")
+    # # print("Ranks for F differences:", stats.rankdata(np.abs(dif_F_ind)))
 
     # Compute Wilcoxon Test for F
     SW_stat_F, SW_p_F = stats.shapiro(dif_F_ind)
@@ -520,8 +558,8 @@ def prob_with_prior(pred_TM, pred_TAM, input_ids_TAM, original_ids, tokenizer):
     probs = []
     for doc_idx, id_list in enumerate(input_ids_TAM):
         print(f"Processing sentence {doc_idx}")
-        print("Input IDs for first document:", input_ids_TAM[0])
-        print("Decoded tokens:", tokenizer.convert_ids_to_tokens(input_ids_TAM[0]))
+        print(f"Input IDs for sentence {doc_idx}:", input_ids_TAM[doc_idx])
+        print(f"Decoded tokens for sentence {doc_idx}:", tokenizer.convert_ids_to_tokens(input_ids_TAM[doc_idx]))
 
         # see where the masks were placed in this sentence
         # Finds the positions of all [MASK] tokens in the input, e.g., [0, 3, 4]
@@ -562,6 +600,66 @@ def prob_with_prior(pred_TM, pred_TAM, input_ids_TAM, original_ids, tokenizer):
         # A negative score indicates a lower association in context than in the prior (target is less likely given the attribute).
 
     return probs
+
+# adapt prior probability
+# prior: 
+# MASK ist
+# MASK arbeitet als 
+# MASK hat sich auf die Stelle als beworben.
+# MASK, die/der, hatte einen guten Arbeitstag.
+# MASK will werden.
+# def prob_with_prior_adapted(pred_TM, pred_TM_prior, input_ids_TAM, original_ids, tokenizer):
+#     # Probability distribution over all words in BERT's vocabulary for the [MASK] position (target word masked)
+#     pred_TM = pred_TM.cpu()
+#     pred_TM_prior = pred_TM_prior.cpu()
+#     input_ids_TAM = input_ids_TAM.cpu()
+#     print("Prob_with_prior_adapted function starts")
+
+#     probs = []
+#     for doc_idx, id_list in enumerate(input_ids_TAM):
+#         print(f"Processing sentence {doc_idx}")
+#         print("Input IDs for first document:", input_ids_TAM[0])
+#         print("Decoded tokens:", tokenizer.convert_ids_to_tokens(input_ids_TAM[0]))
+
+#         # see where the masks were placed in this sentence
+#         # Finds the positions of all [MASK] tokens in the input, e.g., [0, 3, 4]
+#         mask_indices = np.where(id_list == tokenizer.mask_token_id)[0]
+#         print(f"Mask indices: {mask_indices}")
+
+#         # now get the probability of the target word:
+#         # first get id of target word
+#         # Retrieves the token ID for the target word ("He") from the original sentence, using the first [MASK] index (mask_indices[0]), e.g., [0]
+#         target_id = original_ids[doc_idx][mask_indices[0]]
+#         print(f"Target word token ID: {target_id}")
+
+#         # get its probability with unmasked profession
+#         # P_t
+#         target_prob = pred_TM[doc_idx][mask_indices[0]][target_id].item()
+#         print(f"Target probability (p_T): {target_prob}")
+
+#         # get its prior probability (masked profession)
+#         # p_prior
+#         prior = pred_TM_prior[doc_idx][mask_indices[0]][target_id].item()
+#         #prior_female = pred_TM_prior[doc_idx][mask_indices[0]][286].item()
+#         #prior_male = pred_TM_prior[doc_idx][mask_indices[0]][279].item()
+#         print(f"Prior probability (p_prior): {prior} for {target_id}")
+#         #print(f"Prior probability (p_prior) for sie: {prior_female} (target word token id=286)")
+#         #print(f"Prior probability (p_prior) for er: {prior_male} (target word token id=279)")
+
+#         # get the predicted tokens for the masked profession
+
+#         # Normalization:
+#         # Calculate the association by dividing the target probability by the prior and take the natural logarithm
+#         # By dividing the conditional probability 𝑃_t by the prior P_prior, the approach controls for how likely the target word is in general (independent of the attribute).
+#         # This normalization is crucial to avoid overestimating associations for very frequent words like "he" or "she."
+#         print(f"Association score for sentence {doc_idx}: {np.log(target_prob / prior)}")
+#         probs.append(np.log(target_prob / prior))
+
+#         # Logarithmic Transformation: Taking the logarithm helps interpret the results more easily:
+#         # A positive score indicates a higher association in context than in the prior (target is more likely given the attribute).
+#         # A negative score indicates a lower association in context than in the prior (target is less likely given the attribute).
+
+#     return probs
 
 
 def model_evaluation(eval_df, tokenizer, model, device):
@@ -698,6 +796,144 @@ def model_evaluation(eval_df, tokenizer, model, device):
     # Step 8: Return the complete list of association scores.
     print('Evaluation completed.')
     return associations_all
+
+
+# def model_evaluation_prior_adapted(eval_df, tokenizer, model, device):
+#     """takes professional sentences as DF, a tokenizer & a BERTformaskedLM model
+#     and predicts the associations"""
+
+#     # Step 1: Determine the maximum sequence length.
+#     # The maximum sequence length is set to the smallest power of 2 greater than or equal to the
+#     # length of the longest sentence in the Sent_TM column.
+#     max_len = max([len(sent.split()) for sent in eval_df.Sent_TM])
+#     pos = math.ceil(math.log2(max_len))
+#     max_len_eval = int(math.pow(2, pos))
+#     # This ensures compatibility with model padding and improves computational efficiency.
+
+#     print('max_len evaluation: {}'.format(max_len_eval))
+
+#     # Step 2: Tokenize the inputs for different scenarios.
+#     # use a different column for prior probability...
+#     # like this, just target is masked and attribute word is "missing"
+#     # create BERT-ready inputs: target masked, target masked and attribute missing,
+#     # and the tokenized original inputs to recover the original target word
+#     print('--- Tokenizing Sent_TM...')
+#     # Tokenize and create attention masks for sentences where the profession word is unmasked.
+#     eval_tokens_TM, eval_attentions_TM = input_pipeline(eval_df.Sent_TM,
+#                                                         tokenizer,
+#                                                         max_len_eval)
+#     # print(f'Tokens (Sent_TM): {eval_tokens_TM.shape}')
+#     # print(f'Attention Masks (Sent_TM): {eval_attentions_TM.shape}')
+
+#     print('--- Tokenizing Sent_TM_prior...')
+#     # Tokenize and create attention masks for sentences where both the target is masked and attribute is missing.
+#     eval_tokens_TM_prior, eval_attentions_TM_prior = input_pipeline(eval_df.Sent_TM_prior,
+#                                                           tokenizer,
+#                                                           max_len_eval)
+#     print(f'Tokens (Sent_TM_prior): {eval_tokens_TM_prior.shape}')
+#     print(f'Attention Masks (Sent_TM_prior): {eval_attentions_TM_prior.shape}')
+
+#     print('--- Tokenizing Original Sentence...')
+#     # Tokenize the original sentences to recover the target word for probability calculations later.
+#     eval_tokens, _ = input_pipeline(eval_df.Sentence, tokenizer, max_len_eval)
+
+#     # print(f'Tokens (Original): {eval_tokens.shape}')
+#     # check that lengths match before going further
+#     # Step 3: Validate the shapes of the tokenized inputs and attention masks.
+#     assert eval_tokens_TM.shape == eval_attentions_TM.shape
+#     assert eval_tokens_TM_prior.shape == eval_attentions_TM_prior.shape
+#     print('Shapes verified for tokenized inputs and attention masks.')
+
+#     # Step 4: Create a DataLoader for evaluation.
+#     eval_batch = 20
+#     # Combine all tokenized inputs into a TensorDataset for efficient batching.
+#     eval_data = TensorDataset(eval_tokens_TM, eval_attentions_TM,
+#                               eval_tokens_TM_prior, eval_attentions_TM_prior,
+#                               eval_tokens)
+#     # Use a SequentialSampler to iterate through the data in order.
+#     eval_sampler = SequentialSampler(eval_data)
+#     # Create a DataLoader for batching and efficient processing.
+#     eval_dataloader = DataLoader(eval_data, batch_size=eval_batch,
+#                                  sampler=eval_sampler)
+
+#     print('Evaluation DataLoader created.')
+#     # put everything to GPU (if it is available)
+#     # eval_tokens_TM = eval_tokens_TM.to(device)
+#     # eval_attentions_TM = eval_attentions_TM.to(device)
+#     # eval_tokens_TAM = eval_tokens_TAM.to(device)
+#     # eval_attentions_TAM = eval_attentions_TAM.to(device)
+#     # Step 5: Move the model to the specified device (CPU or GPU).
+#     model.to(device)
+#     print(f'Model moved to device: {device}')
+
+#     # put model in evaluation mode & start predicting
+#     model.eval()                # Set the model to evaluation mode (disables dropout, etc.)
+#     # Initialize a list to store association scores for all sentences.
+#     associations_all = []
+#     for step, batch in enumerate(eval_dataloader):
+#         # Move the tokenized inputs and attention masks for the current batch to the device.
+#         b_input_TM = batch[0].to(device)
+#         b_att_TM = batch[1].to(device)
+#         b_input_TM_prior = batch[2].to(device)
+#         b_att_TM_prior = batch[3].to(device)
+
+#         with torch.no_grad():   # Disable gradient computation for inference.
+#             # Forward pass for Sent_TM (target word unmasked).
+#             outputs_TM = model(b_input_TM,
+#                                attention_mask=b_att_TM)
+#             # Forward pass for Sent_TM_prior (target word masked and attribute missing).
+#             outputs_TM_prior = model(b_input_TM_prior,
+#                                 attention_mask=b_att_TM_prior)
+#             # Apply softmax to convert logits into probability distributions.
+#             # Shape: [batch_size, seq_len, vocab_size]
+#             predictions_TM = softmax(outputs_TM[0], dim=2)
+#             # Shape: [batch_size, seq_len, vocab_size]
+#             predictions_TM_prior = softmax(outputs_TM_prior[0], dim=2)
+        
+#         # Identify [MASK] positions at column TM
+#         for doc_idx, id_list in enumerate(b_input_TM):
+#             mask_indices = (id_list == tokenizer.mask_token_id).nonzero(as_tuple=True)[0]
+
+#             print(f"\nSentence {step * eval_batch + doc_idx}:")
+#             print(f"Original: {tokenizer.convert_ids_to_tokens(id_list.tolist())}")
+
+#             for mask_pos in mask_indices:
+#                 top_predictions = torch.topk(predictions_TM[doc_idx, mask_pos], k=5)
+#                 predicted_tokens = tokenizer.convert_ids_to_tokens(top_predictions.indices.tolist())
+
+#                 print(f"For TM: MASK at position {mask_pos}: {predicted_tokens} (top-5 predictions)")
+        
+#         # Identify [MASK] positions at column TAM
+#         for doc_idx, id_list in enumerate(b_input_TM_prior):
+#             mask_indices = (id_list == tokenizer.mask_token_id).nonzero(as_tuple=True)[0]
+
+#             print(f"\nSentence {step * eval_batch + doc_idx}:")
+#             print(f"Original: {tokenizer.convert_ids_to_tokens(id_list.tolist())}")
+
+#             for mask_pos in mask_indices:
+#                 top_predictions = torch.topk(predictions_TM_prior[doc_idx, mask_pos], k=5)
+#                 predicted_tokens = tokenizer.convert_ids_to_tokens(top_predictions.indices.tolist())
+
+#                 print(f"For TM_prior: MASK at position {mask_pos}: {predicted_tokens} (top-5 predictions)")
+
+#         # Verify that the output shapes match between Sent_TM and Sent_TM_prior.
+#         assert predictions_TM.shape == predictions_TM_prior.shape
+#         print(f'Batch {step}:')
+
+#         # Step 7: Calculate association scores for the batch.
+#         associations = prob_with_prior_adapted(predictions_TM,
+#                                        predictions_TM_prior,
+#                                        b_input_TM_prior,
+#                                        batch[4],  # normal inputs
+#                                        tokenizer)
+#         print(f'Batch {step}: Associations calculated.')
+
+#         # Append the batch's association scores to the overall list.
+#         associations_all += associations
+
+#     # Step 8: Return the complete list of association scores.
+#     print('Evaluation completed.')
+#     return associations_all
 
 
 # TAKEN FROM TUTORIAL
