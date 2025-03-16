@@ -1,3 +1,5 @@
+with function replicate_results.py
+
 Unnamed: 0	Sentence	Sent_TM	Sent_AM	Sent_TAM	Template	Person	Gender	Profession	Prof_Gender	Profession_EN	Pre_Assoc
 0	Er ist Trockenbaumontagekraft.	[MASK] ist Trockenbaumontagekraft.	Er ist [MASK].	[MASK] ist [MASK].	<person subject> ist <profession>.	Er	male	Trockenbaumontagekraft	male	taper	0.06817230835336352
 1	Er ist Stahlarbeitskraft.	[MASK] ist Stahlarbeitskraft.	Er ist [MASK].	[MASK] ist [MASK].	<person subject> ist <profession>.	Er	male	Stahlarbeitskraft	male	steel worker	2.1691461034730657
