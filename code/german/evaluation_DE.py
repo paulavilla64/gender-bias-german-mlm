@@ -10,7 +10,7 @@ print("loading german bert")
 
 text = "Er ist Kindergärtner"
 
-text_mask = "[MASK], die Kindergärtnerin, hatte einen guten Arbeitstag."
+text_mask = "Mein [MASK] ist Kindergärtner."
 
 inputs = tokenizer(text_mask, return_tensors="pt")
 
@@ -26,7 +26,7 @@ mask_token_indices = (inputs.input_ids ==
 
 
 # Get the token ID for the original word "he"
-original_token_id = tokenizer.convert_tokens_to_ids("Er")
+original_token_id = tokenizer.convert_tokens_to_ids("Bruder")
 
 # Loop over each [MASK] token and predict its top tokens with probabilities
 # Loop over each [MASK] token and get probabilities for all tokens
@@ -50,5 +50,10 @@ for idx in mask_token_indices[:1]:
         probability = top_5_probs[i].item()
         print(f"{token}: {probability:.6f}")
 
-print(f"Probability of the original token 'sie': {original_token_prob:.4f}")
+#print(f"Probability of the original token 'Bruder': {original_token_prob:.4f}")
+
+sentence = "Er ist Mechaniker für mobile Geräte"
+tokens = tokenizer.tokenize(sentence)
+
+print(tokens)
 

@@ -15,12 +15,12 @@ from bias_utils.utils import model_evaluation, input_pipeline, format_time, mask
 print('-- Prepare data --')
 
 # Read a TSV file
-data = pd.read_csv('../BEC-Pro/modified_file_DE_gender_neutral.csv', sep='\t')
+data = pd.read_csv('../BEC-Pro/BEC-Pro_EN.tsv', sep='\t')
 
 # Take only the first 50 rows of data
-# data = data.head(50)
-# print("Loaded first 50 rows of the dataset:")
-# print(data)
+data = data.head(50)
+print("Loaded first 50 rows of the dataset:")
+print(data)
 
 # check if GPU is available
 if torch.cuda.is_available():
@@ -46,56 +46,22 @@ torch.cuda.manual_seed_all(seed_val)
 print('-- Import BERT model --')
 
 # Load the BERT tokenizer and dbmdz model
-model_name_dbmdz = "bert-base-german-dbmdz-cased"
-tokenizer = AutoTokenizer.from_pretrained(model_name_dbmdz)
-model = AutoModelForMaskedLM.from_pretrained(model_name_dbmdz,
-                                            output_attentions=False,
-                                            output_hidden_states=False)
-
-# model_name_bert = "bert-base-uncased"
-# tokenizer = BertTokenizer.from_pretrained(model_name_bert)
-# model = BertForMaskedLM.from_pretrained(model_name_bert,
+# model_name_dbmdz = "bert-base-german-dbmdz-cased"
+# tokenizer = AutoTokenizer.from_pretrained(model_name_dbmdz)
+# model = AutoModelForMaskedLM.from_pretrained(model_name_dbmdz,
 #                                             output_attentions=False,
 #                                             output_hidden_states=False)
 
-print("loading german bert")
+model_name_bert = "bert-base-uncased"
+tokenizer = BertTokenizer.from_pretrained(model_name_bert)
+model = BertForMaskedLM.from_pretrained(model_name_bert,
+                                            output_attentions=False,
+                                            output_hidden_states=False)
+
+print("loading english bert")
 print(f"Tokenizer: {tokenizer}")
-print(f"Model loaded: {model_name_dbmdz}")
+print(f"Model loaded: {model_name_bert}")
 
-def compute_baseline_loss(model, val_dataloader, device):
-    model.eval()  
-    total_loss = 0
-    num_batches = 0
-
-    loss_fct = torch.nn.CrossEntropyLoss() 
-
-    for batch in val_dataloader:
-        batch = tuple(t.to(device) for t in batch)
-        b_input_ids, b_input_mask, b_labels = batch
-        
-        with torch.no_grad(): 
-            outputs = model(b_input_ids, attention_mask=b_input_mask)
-        
-        logits = outputs[0]  
-        
-        # Compute loss only on masked tokens
-        masked_indices = b_labels != -100  # Only valid masked tokens
-        masked_logits = logits[masked_indices]
-        masked_labels = b_labels[masked_indices]
-
-        if masked_logits.numel() > 0:  # Ensure there are masked tokens
-            loss = loss_fct(masked_logits.view(-1, logits.size(-1)), masked_labels.view(-1))
-            total_loss += loss.item()
-            num_batches += 1
-        else:
-            print("Warning: No masked tokens found in batch, skipping loss calculation.")
-
-    # Compute average loss, handling cases where no batches had valid masked tokens
-    if num_batches > 0:
-        return total_loss / num_batches
-    else:
-        print("Error: No valid masked tokens found in entire validation set.")
-        return float('inf')  
 
 # PRE-PROCESSING
 # As a first step, the fixed input sequence length is determined as the smallest
@@ -112,7 +78,7 @@ pre_associations = model_evaluation(data, tokenizer, model, device)
 # Add the associations to dataframe
 data = data.assign(Pre_Assoc=pre_associations)
 
-def fine_tune(model, train_dataloader, val_dataloader, epochs, tokenizer, device):
+def fine_tune(model, train_dataloader, epochs, tokenizer, device):
     model.to(device)
 
     # ##### NEXT part + comments from tutorial:
@@ -131,15 +97,8 @@ def fine_tune(model, train_dataloader, val_dataloader, epochs, tokenizer, device
                                                 num_warmup_steps=0,  # Default value in run_glue.py, no warmup steps
                                                 num_training_steps=total_steps) # Total training steps
 
-    print("\nCalculating baseline perplexity before fine-tuning...")
-    baseline_loss = compute_baseline_loss(model, val_dataloader, device)  
-    baseline_perplexity = torch.exp(torch.tensor(baseline_loss)).item()
-    print(f"Baseline Loss: {baseline_loss:.2f}, Perplexity: {baseline_perplexity:.2f}")
-
     # Store the average loss after each epoch so we can plot them.
     train_loss_values = []
-    eval_loss_values = []
-    perplexity_values = []
 
     # For each epoch...
     for epoch_i in range(0, epochs):
@@ -250,116 +209,38 @@ def fine_tune(model, train_dataloader, val_dataloader, epochs, tokenizer, device
         print(f'\n[Epoch {epoch_i + 1}] Training Perplexity: {train_perplexity:.2f}')
         print(f"[Epoch {epoch_i + 1}] Training epoch took: {format_time(time.time() - t0)}")
             
-        # ========================================
-        #               Validation
-        # ========================================
-        # After the completion of each training epoch, measure our performance on
-        # our validation set.
-
-        print("")
-        print("Running Validation...")
-
-        t0 = time.time()
-
-        total_eval_loss = 0
-
-        # Put the model in evaluation mode--the dropout layers behave differently during evaluation.
-        model.eval()
-
-        # Tracking variables 
-        nb_eval_steps = 0
-
-        # Evaluate data for one epoch
-        for batch in val_dataloader: 
-            
-            # Add batch to GPU
-            batch = tuple(t.to(device) for t in batch)
-            
-            # Unpack the inputs from our dataloader
-            b_input_ids, b_input_mask, b_labels = batch     
-            
-            # Ensure that padding tokens are ignored in loss computation
-            b_labels[b_input_ids == tokenizer.pad_token_id] = -100  
-
-            # Telling the model not to compute or store gradients, saving memory and
-            # speeding up validation
-            with torch.no_grad():        
-
-                # Forward pass, calculate logit predictions.
-                # This will return the logits rather than the loss because we have
-                # not provided labels.
-                outputs = model(b_input_ids, 
-                                attention_mask=b_input_mask)
-            
-            # Get the "logits" output by the model. The "logits" are the output
-            # values prior to applying an activation function like the softmax.
-            logits = outputs[0]
-
-            # Reshape correctly
-            reshaped_labels = b_labels.reshape(-1)  
-            reshaped_logits = logits.view(-1, logits.size(-1)) 
-
-            valid_labels_count = (reshaped_labels != -100).sum().item()
-            print(f"Valid labels used for loss computation: {valid_labels_count}")
-
-            # Ensure correct loss computation
-            loss_fct = torch.nn.CrossEntropyLoss(ignore_index=-100)
-            loss = loss_fct(reshaped_logits, reshaped_labels)
-
-            loss_per_token = loss.item() / valid_labels_count  # Avoid bias from ignored tokens
-            print(f"Loss per valid token: {loss_per_token}")
-
-            print(f"Computed Eval Loss: {loss.item()}")
-
-            total_eval_loss += loss.item()
-
-            # Move logits and labels to CPU
-            logits = logits.detach().cpu().numpy()
-            label_ids = b_labels.to('cpu').numpy()
-
-            # Track the number of batches
-            nb_eval_steps += 1
-
-        avg_eval_loss = total_eval_loss / len(val_dataloader)
-        eval_perplexity = torch.exp(torch.tensor(avg_eval_loss)).item()
-
-        print(f"  Eval Loss: {avg_eval_loss:.2f}, Perplexity: {eval_perplexity:.2f}")
-        print(f"[Epoch {epoch_i + 1}] Validation took: {format_time(time.time() - t0)}")
-
-        eval_loss_values.append(avg_eval_loss)
-        perplexity_values.append(eval_perplexity)
-
+        
     print("")
     print("Fine-tuning complete!")
 
-    return model, train_loss_values, eval_loss_values, perplexity_values
+    return model
 
 
 print('-- Import fine-tuning data --')
 
 # Fine-tune
-tune_corpus = pd.read_csv('../data/Gap/gap_flipped_translated.tsv', sep='\t')
+tune_corpus = pd.read_csv('../data/Gap/gap_flipped.tsv', sep='\t')
 tune_data = []
-for text in tune_corpus.Text_German:
+for text in tune_corpus.Text:
     tune_data += sent_tokenize(text)
 
 # make able to handle
-# tune_data = tune_data[:50]
-# print("Loaded first 50 rows of the finetuning dataset:")
+tune_data = tune_data[:50]
+print("Loaded first 50 rows of the finetuning dataset:")
 
 # as max_len get the smallest power of 2 greater or equal to the max sentence length
 max_len_tune = max([len(sent.split()) for sent in tune_data])
 pos = math.ceil(math.log2(max_len_tune))
 max_len_tune = int(math.pow(2, pos))
 
-eval_corpus = pd.read_csv('../data/leipzig_corpus/deu_news_leipzig.tsv', sep='\t') 
+eval_corpus = pd.read_csv('../data/ag_news/ag_news_common_crawl.tsv', sep='\t') 
 eval_data = []
 for text in eval_corpus.Sentence:
     eval_data += sent_tokenize(text)
 
-# eval_data = eval_data[:50]
-# print("Loaded first 50 rows of the validation dataset:")
-# print(eval_data)
+eval_data = eval_data[:50]
+print("Loaded first 50 rows of the validation dataset:")
+print(eval_data)
 
 # as max_len get the smallest power of 2 greater or equal to the max sentence length
 max_len_eval = max([len(sent.split()) for sent in eval_data])
@@ -386,6 +267,7 @@ train_sampler = RandomSampler(train_data)
 train_dataloader = DataLoader(
     train_data, sampler=train_sampler, batch_size=batch_size)
 
+val_tokens_masked = val_tokens.clone()  # Clone before masking
 val_tokens_masked, val_labels = mask_tokens(val_tokens, tokenizer)
 
 # Ensure that padding tokens are ignored in loss computation
@@ -397,16 +279,50 @@ val_data = TensorDataset(val_tokens_masked, val_attentions, val_labels)
 val_sampler = SequentialSampler(val_data)
 
 val_dataloader = DataLoader(
-    val_data, sampler=val_sampler, batch_size=50, drop_last=True)
+    val_data, sampler=val_sampler, batch_size=50, drop_last=False)
+
+
+def compute_perplexity(model, val_dataloader, device):
+    print("")
+    print("Running Validation...")
+
+    model.eval()  # Set model to evaluation mode
+    losses = []
+    
+    with torch.no_grad():  # No gradients needed
+        for batch in val_dataloader:
+            inputs, attn_masks, labels = batch
+            inputs, attn_masks, labels = inputs.to(device), attn_masks.to(device), labels.to(device)
+            
+            outputs = model(input_ids=inputs, attention_mask=attn_masks, labels=labels)
+            loss = outputs.loss
+            losses.append(loss.item())
+
+    avg_loss = sum(losses) / len(losses)
+    perplexity = math.exp(avg_loss)  # Perplexity = exp(loss)
+    
+    return avg_loss, perplexity
+
 
 # for fine-tuning...first masking and then tokenizing
 print('-- Set up model fine-tuning --')
 epochs = 3
 
-model, train_losses, eval_losses, perplexities = fine_tune(model, train_dataloader, val_dataloader, epochs, tokenizer, device)
+# Compute baseline perplexity **before** fine-tuning (without affecting training)
+print("\nCalculating baseline perplexity before fine-tuning...")
+baseline_loss, baseline_perplexity = compute_perplexity(model, val_dataloader, device)
+print(f"Baseline Loss: {baseline_loss:.2f}, Perplexity: {baseline_perplexity:.2f}")
 
-for epoch in range(len(train_losses)):
-    print(f"Epoch {epoch+1}: Train Loss = {train_losses[epoch]:.2f}, Eval Loss = {eval_losses[epoch]:.2f}, Perplexity = {perplexities[epoch]:.2f}")
+model = fine_tune(model, train_dataloader, epochs, tokenizer, device)
+
+# Compute perplexity separately
+eval_losses, perplexities = compute_perplexity(model, val_dataloader, device)
+
+print(f"Perplexity on validation set: {perplexities:.2f}")
+
+
+# for epoch in range(len(train_losses)):
+#     print(f"Epoch {epoch+1}: Train Loss = {train_losses[epoch]:.2f}, Eval Loss = {eval_losses[epoch]:.2f}, Perplexity = {perplexities[epoch]:.2f}")
 
 print('-- Calculate associations after fine-tuning --')
 # here tokenization is happening
@@ -417,7 +333,7 @@ post_associations = model_evaluation(
 data = data.assign(Post_Assoc=post_associations)
 
 # Save the results
-output_file = "../data/output_csv_files/german/results_DE_baseline_perplexity_gender_neutral_full.csv"
+output_file = "../data/output_csv_files/english/results_EN_baseline_perplexity_sample_test.csv"
 data.to_csv(output_file, sep='\t', index=False)
 print(f"Results saved to {output_file}")
 

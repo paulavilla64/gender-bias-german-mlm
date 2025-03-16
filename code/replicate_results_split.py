@@ -10,7 +10,6 @@ import math
 import random
 import time
 import numpy as np
-from transformers import BertTokenizer, BertForMaskedLM
 from torch.utils.data import TensorDataset, RandomSampler, DataLoader, SequentialSampler
 import torch
 from nltk import sent_tokenize
@@ -22,12 +21,12 @@ from bias_utils.utils import model_evaluation, statistics, input_pipeline, forma
 print('-- Prepare evaluation data --')
 
 # Read a TSV file
-data = pd.read_csv('../BEC-Pro/modified_file_DE_gender_neutral.csv', sep='\t')
+data = pd.read_csv('../BEC-Pro/BEC-Pro_EN.tsv', sep='\t')
 
 # Take only the first 50 rows of data
-# data = data.head(50)
-# print("Loaded first 50 rows of the dataset:")
-# print(data)
+data = data.head(50)
+print("Loaded first 50 rows of the dataset:")
+print(data)
 
 # check if GPU is available
 if torch.cuda.is_available():
@@ -51,11 +50,11 @@ torch.cuda.manual_seed(42)
 print('-- Import BERT model --')
 
 # Load the BERT tokenizer and dbmdz model
-model_name_dbmdz = "bert-base-german-dbmdz-cased"
-tokenizer = AutoTokenizer.from_pretrained(model_name_dbmdz)
-model = AutoModelForMaskedLM.from_pretrained(model_name_dbmdz,
-                                            output_attentions=False,
-                                            output_hidden_states=False)
+# model_name_dbmdz = "bert-base-german-dbmdz-cased"
+# tokenizer = AutoTokenizer.from_pretrained(model_name_dbmdz)
+# model = AutoModelForMaskedLM.from_pretrained(model_name_dbmdz,
+#                                             output_attentions=False,
+#                                             output_hidden_states=False)
 
 # Load tokenizer and google bert model
 # model_name_google_bert = "google-bert/bert-base-german-cased"
@@ -82,17 +81,18 @@ model = AutoModelForMaskedLM.from_pretrained(model_name_dbmdz,
 #                                              output_attentions=False,
 #                                              output_hidden_states=False)
 
-# model_name_bert = "bert-base-uncased"
-# tokenizer = BertTokenizer.from_pretrained(model_name_bert)
-# model = BertForMaskedLM.from_pretrained(model_name_bert,
-#                                             output_attentions=False,
-#                                             output_hidden_states=False)
+model_name_bert = "bert-base-uncased"
+tokenizer = BertTokenizer.from_pretrained(model_name_bert)
+model = BertForMaskedLM.from_pretrained(model_name_bert,
+                                            output_attentions=False,
+                                            output_hidden_states=False)
 
-print("loading german bert")
+print("loading english bert")
 
 # Verify model and tokenizer
 print(f"Tokenizer: {tokenizer}")
-print(f"Model loaded: {model_name_dbmdz}")
+print(f"Model loaded: {model_name_bert}")
+
 
 # PRE-PROCESSING
 # As a first step, the fixed input sequence length is determined as the smallest
@@ -108,6 +108,7 @@ pre_associations = model_evaluation(data, tokenizer, model, device)
 
 # Add the associations to dataframe
 data = data.assign(Pre_Assoc=pre_associations)
+
 
 
 def fine_tune(model, train_dataloader, val_dataloader, epochs, tokenizer, device):
@@ -132,9 +133,6 @@ def fine_tune(model, train_dataloader, val_dataloader, epochs, tokenizer, device
     train_loss_values = []
     val_loss_values = []
 
-    for name, param in model.named_parameters():
-        if torch.isnan(param).any():
-            print(f"❌ NaN detected in {name} before training starts!")
 
 
     for epoch_i in range(0, epochs):
@@ -184,10 +182,6 @@ def fine_tune(model, train_dataloader, val_dataloader, epochs, tokenizer, device
             print("Masked Labels:", b_labels)
             print("Attention Mask:", b_input_mask)
 
-            if torch.isnan(b_input_ids).any():
-                print("❌ NaN detected in Input IDs!")
-            if torch.isnan(b_labels).any():
-                print("❌ NaN detected in Labels!")
             
             print("First 5 values of b_input_ids:", b_input_ids[:5])
             print("First 5 values of b_labels:", b_labels[:5])
@@ -366,13 +360,13 @@ val_sampler = SequentialSampler(val_data)
 val_dataloader = DataLoader(
     val_data, sampler=val_sampler, batch_size=batch_size)
 
+
 # for fine-tuning...first masking and then tokenizing
 print('-- Set up model fine-tuning --')
 epochs = 3
 model = fine_tune(model, train_dataloader, val_dataloader, epochs, tokenizer, device)
 
 print('-- Calculate associations after fine-tuning --')
-# calculate associations after fine-tuning
 # here tokenization is happening
 post_associations = model_evaluation(
     data, tokenizer, model, device)
@@ -380,18 +374,11 @@ post_associations = model_evaluation(
 # add associations to dataframe
 data = data.assign(Post_Assoc=post_associations)
 
-# if 'Prof_Gender' in data.columns:
-#     # divide by gender of person term
-#     eval_m = data.loc[data.Prof_Gender == 'male']
-#     eval_f = data.loc[data.Prof_Gender == 'female']
-
-# print('-- Statistics--')
-# statistics(eval_f.Pre_Assoc, eval_m.Pre_Assoc, data)
-
-# print('-- Statistics After --')
-# statistics(eval_f.Post_Assoc, eval_m.Post_Assoc)
 
 # Save the results
-output_file = "../data/output_csv_files/german/results_DE_with_perplexity_validation_gender_neutral.csv"
+output_file = "../data/output_csv_files/german/results_DE_with_perplexity_validation.csv"
 data.to_csv(output_file, sep='\t', index=False)
 print(f"Results saved to {output_file}")
+
+
+

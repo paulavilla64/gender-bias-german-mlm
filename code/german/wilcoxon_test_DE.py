@@ -9,7 +9,7 @@ import numpy as np
 
 
 # Read a CSV file
-data = pd.read_csv('../data/results_DE.csv', sep='\t')
+data = pd.read_csv('../data/output_csv_files/results_DE_with_perplexity_validation_gender_neutral.csv', sep='\t')
 
 # female gender within statistically female professions
 female_gender_in_female_professions = data.loc[(

@@ -4,7 +4,7 @@ import numpy as np
 import math
 
 # Read a CSV file
-data = pd.read_csv('../data/output_csv_files/results_padding_tokenized_EN.csv', sep='\t')
+data = pd.read_csv('../data/output_csv_files/results_EN_baseline_perplexity_full.csv', sep='\t')
 
 pre_association = data['Pre_Assoc'].to_list()
 post_association = data['Post_Assoc'].to_list()
@@ -160,7 +160,6 @@ print(f'POST: Mean for male gender within statistically balanced professions: {m
 
 # Calculate the differences
 differences = [after - before for before, after in zip(pre_association, post_association)]
-#print(f"Differences: {differences}")
 
 # Perform the Wilcoxon signed-rank test
 stat, p_value = wilcoxon(pre_association, post_association, alternative='two-sided')
@@ -179,7 +178,6 @@ else:
 
 # Calculate the differences for F
 differences_F = [after - before for before, after in zip(female_professions_pre, female_professions_post)]
-#print(f"Differences_F: {differences_F}")
 
 # Perform the Wilcoxon signed-rank test for F
 stat_F, p_value_F = wilcoxon(female_professions_pre, female_professions_post, alternative='two-sided')
@@ -198,7 +196,6 @@ else:
 
 # Calculate the differences for M
 differences_M = [after - before for before, after in zip(male_professions_pre, male_professions_post)]
-#print(f"Differences_M: {differences_M}")
 
 # Perform the Wilcoxon signed-rank test for F
 stat_M, p_value_M = wilcoxon(male_professions_pre, male_professions_post, alternative='two-sided')
@@ -217,7 +214,6 @@ else:
 
 # Calculate the differences for F
 differences_B = [after - before for before, after in zip(balanced_professions_pre, balanced_professions_post)]
-#print(f"Differences_B: {differences_B}")
 
 # Perform the Wilcoxon signed-rank test for F
 stat_B, p_value_B = wilcoxon(balanced_professions_pre, balanced_professions_post, alternative='two-sided')
