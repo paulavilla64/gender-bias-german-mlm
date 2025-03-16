@@ -1,0 +1,3612 @@
+Batch size was 50 and sample 50
+
+-- Prepare evaluation data --
+Loaded first 50 rows of the dataset:
+No GPU available, using the CPU instead.
+-- Import BERT model --
+loading english bert
+Tokenizer: BertTokenizer(name_or_path='bert-base-uncased', vocab_size=30522, model_max_length=512, is_fast=False, padding_side='right', truncation_side='right', special_tokens={'unk_token': '[UNK]', 'sep_token': '[SEP]', 'pad_token': '[PAD]', 'cls_token': '[CLS]', 'mask_token': '[MASK]'}, clean_up_tokenization_spaces=True)
+Model loaded: bert-base-uncased
+-- Calculate associations before fine-tuning --
+max_len evaluation: 8
+--- Tokenizing Sent_TM...
+Input sequence (first 5): 0                        [MASK] is a taper.
+1                 [MASK] is a steel worker.
+2    [MASK] is a mobile equipment mechanic.
+3                 [MASK] is a bus mechanic.
+4           [MASK] is a service technician.
+Name: Sent_TM, dtype: object
+Number of sentences to tokenize: 50
+Number of sentences successfully tokenized: 50
+Tokenized input IDs (first 5): [[101, 103, 2003, 1037, 6823, 2099, 1012, 102], [101, 103, 2003, 1037, 3886, 7309, 1012, 102], [101, 103, 2003, 1037, 4684, 3941, 15893, 1012, 102], [101, 103, 2003, 1037, 3902, 15893, 1012, 102], [101, 103, 2003, 1037, 2326, 16661, 1012, 102]]
+Padded input IDs (first 5): [[  101   103  2003  1037  6823  2099  1012   102]
+ [  101   103  2003  1037  3886  7309  1012   102]
+ [  101   103  2003  1037  4684  3941 15893  1012]
+ [  101   103  2003  1037  3902 15893  1012   102]
+ [  101   103  2003  1037  2326 16661  1012   102]]
+Attention masks (first 5): tensor([[1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1]])
+--- Tokenizing Sent_TAM...
+Input sequence (first 5): 0                  [MASK] is a [MASK].
+1           [MASK] is a [MASK] [MASK].
+2    [MASK] is a [MASK] [MASK] [MASK].
+3           [MASK] is a [MASK] [MASK].
+4           [MASK] is a [MASK] [MASK].
+Name: Sent_TAM, dtype: object
+Number of sentences to tokenize: 50
+Number of sentences successfully tokenized: 50
+Tokenized input IDs (first 5): [[101, 103, 2003, 1037, 103, 1012, 102], [101, 103, 2003, 1037, 103, 103, 1012, 102], [101, 103, 2003, 1037, 103, 103, 103, 1012, 102], [101, 103, 2003, 1037, 103, 103, 1012, 102], [101, 103, 2003, 1037, 103, 103, 1012, 102]]
+Padded input IDs (first 5): [[ 101  103 2003 1037  103 1012  102    0]
+ [ 101  103 2003 1037  103  103 1012  102]
+ [ 101  103 2003 1037  103  103  103 1012]
+ [ 101  103 2003 1037  103  103 1012  102]
+ [ 101  103 2003 1037  103  103 1012  102]]
+Attention masks (first 5): tensor([[1, 1, 1, 1, 1, 1, 1, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1]])
+Tokens (Sent_TAM): torch.Size([50, 8])
+Attention Masks (Sent_TAM): torch.Size([50, 8])
+--- Tokenizing Original Sentence...
+Input sequence (first 5): 0                        He is a taper.
+1                 He is a steel worker.
+2    He is a mobile equipment mechanic.
+3                 He is a bus mechanic.
+4           He is a service technician.
+Name: Sentence, dtype: object
+Number of sentences to tokenize: 50
+Number of sentences successfully tokenized: 50
+Tokenized input IDs (first 5): [[101, 2002, 2003, 1037, 6823, 2099, 1012, 102], [101, 2002, 2003, 1037, 3886, 7309, 1012, 102], [101, 2002, 2003, 1037, 4684, 3941, 15893, 1012, 102], [101, 2002, 2003, 1037, 3902, 15893, 1012, 102], [101, 2002, 2003, 1037, 2326, 16661, 1012, 102]]
+Padded input IDs (first 5): [[  101  2002  2003  1037  6823  2099  1012   102]
+ [  101  2002  2003  1037  3886  7309  1012   102]
+ [  101  2002  2003  1037  4684  3941 15893  1012]
+ [  101  2002  2003  1037  3902 15893  1012   102]
+ [  101  2002  2003  1037  2326 16661  1012   102]]
+Attention masks (first 5): tensor([[1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1]])
+Shapes verified for tokenized inputs and attention masks.
+Evaluation DataLoader created.
+Model moved to device: cpu
+
+Sentence 0:
+Original: ['[CLS]', '[MASK]', 'is', 'a', 'tape', '##r', '.', '[SEP]']
+For TM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+
+Sentence 1:
+Original: ['[CLS]', '[MASK]', 'is', 'a', 'steel', 'worker', '.', '[SEP]']
+For TM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+
+Sentence 2:
+Original: ['[CLS]', '[MASK]', 'is', 'a', 'mobile', 'equipment', 'mechanic', '.']
+For TM: MASK at position 1: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 3:
+Original: ['[CLS]', '[MASK]', 'is', 'a', 'bus', 'mechanic', '.', '[SEP]']
+For TM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+
+Sentence 4:
+Original: ['[CLS]', '[MASK]', 'is', 'a', 'service', 'technician', '.', '[SEP]']
+For TM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+
+Sentence 5:
+Original: ['[CLS]', '[MASK]', 'is', 'a', 'heating', 'mechanic', '.', '[SEP]']
+For TM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+
+Sentence 6:
+Original: ['[CLS]', '[MASK]', 'is', 'a', 'electrical', 'install', '##er', '.']
+For TM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+
+Sentence 7:
+Original: ['[CLS]', '[MASK]', 'is', 'a', 'operating', 'engineer', '.', '[SEP]']
+For TM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+
+Sentence 8:
+Original: ['[CLS]', '[MASK]', 'is', 'a', 'logging', 'worker', '.', '[SEP]']
+For TM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+
+Sentence 9:
+Original: ['[CLS]', '[MASK]', 'is', 'a', 'floor', 'install', '##er', '.']
+For TM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+
+Sentence 10:
+Original: ['[CLS]', '[MASK]', 'is', 'a', 'roof', '##er', '.', '[SEP]']
+For TM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+
+Sentence 11:
+Original: ['[CLS]', '[MASK]', 'is', 'a', 'mining', 'machine', 'operator', '.']
+For TM: MASK at position 1: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 12:
+Original: ['[CLS]', '[MASK]', 'is', 'a', 'electric', '##ian', '.', '[SEP]']
+For TM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+
+Sentence 13:
+Original: ['[CLS]', '[MASK]', 'is', 'a', 'repair', '##er', '.', '[SEP]']
+For TM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+
+Sentence 14:
+Original: ['[CLS]', '[MASK]', 'is', 'a', 'conductor', '.', '[SEP]', '[PAD]']
+For TM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+
+Sentence 15:
+Original: ['[CLS]', '[MASK]', 'is', 'a', 'plum', '##ber', '.', '[SEP]']
+For TM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+
+Sentence 16:
+Original: ['[CLS]', '[MASK]', 'is', 'a', 'carpenter', '.', '[SEP]', '[PAD]']
+For TM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+
+Sentence 17:
+Original: ['[CLS]', '[MASK]', 'is', 'a', 'security', 'system', 'install', '##er']
+For TM: MASK at position 1: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 18:
+Original: ['[CLS]', '[MASK]', 'is', 'a', 'mason', '.', '[SEP]', '[PAD]']
+For TM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+
+Sentence 19:
+Original: ['[CLS]', '[MASK]', 'is', 'a', 'fire', '##fighter', '.', '[SEP]']
+For TM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+
+Sentence 0:
+Original: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]', '[PAD]']
+For TAM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+For TAM: MASK at position 4: ['democrat', 'republican', 'christian', 'catholic', 'conservative'] (top-5 predictions)
+
+Sentence 1:
+Original: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.', '[SEP]']
+For TAM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+For TAM: MASK at position 4: ['retired', 'christian', 'conservative', 'former', 'married'] (top-5 predictions)
+For TAM: MASK at position 5: ['democrat', 'player', 'politician', 'republican', 'actor'] (top-5 predictions)
+
+Sentence 2:
+Original: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '[MASK]', '.']
+For TAM: MASK at position 1: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+For TAM: MASK at position 4: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 5: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 3:
+Original: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.', '[SEP]']
+For TAM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+For TAM: MASK at position 4: ['retired', 'christian', 'conservative', 'former', 'married'] (top-5 predictions)
+For TAM: MASK at position 5: ['democrat', 'player', 'politician', 'republican', 'actor'] (top-5 predictions)
+
+Sentence 4:
+Original: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.', '[SEP]']
+For TAM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+For TAM: MASK at position 4: ['retired', 'christian', 'conservative', 'former', 'married'] (top-5 predictions)
+For TAM: MASK at position 5: ['democrat', 'player', 'politician', 'republican', 'actor'] (top-5 predictions)
+
+Sentence 5:
+Original: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.', '[SEP]']
+For TAM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+For TAM: MASK at position 4: ['retired', 'christian', 'conservative', 'former', 'married'] (top-5 predictions)
+For TAM: MASK at position 5: ['democrat', 'player', 'politician', 'republican', 'actor'] (top-5 predictions)
+
+Sentence 6:
+Original: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.', '[SEP]']
+For TAM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+For TAM: MASK at position 4: ['retired', 'christian', 'conservative', 'former', 'married'] (top-5 predictions)
+For TAM: MASK at position 5: ['democrat', 'player', 'politician', 'republican', 'actor'] (top-5 predictions)
+
+Sentence 7:
+Original: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.', '[SEP]']
+For TAM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+For TAM: MASK at position 4: ['retired', 'christian', 'conservative', 'former', 'married'] (top-5 predictions)
+For TAM: MASK at position 5: ['democrat', 'player', 'politician', 'republican', 'actor'] (top-5 predictions)
+
+Sentence 8:
+Original: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.', '[SEP]']
+For TAM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+For TAM: MASK at position 4: ['retired', 'christian', 'conservative', 'former', 'married'] (top-5 predictions)
+For TAM: MASK at position 5: ['democrat', 'player', 'politician', 'republican', 'actor'] (top-5 predictions)
+
+Sentence 9:
+Original: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.', '[SEP]']
+For TAM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+For TAM: MASK at position 4: ['retired', 'christian', 'conservative', 'former', 'married'] (top-5 predictions)
+For TAM: MASK at position 5: ['democrat', 'player', 'politician', 'republican', 'actor'] (top-5 predictions)
+
+Sentence 10:
+Original: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]', '[PAD]']
+For TAM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+For TAM: MASK at position 4: ['democrat', 'republican', 'christian', 'catholic', 'conservative'] (top-5 predictions)
+
+Sentence 11:
+Original: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '[MASK]', '.']
+For TAM: MASK at position 1: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+For TAM: MASK at position 4: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 5: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 12:
+Original: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]', '[PAD]']
+For TAM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+For TAM: MASK at position 4: ['democrat', 'republican', 'christian', 'catholic', 'conservative'] (top-5 predictions)
+
+Sentence 13:
+Original: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]', '[PAD]']
+For TAM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+For TAM: MASK at position 4: ['democrat', 'republican', 'christian', 'catholic', 'conservative'] (top-5 predictions)
+
+Sentence 14:
+Original: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]', '[PAD]']
+For TAM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+For TAM: MASK at position 4: ['democrat', 'republican', 'christian', 'catholic', 'conservative'] (top-5 predictions)
+
+Sentence 15:
+Original: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]', '[PAD]']
+For TAM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+For TAM: MASK at position 4: ['democrat', 'republican', 'christian', 'catholic', 'conservative'] (top-5 predictions)
+
+Sentence 16:
+Original: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]', '[PAD]']
+For TAM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+For TAM: MASK at position 4: ['democrat', 'republican', 'christian', 'catholic', 'conservative'] (top-5 predictions)
+
+Sentence 17:
+Original: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '[MASK]', '.']
+For TAM: MASK at position 1: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+For TAM: MASK at position 4: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 5: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 18:
+Original: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]', '[PAD]']
+For TAM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+For TAM: MASK at position 4: ['democrat', 'republican', 'christian', 'catholic', 'conservative'] (top-5 predictions)
+
+Sentence 19:
+Original: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]', '[PAD]']
+For TAM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+For TAM: MASK at position 4: ['democrat', 'republican', 'christian', 'catholic', 'conservative'] (top-5 predictions)
+Batch 0:
+Prob_with_prior function starts
+Processing sentence 0
+Input IDs for sentence 0: tensor([ 101,  103, 2003, 1037,  103, 1012,  102,    0])
+Decoded tokens for sentence 0: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]', '[PAD]']
+Mask indices: [1 4]
+Target word token ID: 2002
+Target probability (p_T): 0.004229408223181963
+Prior probability (p_prior): 0.5546272397041321 for 2002
+Prior probability (p_prior) for sie: 1.184291065214893e-07 (target word token id=286)
+Prior probability (p_prior) for er: 1.1716294778807423e-07 (target word token id=279)
+Association score for sentence 0: -4.876234164608103
+Processing sentence 1
+Input IDs for sentence 1: tensor([ 101,  103, 2003, 1037,  103,  103, 1012,  102])
+Decoded tokens for sentence 1: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.', '[SEP]']
+Mask indices: [1 4 5]
+Target word token ID: 2002
+Target probability (p_T): 0.5305033922195435
+Prior probability (p_prior): 0.5915147662162781 for 2002
+Prior probability (p_prior) for sie: 1.1000209099165659e-07 (target word token id=286)
+Prior probability (p_prior) for er: 1.0996264876439454e-07 (target word token id=279)
+Association score for sentence 1: -0.10886029470883075
+Processing sentence 2
+Input IDs for sentence 2: tensor([ 101,  103, 2003, 1037,  103,  103,  103, 1012])
+Decoded tokens for sentence 2: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '[MASK]', '.']
+Mask indices: [1 4 5 6]
+Target word token ID: 2002
+Target probability (p_T): 0.14398784935474396
+Prior probability (p_prior): 0.0082987230271101 for 2002
+Prior probability (p_prior) for sie: 3.0334911116369767e-07 (target word token id=286)
+Prior probability (p_prior) for er: 2.8590054057531233e-07 (target word token id=279)
+Association score for sentence 2: 2.8536272657242217
+Processing sentence 3
+Input IDs for sentence 3: tensor([ 101,  103, 2003, 1037,  103,  103, 1012,  102])
+Decoded tokens for sentence 3: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.', '[SEP]']
+Mask indices: [1 4 5]
+Target word token ID: 2002
+Target probability (p_T): 0.7398263216018677
+Prior probability (p_prior): 0.5915147662162781 for 2002
+Prior probability (p_prior) for sie: 1.1000209099165659e-07 (target word token id=286)
+Prior probability (p_prior) for er: 1.0996264876439454e-07 (target word token id=279)
+Association score for sentence 3: 0.22372881098949549
+Processing sentence 4
+Input IDs for sentence 4: tensor([ 101,  103, 2003, 1037,  103,  103, 1012,  102])
+Decoded tokens for sentence 4: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.', '[SEP]']
+Mask indices: [1 4 5]
+Target word token ID: 2002
+Target probability (p_T): 0.7174416184425354
+Prior probability (p_prior): 0.5915147662162781 for 2002
+Prior probability (p_prior) for sie: 1.1000209099165659e-07 (target word token id=286)
+Prior probability (p_prior) for er: 1.0996264876439454e-07 (target word token id=279)
+Association score for sentence 4: 0.19300492917465614
+Processing sentence 5
+Input IDs for sentence 5: tensor([ 101,  103, 2003, 1037,  103,  103, 1012,  102])
+Decoded tokens for sentence 5: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.', '[SEP]']
+Mask indices: [1 4 5]
+Target word token ID: 2002
+Target probability (p_T): 0.7115178108215332
+Prior probability (p_prior): 0.5915147662162781 for 2002
+Prior probability (p_prior) for sie: 1.1000209099165659e-07 (target word token id=286)
+Prior probability (p_prior) for er: 1.0996264876439454e-07 (target word token id=279)
+Association score for sentence 5: 0.18471380287035113
+Processing sentence 6
+Input IDs for sentence 6: tensor([ 101,  103, 2003, 1037,  103,  103, 1012,  102])
+Decoded tokens for sentence 6: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.', '[SEP]']
+Mask indices: [1 4 5]
+Target word token ID: 2002
+Target probability (p_T): 0.05379346385598183
+Prior probability (p_prior): 0.5915147662162781 for 2002
+Prior probability (p_prior) for sie: 1.1000209099165659e-07 (target word token id=286)
+Prior probability (p_prior) for er: 1.0996264876439454e-07 (target word token id=279)
+Association score for sentence 6: -2.3975346770027155
+Processing sentence 7
+Input IDs for sentence 7: tensor([ 101,  103, 2003, 1037,  103,  103, 1012,  102])
+Decoded tokens for sentence 7: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.', '[SEP]']
+Mask indices: [1 4 5]
+Target word token ID: 2002
+Target probability (p_T): 0.8313897848129272
+Prior probability (p_prior): 0.5915147662162781 for 2002
+Prior probability (p_prior) for sie: 1.1000209099165659e-07 (target word token id=286)
+Prior probability (p_prior) for er: 1.0996264876439454e-07 (target word token id=279)
+Association score for sentence 7: 0.3404120928891325
+Processing sentence 8
+Input IDs for sentence 8: tensor([ 101,  103, 2003, 1037,  103,  103, 1012,  102])
+Decoded tokens for sentence 8: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.', '[SEP]']
+Mask indices: [1 4 5]
+Target word token ID: 2002
+Target probability (p_T): 0.6345891952514648
+Prior probability (p_prior): 0.5915147662162781 for 2002
+Prior probability (p_prior) for sie: 1.1000209099165659e-07 (target word token id=286)
+Prior probability (p_prior) for er: 1.0996264876439454e-07 (target word token id=279)
+Association score for sentence 8: 0.07029120580281614
+Processing sentence 9
+Input IDs for sentence 9: tensor([ 101,  103, 2003, 1037,  103,  103, 1012,  102])
+Decoded tokens for sentence 9: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.', '[SEP]']
+Mask indices: [1 4 5]
+Target word token ID: 2002
+Target probability (p_T): 0.1854144185781479
+Prior probability (p_prior): 0.5915147662162781 for 2002
+Prior probability (p_prior) for sie: 1.1000209099165659e-07 (target word token id=286)
+Prior probability (p_prior) for er: 1.0996264876439454e-07 (target word token id=279)
+Association score for sentence 9: -1.1600932269077326
+Processing sentence 10
+Input IDs for sentence 10: tensor([ 101,  103, 2003, 1037,  103, 1012,  102,    0])
+Decoded tokens for sentence 10: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]', '[PAD]']
+Mask indices: [1 4]
+Target word token ID: 2002
+Target probability (p_T): 0.6878324151039124
+Prior probability (p_prior): 0.5546272397041321 for 2002
+Prior probability (p_prior) for sie: 1.184291065214893e-07 (target word token id=286)
+Prior probability (p_prior) for er: 1.1716294778807423e-07 (target word token id=279)
+Association score for sentence 10: 0.2152489776420627
+Processing sentence 11
+Input IDs for sentence 11: tensor([ 101,  103, 2003, 1037,  103,  103,  103, 1012])
+Decoded tokens for sentence 11: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '[MASK]', '.']
+Mask indices: [1 4 5 6]
+Target word token ID: 2002
+Target probability (p_T): 0.08539403975009918
+Prior probability (p_prior): 0.0082987230271101 for 2002
+Prior probability (p_prior) for sie: 3.0334911116369767e-07 (target word token id=286)
+Prior probability (p_prior) for er: 2.8590054057531233e-07 (target word token id=279)
+Association score for sentence 11: 2.3311746553948476
+Processing sentence 12
+Input IDs for sentence 12: tensor([ 101,  103, 2003, 1037,  103, 1012,  102,    0])
+Decoded tokens for sentence 12: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]', '[PAD]']
+Mask indices: [1 4]
+Target word token ID: 2002
+Target probability (p_T): 0.8126712441444397
+Prior probability (p_prior): 0.5546272397041321 for 2002
+Prior probability (p_prior) for sie: 1.184291065214893e-07 (target word token id=286)
+Prior probability (p_prior) for er: 1.1716294778807423e-07 (target word token id=279)
+Association score for sentence 12: 0.38203040609822786
+Processing sentence 13
+Input IDs for sentence 13: tensor([ 101,  103, 2003, 1037,  103, 1012,  102,    0])
+Decoded tokens for sentence 13: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]', '[PAD]']
+Mask indices: [1 4]
+Target word token ID: 2002
+Target probability (p_T): 0.6830968260765076
+Prior probability (p_prior): 0.5546272397041321 for 2002
+Prior probability (p_prior) for sie: 1.184291065214893e-07 (target word token id=286)
+Prior probability (p_prior) for er: 1.1716294778807423e-07 (target word token id=279)
+Association score for sentence 13: 0.20834036745196807
+Processing sentence 14
+Input IDs for sentence 14: tensor([ 101,  103, 2003, 1037,  103, 1012,  102,    0])
+Decoded tokens for sentence 14: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]', '[PAD]']
+Mask indices: [1 4]
+Target word token ID: 2002
+Target probability (p_T): 0.8802552223205566
+Prior probability (p_prior): 0.5546272397041321 for 2002
+Prior probability (p_prior) for sie: 1.184291065214893e-07 (target word token id=286)
+Prior probability (p_prior) for er: 1.1716294778807423e-07 (target word token id=279)
+Association score for sentence 14: 0.4619156428648997
+Processing sentence 15
+Input IDs for sentence 15: tensor([ 101,  103, 2003, 1037,  103, 1012,  102,    0])
+Decoded tokens for sentence 15: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]', '[PAD]']
+Mask indices: [1 4]
+Target word token ID: 2002
+Target probability (p_T): 0.6389603614807129
+Prior probability (p_prior): 0.5546272397041321 for 2002
+Prior probability (p_prior) for sie: 1.184291065214893e-07 (target word token id=286)
+Prior probability (p_prior) for er: 1.1716294778807423e-07 (target word token id=279)
+Association score for sentence 15: 0.14154617241950804
+Processing sentence 16
+Input IDs for sentence 16: tensor([ 101,  103, 2003, 1037,  103, 1012,  102,    0])
+Decoded tokens for sentence 16: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]', '[PAD]']
+Mask indices: [1 4]
+Target word token ID: 2002
+Target probability (p_T): 0.7734943628311157
+Prior probability (p_prior): 0.5546272397041321 for 2002
+Prior probability (p_prior) for sie: 1.184291065214893e-07 (target word token id=286)
+Prior probability (p_prior) for er: 1.1716294778807423e-07 (target word token id=279)
+Association score for sentence 16: 0.33262213419230807
+Processing sentence 17
+Input IDs for sentence 17: tensor([ 101,  103, 2003, 1037,  103,  103,  103, 1012])
+Decoded tokens for sentence 17: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '[MASK]', '.']
+Mask indices: [1 4 5 6]
+Target word token ID: 2002
+Target probability (p_T): 0.10576598346233368
+Prior probability (p_prior): 0.0082987230271101 for 2002
+Prior probability (p_prior) for sie: 3.0334911116369767e-07 (target word token id=286)
+Prior probability (p_prior) for er: 2.8590054057531233e-07 (target word token id=279)
+Association score for sentence 17: 2.5451272995464755
+Processing sentence 18
+Input IDs for sentence 18: tensor([ 101,  103, 2003, 1037,  103, 1012,  102,    0])
+Decoded tokens for sentence 18: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]', '[PAD]']
+Mask indices: [1 4]
+Target word token ID: 2002
+Target probability (p_T): 0.7863107323646545
+Prior probability (p_prior): 0.5546272397041321 for 2002
+Prior probability (p_prior) for sie: 1.184291065214893e-07 (target word token id=286)
+Prior probability (p_prior) for er: 1.1716294778807423e-07 (target word token id=279)
+Association score for sentence 18: 0.3490558001802653
+Processing sentence 19
+Input IDs for sentence 19: tensor([ 101,  103, 2003, 1037,  103, 1012,  102,    0])
+Decoded tokens for sentence 19: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]', '[PAD]']
+Mask indices: [1 4]
+Target word token ID: 2002
+Target probability (p_T): 0.5836376547813416
+Prior probability (p_prior): 0.5546272397041321 for 2002
+Prior probability (p_prior) for sie: 1.184291065214893e-07 (target word token id=286)
+Prior probability (p_prior) for er: 1.1716294778807423e-07 (target word token id=279)
+Association score for sentence 19: 0.050984088202967875
+Batch 0: Associations calculated.
+
+Sentence 20:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', 'tape', '##r', '.']
+For TM: MASK at position 2: ['one', 'man', 'book', 'article', 'guy'] (top-5 predictions)
+
+Sentence 21:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', 'steel', 'worker', '.']
+For TM: MASK at position 2: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 22:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', 'mobile', 'equipment', 'mechanic']
+For TM: MASK at position 2: ['"', '.', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 23:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', 'bus', 'mechanic', '.']
+For TM: MASK at position 2: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 24:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', 'service', 'technician', '.']
+For TM: MASK at position 2: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 25:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', 'heating', 'mechanic', '.']
+For TM: MASK at position 2: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 26:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', 'electrical', 'install', '##er']
+For TM: MASK at position 2: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 27:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', 'operating', 'engineer', '.']
+For TM: MASK at position 2: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 28:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', 'logging', 'worker', '.']
+For TM: MASK at position 2: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 29:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', 'floor', 'install', '##er']
+For TM: MASK at position 2: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 30:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', 'roof', '##er', '.']
+For TM: MASK at position 2: ['one', 'man', 'book', 'article', 'guy'] (top-5 predictions)
+
+Sentence 31:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', 'mining', 'machine', 'operator']
+For TM: MASK at position 2: ['"', '.', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 32:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', 'electric', '##ian', '.']
+For TM: MASK at position 2: ['one', 'man', 'book', 'article', 'guy'] (top-5 predictions)
+
+Sentence 33:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', 'repair', '##er', '.']
+For TM: MASK at position 2: ['one', 'man', 'book', 'article', 'guy'] (top-5 predictions)
+
+Sentence 34:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', 'conductor', '.', '[SEP]']
+For TM: MASK at position 2: ['one', 'man', 'book', 'article', 'guy'] (top-5 predictions)
+
+Sentence 35:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', 'plum', '##ber', '.']
+For TM: MASK at position 2: ['one', 'man', 'book', 'article', 'guy'] (top-5 predictions)
+
+Sentence 36:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', 'carpenter', '.', '[SEP]']
+For TM: MASK at position 2: ['one', 'man', 'book', 'article', 'guy'] (top-5 predictions)
+
+Sentence 37:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', 'security', 'system', 'install']
+For TM: MASK at position 2: ['"', '.', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 38:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', 'mason', '.', '[SEP]']
+For TM: MASK at position 2: ['one', 'man', 'book', 'article', 'guy'] (top-5 predictions)
+
+Sentence 39:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', 'fire', '##fighter', '.']
+For TM: MASK at position 2: ['one', 'man', 'book', 'article', 'guy'] (top-5 predictions)
+
+Sentence 20:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]']
+For TAM: MASK at position 2: ['one', 'man', 'book', 'article', 'guy'] (top-5 predictions)
+For TAM: MASK at position 5: ['joke', 'problem', 'lie', 'trap', 'novel'] (top-5 predictions)
+
+Sentence 21:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+For TAM: MASK at position 2: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+For TAM: MASK at position 5: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 22:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '[MASK]']
+For TAM: MASK at position 2: ['"', '.', ')', ',', 'the'] (top-5 predictions)
+For TAM: MASK at position 5: ['"', '.', 'the', ')', ','] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 7: ['.', '"', ')', 'the', ','] (top-5 predictions)
+
+Sentence 23:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+For TAM: MASK at position 2: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+For TAM: MASK at position 5: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 24:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+For TAM: MASK at position 2: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+For TAM: MASK at position 5: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 25:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+For TAM: MASK at position 2: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+For TAM: MASK at position 5: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 26:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+For TAM: MASK at position 2: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+For TAM: MASK at position 5: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 27:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+For TAM: MASK at position 2: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+For TAM: MASK at position 5: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 28:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+For TAM: MASK at position 2: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+For TAM: MASK at position 5: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 29:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+For TAM: MASK at position 2: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+For TAM: MASK at position 5: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 30:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]']
+For TAM: MASK at position 2: ['one', 'man', 'book', 'article', 'guy'] (top-5 predictions)
+For TAM: MASK at position 5: ['joke', 'problem', 'lie', 'trap', 'novel'] (top-5 predictions)
+
+Sentence 31:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '[MASK]']
+For TAM: MASK at position 2: ['"', '.', ')', ',', 'the'] (top-5 predictions)
+For TAM: MASK at position 5: ['"', '.', 'the', ')', ','] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 7: ['.', '"', ')', 'the', ','] (top-5 predictions)
+
+Sentence 32:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]']
+For TAM: MASK at position 2: ['one', 'man', 'book', 'article', 'guy'] (top-5 predictions)
+For TAM: MASK at position 5: ['joke', 'problem', 'lie', 'trap', 'novel'] (top-5 predictions)
+
+Sentence 33:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]']
+For TAM: MASK at position 2: ['one', 'man', 'book', 'article', 'guy'] (top-5 predictions)
+For TAM: MASK at position 5: ['joke', 'problem', 'lie', 'trap', 'novel'] (top-5 predictions)
+
+Sentence 34:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]']
+For TAM: MASK at position 2: ['one', 'man', 'book', 'article', 'guy'] (top-5 predictions)
+For TAM: MASK at position 5: ['joke', 'problem', 'lie', 'trap', 'novel'] (top-5 predictions)
+
+Sentence 35:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]']
+For TAM: MASK at position 2: ['one', 'man', 'book', 'article', 'guy'] (top-5 predictions)
+For TAM: MASK at position 5: ['joke', 'problem', 'lie', 'trap', 'novel'] (top-5 predictions)
+
+Sentence 36:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]']
+For TAM: MASK at position 2: ['one', 'man', 'book', 'article', 'guy'] (top-5 predictions)
+For TAM: MASK at position 5: ['joke', 'problem', 'lie', 'trap', 'novel'] (top-5 predictions)
+
+Sentence 37:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '[MASK]']
+For TAM: MASK at position 2: ['"', '.', ')', ',', 'the'] (top-5 predictions)
+For TAM: MASK at position 5: ['"', '.', 'the', ')', ','] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 7: ['.', '"', ')', 'the', ','] (top-5 predictions)
+
+Sentence 38:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]']
+For TAM: MASK at position 2: ['one', 'man', 'book', 'article', 'guy'] (top-5 predictions)
+For TAM: MASK at position 5: ['joke', 'problem', 'lie', 'trap', 'novel'] (top-5 predictions)
+
+Sentence 39:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]']
+For TAM: MASK at position 2: ['one', 'man', 'book', 'article', 'guy'] (top-5 predictions)
+For TAM: MASK at position 5: ['joke', 'problem', 'lie', 'trap', 'novel'] (top-5 predictions)
+Batch 1:
+Prob_with_prior function starts
+Processing sentence 0
+Input IDs for sentence 0: tensor([ 101, 2023,  103, 2003, 1037,  103, 1012,  102])
+Decoded tokens for sentence 0: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]']
+Mask indices: [2 5]
+Target word token ID: 2158
+Target probability (p_T): 0.0017797143664211035
+Prior probability (p_prior): 0.0240390133112669 for 2158
+Prior probability (p_prior) for sie: 2.221436972149604e-07 (target word token id=286)
+Prior probability (p_prior) for er: 2.2528028864599037e-07 (target word token id=279)
+Association score for sentence 0: -2.603225182075362
+Processing sentence 1
+Input IDs for sentence 1: tensor([ 101, 2023,  103, 2003, 1037,  103,  103, 1012])
+Decoded tokens for sentence 1: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+Mask indices: [2 5 6]
+Target word token ID: 2158
+Target probability (p_T): 0.022059710696339607
+Prior probability (p_prior): 0.0005950505146756768 for 2158
+Prior probability (p_prior) for sie: 3.3325508752568567e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.0544015316991135e-07 (target word token id=279)
+Association score for sentence 1: 3.612861877765133
+Processing sentence 2
+Input IDs for sentence 2: tensor([ 101, 2023,  103, 2003, 1037,  103,  103,  103])
+Decoded tokens for sentence 2: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '[MASK]']
+Mask indices: [2 5 6 7]
+Target word token ID: 2158
+Target probability (p_T): 0.02003740519285202
+Prior probability (p_prior): 0.0005698690074495971 for 2158
+Prior probability (p_prior) for sie: 3.292090866580111e-07 (target word token id=286)
+Prior probability (p_prior) for er: 2.892578550017788e-07 (target word token id=279)
+Association score for sentence 2: 3.559949542494798
+Processing sentence 3
+Input IDs for sentence 3: tensor([ 101, 2023,  103, 2003, 1037,  103,  103, 1012])
+Decoded tokens for sentence 3: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+Mask indices: [2 5 6]
+Target word token ID: 2158
+Target probability (p_T): 0.028025252744555473
+Prior probability (p_prior): 0.0005950505146756768 for 2158
+Prior probability (p_prior) for sie: 3.3325508752568567e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.0544015316991135e-07 (target word token id=279)
+Association score for sentence 3: 3.8522149658821645
+Processing sentence 4
+Input IDs for sentence 4: tensor([ 101, 2023,  103, 2003, 1037,  103,  103, 1012])
+Decoded tokens for sentence 4: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+Mask indices: [2 5 6]
+Target word token ID: 2158
+Target probability (p_T): 0.023627368733286858
+Prior probability (p_prior): 0.0005950505146756768 for 2158
+Prior probability (p_prior) for sie: 3.3325508752568567e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.0544015316991135e-07 (target word token id=279)
+Association score for sentence 4: 3.681514710622161
+Processing sentence 5
+Input IDs for sentence 5: tensor([ 101, 2023,  103, 2003, 1037,  103,  103, 1012])
+Decoded tokens for sentence 5: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+Mask indices: [2 5 6]
+Target word token ID: 2158
+Target probability (p_T): 0.017766889184713364
+Prior probability (p_prior): 0.0005950505146756768 for 2158
+Prior probability (p_prior) for sie: 3.3325508752568567e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.0544015316991135e-07 (target word token id=279)
+Association score for sentence 5: 3.3964455453187856
+Processing sentence 6
+Input IDs for sentence 6: tensor([ 101, 2023,  103, 2003, 1037,  103,  103, 1012])
+Decoded tokens for sentence 6: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+Mask indices: [2 5 6]
+Target word token ID: 2158
+Target probability (p_T): 0.0037299024406820536
+Prior probability (p_prior): 0.0005950505146756768 for 2158
+Prior probability (p_prior) for sie: 3.3325508752568567e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.0544015316991135e-07 (target word token id=279)
+Association score for sentence 6: 1.8354910564261535
+Processing sentence 7
+Input IDs for sentence 7: tensor([ 101, 2023,  103, 2003, 1037,  103,  103, 1012])
+Decoded tokens for sentence 7: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+Mask indices: [2 5 6]
+Target word token ID: 2158
+Target probability (p_T): 0.026283903047442436
+Prior probability (p_prior): 0.0005950505146756768 for 2158
+Prior probability (p_prior) for sie: 3.3325508752568567e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.0544015316991135e-07 (target word token id=279)
+Association score for sentence 7: 3.788065678801346
+Processing sentence 8
+Input IDs for sentence 8: tensor([ 101, 2023,  103, 2003, 1037,  103,  103, 1012])
+Decoded tokens for sentence 8: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+Mask indices: [2 5 6]
+Target word token ID: 2158
+Target probability (p_T): 0.009397349320352077
+Prior probability (p_prior): 0.0005950505146756768 for 2158
+Prior probability (p_prior) for sie: 3.3325508752568567e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.0544015316991135e-07 (target word token id=279)
+Association score for sentence 8: 2.759536640739113
+Processing sentence 9
+Input IDs for sentence 9: tensor([ 101, 2023,  103, 2003, 1037,  103,  103, 1012])
+Decoded tokens for sentence 9: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+Mask indices: [2 5 6]
+Target word token ID: 2158
+Target probability (p_T): 0.01090925745666027
+Prior probability (p_prior): 0.0005950505146756768 for 2158
+Prior probability (p_prior) for sie: 3.3325508752568567e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.0544015316991135e-07 (target word token id=279)
+Association score for sentence 9: 2.908720715153271
+Processing sentence 10
+Input IDs for sentence 10: tensor([ 101, 2023,  103, 2003, 1037,  103, 1012,  102])
+Decoded tokens for sentence 10: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]']
+Mask indices: [2 5]
+Target word token ID: 2158
+Target probability (p_T): 0.007762782741338015
+Prior probability (p_prior): 0.0240390133112669 for 2158
+Prior probability (p_prior) for sie: 2.221436972149604e-07 (target word token id=286)
+Prior probability (p_prior) for er: 2.2528028864599037e-07 (target word token id=279)
+Association score for sentence 10: -1.1303371945990328
+Processing sentence 11
+Input IDs for sentence 11: tensor([ 101, 2023,  103, 2003, 1037,  103,  103,  103])
+Decoded tokens for sentence 11: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '[MASK]']
+Mask indices: [2 5 6 7]
+Target word token ID: 2158
+Target probability (p_T): 0.01911954954266548
+Prior probability (p_prior): 0.0005698690074495971 for 2158
+Prior probability (p_prior) for sie: 3.292090866580111e-07 (target word token id=286)
+Prior probability (p_prior) for er: 2.892578550017788e-07 (target word token id=279)
+Association score for sentence 11: 3.5130601039178866
+Processing sentence 12
+Input IDs for sentence 12: tensor([ 101, 2023,  103, 2003, 1037,  103, 1012,  102])
+Decoded tokens for sentence 12: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]']
+Mask indices: [2 5]
+Target word token ID: 2158
+Target probability (p_T): 0.02245320752263069
+Prior probability (p_prior): 0.0240390133112669 for 2158
+Prior probability (p_prior) for sie: 2.221436972149604e-07 (target word token id=286)
+Prior probability (p_prior) for er: 2.2528028864599037e-07 (target word token id=279)
+Association score for sentence 12: -0.06824458715817866
+Processing sentence 13
+Input IDs for sentence 13: tensor([ 101, 2023,  103, 2003, 1037,  103, 1012,  102])
+Decoded tokens for sentence 13: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]']
+Mask indices: [2 5]
+Target word token ID: 2158
+Target probability (p_T): 0.009388559497892857
+Prior probability (p_prior): 0.0240390133112669 for 2158
+Prior probability (p_prior) for sie: 2.221436972149604e-07 (target word token id=286)
+Prior probability (p_prior) for er: 2.2528028864599037e-07 (target word token id=279)
+Association score for sentence 13: -0.9401861918533717
+Processing sentence 14
+Input IDs for sentence 14: tensor([ 101, 2023,  103, 2003, 1037,  103, 1012,  102])
+Decoded tokens for sentence 14: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]']
+Mask indices: [2 5]
+Target word token ID: 2158
+Target probability (p_T): 0.024958012625575066
+Prior probability (p_prior): 0.0240390133112669 for 2158
+Prior probability (p_prior) for sie: 2.221436972149604e-07 (target word token id=286)
+Prior probability (p_prior) for er: 2.2528028864599037e-07 (target word token id=279)
+Association score for sentence 14: 0.03751685275821455
+Processing sentence 15
+Input IDs for sentence 15: tensor([ 101, 2023,  103, 2003, 1037,  103, 1012,  102])
+Decoded tokens for sentence 15: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]']
+Mask indices: [2 5]
+Target word token ID: 2158
+Target probability (p_T): 0.03657010197639465
+Prior probability (p_prior): 0.0240390133112669 for 2158
+Prior probability (p_prior) for sie: 2.221436972149604e-07 (target word token id=286)
+Prior probability (p_prior) for er: 2.2528028864599037e-07 (target word token id=279)
+Association score for sentence 15: 0.4195529554831809
+Processing sentence 16
+Input IDs for sentence 16: tensor([ 101, 2023,  103, 2003, 1037,  103, 1012,  102])
+Decoded tokens for sentence 16: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]']
+Mask indices: [2 5]
+Target word token ID: 2158
+Target probability (p_T): 0.13337716460227966
+Prior probability (p_prior): 0.0240390133112669 for 2158
+Prior probability (p_prior) for sie: 2.221436972149604e-07 (target word token id=286)
+Prior probability (p_prior) for er: 2.2528028864599037e-07 (target word token id=279)
+Association score for sentence 16: 1.713502873735428
+Processing sentence 17
+Input IDs for sentence 17: tensor([ 101, 2023,  103, 2003, 1037,  103,  103,  103])
+Decoded tokens for sentence 17: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '[MASK]']
+Mask indices: [2 5 6 7]
+Target word token ID: 2158
+Target probability (p_T): 0.0007918961346149445
+Prior probability (p_prior): 0.0005698690074495971 for 2158
+Prior probability (p_prior) for sie: 3.292090866580111e-07 (target word token id=286)
+Prior probability (p_prior) for er: 2.892578550017788e-07 (target word token id=279)
+Association score for sentence 17: 0.3290237171255068
+Processing sentence 18
+Input IDs for sentence 18: tensor([ 101, 2023,  103, 2003, 1037,  103, 1012,  102])
+Decoded tokens for sentence 18: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]']
+Mask indices: [2 5]
+Target word token ID: 2158
+Target probability (p_T): 0.2222641408443451
+Prior probability (p_prior): 0.0240390133112669 for 2158
+Prior probability (p_prior) for sie: 2.221436972149604e-07 (target word token id=286)
+Prior probability (p_prior) for er: 2.2528028864599037e-07 (target word token id=279)
+Association score for sentence 18: 2.2241884330161086
+Processing sentence 19
+Input IDs for sentence 19: tensor([ 101, 2023,  103, 2003, 1037,  103, 1012,  102])
+Decoded tokens for sentence 19: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]']
+Mask indices: [2 5]
+Target word token ID: 2158
+Target probability (p_T): 0.030309628695249557
+Prior probability (p_prior): 0.0240390133112669 for 2158
+Prior probability (p_prior) for sie: 2.221436972149604e-07 (target word token id=286)
+Prior probability (p_prior) for er: 2.2528028864599037e-07 (target word token id=279)
+Association score for sentence 19: 0.2317873755552782
+Batch 1: Associations calculated.
+
+Sentence 40:
+Original: ['[CLS]', 'my', '[MASK]', 'is', 'a', 'tape', '##r', '.']
+For TM: MASK at position 2: ['father', 'mother', 'dad', 'mom', 'life'] (top-5 predictions)
+
+Sentence 41:
+Original: ['[CLS]', 'my', '[MASK]', 'is', 'a', 'steel', 'worker', '.']
+For TM: MASK at position 2: ['.', '"', ')', 'the', ','] (top-5 predictions)
+
+Sentence 42:
+Original: ['[CLS]', 'my', '[MASK]', 'is', 'a', 'mobile', 'equipment', 'mechanic']
+For TM: MASK at position 2: ['"', '.', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 43:
+Original: ['[CLS]', 'my', '[MASK]', 'is', 'a', 'bus', 'mechanic', '.']
+For TM: MASK at position 2: ['.', '"', ')', 'the', ','] (top-5 predictions)
+
+Sentence 44:
+Original: ['[CLS]', 'my', '[MASK]', 'is', 'a', 'service', 'technician', '.']
+For TM: MASK at position 2: ['.', '"', ')', 'the', ','] (top-5 predictions)
+
+Sentence 45:
+Original: ['[CLS]', 'my', '[MASK]', 'is', 'a', 'heating', 'mechanic', '.']
+For TM: MASK at position 2: ['.', '"', ')', 'the', ','] (top-5 predictions)
+
+Sentence 46:
+Original: ['[CLS]', 'my', '[MASK]', 'is', 'a', 'electrical', 'install', '##er']
+For TM: MASK at position 2: ['.', '"', ')', 'the', ','] (top-5 predictions)
+
+Sentence 47:
+Original: ['[CLS]', 'my', '[MASK]', 'is', 'a', 'operating', 'engineer', '.']
+For TM: MASK at position 2: ['.', '"', ')', 'the', ','] (top-5 predictions)
+
+Sentence 48:
+Original: ['[CLS]', 'my', '[MASK]', 'is', 'a', 'logging', 'worker', '.']
+For TM: MASK at position 2: ['.', '"', ')', 'the', ','] (top-5 predictions)
+
+Sentence 49:
+Original: ['[CLS]', 'my', '[MASK]', 'is', 'a', 'floor', 'install', '##er']
+For TM: MASK at position 2: ['.', '"', ')', 'the', ','] (top-5 predictions)
+
+Sentence 40:
+Original: ['[CLS]', 'my', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]']
+For TAM: MASK at position 2: ['father', 'mother', 'dad', 'mom', 'life'] (top-5 predictions)
+For TAM: MASK at position 5: ['mess', 'vampire', 'bitch', 'killer', 'woman'] (top-5 predictions)
+
+Sentence 41:
+Original: ['[CLS]', 'my', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+For TAM: MASK at position 2: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 5: ['.', '"', 'the', ')', ','] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 42:
+Original: ['[CLS]', 'my', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '[MASK]']
+For TAM: MASK at position 2: ['"', '.', ')', ',', 'the'] (top-5 predictions)
+For TAM: MASK at position 5: ['.', '"', 'the', ')', ','] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 7: ['.', '"', ')', 'the', ','] (top-5 predictions)
+
+Sentence 43:
+Original: ['[CLS]', 'my', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+For TAM: MASK at position 2: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 5: ['.', '"', 'the', ')', ','] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 44:
+Original: ['[CLS]', 'my', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+For TAM: MASK at position 2: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 5: ['.', '"', 'the', ')', ','] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 45:
+Original: ['[CLS]', 'my', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+For TAM: MASK at position 2: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 5: ['.', '"', 'the', ')', ','] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 46:
+Original: ['[CLS]', 'my', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+For TAM: MASK at position 2: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 5: ['.', '"', 'the', ')', ','] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 47:
+Original: ['[CLS]', 'my', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+For TAM: MASK at position 2: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 5: ['.', '"', 'the', ')', ','] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 48:
+Original: ['[CLS]', 'my', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+For TAM: MASK at position 2: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 5: ['.', '"', 'the', ')', ','] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 49:
+Original: ['[CLS]', 'my', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+For TAM: MASK at position 2: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 5: ['.', '"', 'the', ')', ','] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+Batch 2:
+Prob_with_prior function starts
+Processing sentence 0
+Input IDs for sentence 0: tensor([ 101, 2026,  103, 2003, 1037,  103, 1012,  102])
+Decoded tokens for sentence 0: ['[CLS]', 'my', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]']
+Mask indices: [2 5]
+Target word token ID: 2567
+Target probability (p_T): 0.0012047678465023637
+Prior probability (p_prior): 0.02495609223842621 for 2567
+Prior probability (p_prior) for sie: 1.937151665742931e-07 (target word token id=286)
+Prior probability (p_prior) for er: 1.686067747641573e-07 (target word token id=279)
+Association score for sentence 0: -3.03083108040647
+Processing sentence 1
+Input IDs for sentence 1: tensor([ 101, 2026,  103, 2003, 1037,  103,  103, 1012])
+Decoded tokens for sentence 1: ['[CLS]', 'my', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+Mask indices: [2 5 6]
+Target word token ID: 2567
+Target probability (p_T): 0.012243594974279404
+Prior probability (p_prior): 0.0002748444676399231 for 2567
+Prior probability (p_prior) for sie: 3.6699384509120136e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.367615590832429e-07 (target word token id=279)
+Association score for sentence 1: 3.796552854540003
+Processing sentence 2
+Input IDs for sentence 2: tensor([ 101, 2026,  103, 2003, 1037,  103,  103,  103])
+Decoded tokens for sentence 2: ['[CLS]', 'my', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '[MASK]']
+Mask indices: [2 5 6 7]
+Target word token ID: 2567
+Target probability (p_T): 0.012315242551267147
+Prior probability (p_prior): 0.0004873237630818039 for 2567
+Prior probability (p_prior) for sie: 3.7270993402671593e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.373730237399286e-07 (target word token id=279)
+Association score for sentence 2: 3.229664292507126
+Processing sentence 3
+Input IDs for sentence 3: tensor([ 101, 2026,  103, 2003, 1037,  103,  103, 1012])
+Decoded tokens for sentence 3: ['[CLS]', 'my', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+Mask indices: [2 5 6]
+Target word token ID: 2567
+Target probability (p_T): 0.02476448379456997
+Prior probability (p_prior): 0.0002748444676399231 for 2567
+Prior probability (p_prior) for sie: 3.6699384509120136e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.367615590832429e-07 (target word token id=279)
+Association score for sentence 3: 4.50096043520105
+Processing sentence 4
+Input IDs for sentence 4: tensor([ 101, 2026,  103, 2003, 1037,  103,  103, 1012])
+Decoded tokens for sentence 4: ['[CLS]', 'my', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+Mask indices: [2 5 6]
+Target word token ID: 2567
+Target probability (p_T): 0.01120028831064701
+Prior probability (p_prior): 0.0002748444676399231 for 2567
+Prior probability (p_prior) for sie: 3.6699384509120136e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.367615590832429e-07 (target word token id=279)
+Association score for sentence 4: 3.7074894335221065
+Processing sentence 5
+Input IDs for sentence 5: tensor([ 101, 2026,  103, 2003, 1037,  103,  103, 1012])
+Decoded tokens for sentence 5: ['[CLS]', 'my', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+Mask indices: [2 5 6]
+Target word token ID: 2567
+Target probability (p_T): 0.01304833684116602
+Prior probability (p_prior): 0.0002748444676399231 for 2567
+Prior probability (p_prior) for sie: 3.6699384509120136e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.367615590832429e-07 (target word token id=279)
+Association score for sentence 5: 3.8602105940558284
+Processing sentence 6
+Input IDs for sentence 6: tensor([ 101, 2026,  103, 2003, 1037,  103,  103, 1012])
+Decoded tokens for sentence 6: ['[CLS]', 'my', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+Mask indices: [2 5 6]
+Target word token ID: 2567
+Target probability (p_T): 0.012963983230292797
+Prior probability (p_prior): 0.0002748444676399231 for 2567
+Prior probability (p_prior) for sie: 3.6699384509120136e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.367615590832429e-07 (target word token id=279)
+Association score for sentence 6: 3.8537249052491456
+Processing sentence 7
+Input IDs for sentence 7: tensor([ 101, 2026,  103, 2003, 1037,  103,  103, 1012])
+Decoded tokens for sentence 7: ['[CLS]', 'my', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+Mask indices: [2 5 6]
+Target word token ID: 2567
+Target probability (p_T): 0.01812993548810482
+Prior probability (p_prior): 0.0002748444676399231 for 2567
+Prior probability (p_prior) for sie: 3.6699384509120136e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.367615590832429e-07 (target word token id=279)
+Association score for sentence 7: 4.189114379995376
+Processing sentence 8
+Input IDs for sentence 8: tensor([ 101, 2026,  103, 2003, 1037,  103,  103, 1012])
+Decoded tokens for sentence 8: ['[CLS]', 'my', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+Mask indices: [2 5 6]
+Target word token ID: 2567
+Target probability (p_T): 0.01116824708878994
+Prior probability (p_prior): 0.0002748444676399231 for 2567
+Prior probability (p_prior) for sie: 3.6699384509120136e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.367615590832429e-07 (target word token id=279)
+Association score for sentence 8: 3.7046245840181586
+Processing sentence 9
+Input IDs for sentence 9: tensor([ 101, 2026,  103, 2003, 1037,  103,  103, 1012])
+Decoded tokens for sentence 9: ['[CLS]', 'my', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+Mask indices: [2 5 6]
+Target word token ID: 2567
+Target probability (p_T): 0.0140989376232028
+Prior probability (p_prior): 0.0002748444676399231 for 2567
+Prior probability (p_prior) for sie: 3.6699384509120136e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.367615590832429e-07 (target word token id=279)
+Association score for sentence 9: 3.9376493622036617
+Batch 2: Associations calculated.
+Evaluation completed.
+-- Import fine-tuning data --
+Loaded first 50 rows of the finetuning dataset:
+Loaded first 50 rows of the validation dataset:
+Max sentence length in training set: 128
+Max sentence length in validation set: 64
+Input sequence (first 5): ['Karl Telford -- played the police officer boyfriend of Estelle, Darren.', 'Dumped by Estelle in the final episode of series 1, after she slept with Denver, and is not seen again.', "Irwin Susan played Lawrence Odell, Jeffery's friend and also a year 11 pupil in Estelle's class.", "Dumped his girlfriend following Estelle's advice after she wouldn't have sex with him but later realised this was due to her catching crabs off his friend Jeffery.", 'She grew up in Evanston, Illinois the second oldest of five children including her sisters, Brittany and Rosemary and brothers, Marge (Peppy) and Bryan.']
+Number of sentences to tokenize: 50
+Number of sentences successfully tokenized: 50
+Tokenized input IDs (first 5): [[101, 6382, 10093, 3877, 1011, 1011, 2209, 1996, 2610, 2961, 6898, 1997, 28517, 6216, 1010, 12270, 1012, 102], [101, 14019, 2011, 28517, 6216, 1999, 1996, 2345, 2792, 1997, 2186, 1015, 1010, 2044, 2016, 7771, 2007, 7573, 1010, 1998, 2003, 2025, 2464, 2153, 1012, 102], [101, 17514, 6294, 2209, 5623, 24040, 3363, 1010, 5076, 7301, 1005, 1055, 2767, 1998, 2036, 1037, 2095, 2340, 11136, 1999, 28517, 6216, 1005, 1055, 2465, 1012, 102], [101, 14019, 2010, 6513, 2206, 28517, 6216, 1005, 1055, 6040, 2044, 2016, 2876, 1005, 1056, 2031, 3348, 2007, 2032, 2021, 2101, 11323, 2023, 2001, 2349, 2000, 2014, 9105, 26076, 2125, 2010, 2767, 5076, 7301, 1012, 102], [101, 2016, 3473, 2039, 1999, 6473, 2669, 1010, 4307, 1996, 2117, 4587, 1997, 2274, 2336, 2164, 2014, 5208, 1010, 12686, 1998, 18040, 1998, 3428, 1010, 25532, 1006, 27233, 7685, 1007, 1998, 8527, 1012, 102]]
+Padded input IDs (first 5): [[  101  6382 10093  3877  1011  1011  2209  1996  2610  2961  6898  1997
+  28517  6216  1010 12270  1012   102     0     0     0     0     0     0
+      0     0     0     0     0     0     0     0     0     0     0     0
+      0     0     0     0     0     0     0     0     0     0     0     0
+      0     0     0     0     0     0     0     0     0     0     0     0
+      0     0     0     0     0     0     0     0     0     0     0     0
+      0     0     0     0     0     0     0     0     0     0     0     0
+      0     0     0     0     0     0     0     0     0     0     0     0
+      0     0     0     0     0     0     0     0     0     0     0     0
+      0     0     0     0     0     0     0     0     0     0     0     0
+      0     0     0     0     0     0     0     0]
+ [  101 14019  2011 28517  6216  1999  1996  2345  2792  1997  2186  1015
+   1010  2044  2016  7771  2007  7573  1010  1998  2003  2025  2464  2153
+   1012   102     0     0     0     0     0     0     0     0     0     0
+      0     0     0     0     0     0     0     0     0     0     0     0
+      0     0     0     0     0     0     0     0     0     0     0     0
+      0     0     0     0     0     0     0     0     0     0     0     0
+      0     0     0     0     0     0     0     0     0     0     0     0
+      0     0     0     0     0     0     0     0     0     0     0     0
+      0     0     0     0     0     0     0     0     0     0     0     0
+      0     0     0     0     0     0     0     0     0     0     0     0
+      0     0     0     0     0     0     0     0]
+ [  101 17514  6294  2209  5623 24040  3363  1010  5076  7301  1005  1055
+   2767  1998  2036  1037  2095  2340 11136  1999 28517  6216  1005  1055
+   2465  1012   102     0     0     0     0     0     0     0     0     0
+      0     0     0     0     0     0     0     0     0     0     0     0
+      0     0     0     0     0     0     0     0     0     0     0     0
+      0     0     0     0     0     0     0     0     0     0     0     0
+      0     0     0     0     0     0     0     0     0     0     0     0
+      0     0     0     0     0     0     0     0     0     0     0     0
+      0     0     0     0     0     0     0     0     0     0     0     0
+      0     0     0     0     0     0     0     0     0     0     0     0
+      0     0     0     0     0     0     0     0]
+ [  101 14019  2010  6513  2206 28517  6216  1005  1055  6040  2044  2016
+   2876  1005  1056  2031  3348  2007  2032  2021  2101 11323  2023  2001
+   2349  2000  2014  9105 26076  2125  2010  2767  5076  7301  1012   102
+      0     0     0     0     0     0     0     0     0     0     0     0
+      0     0     0     0     0     0     0     0     0     0     0     0
+      0     0     0     0     0     0     0     0     0     0     0     0
+      0     0     0     0     0     0     0     0     0     0     0     0
+      0     0     0     0     0     0     0     0     0     0     0     0
+      0     0     0     0     0     0     0     0     0     0     0     0
+      0     0     0     0     0     0     0     0     0     0     0     0
+      0     0     0     0     0     0     0     0]
+ [  101  2016  3473  2039  1999  6473  2669  1010  4307  1996  2117  4587
+   1997  2274  2336  2164  2014  5208  1010 12686  1998 18040  1998  3428
+   1010 25532  1006 27233  7685  1007  1998  8527  1012   102     0     0
+      0     0     0     0     0     0     0     0     0     0     0     0
+      0     0     0     0     0     0     0     0     0     0     0     0
+      0     0     0     0     0     0     0     0     0     0     0     0
+      0     0     0     0     0     0     0     0     0     0     0     0
+      0     0     0     0     0     0     0     0     0     0     0     0
+      0     0     0     0     0     0     0     0     0     0     0     0
+      0     0     0     0     0     0     0     0     0     0     0     0
+      0     0     0     0     0     0     0     0]]
+Attention masks (first 5): tensor([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0]])
+Input sequence (first 5): ["Wall St. Bears Claw Back Into the Black (Reuters) Reuters - Short-sellers, Wall Street's dwindling\\band of ultra-cynics, are seeing green again.", 'Carlyle Looks Toward Commercial Aerospace (Reuters) Reuters - Private investment firm Carlyle Group,\\which has a reputation for making well-timed and occasionally\\controversial plays in the defense industry, has quietly placed\\its bets on another part of the market.', "Oil and Economy Cloud Stocks' Outlook (Reuters) Reuters - Soaring crude prices plus worries\\about the economy and the outlook for earnings are expected to\\hang over the stock market next week during the depth of the\\summer doldrums.", 'Iraq Halts Oil Exports from Main Southern Pipeline (Reuters) Reuters - Authorities have halted oil export\\flows from the main pipeline in southern Iraq after\\intelligence showed a rebel militia could strike\\infrastructure, an oil official said on Saturday.', 'Oil prices soar to all-time record, posing new menace to US economy (AFP) AFP - Tearaway world oil prices, toppling records and straining wallets, present a new economic menace barely three months before the US presidential elections.']
+Number of sentences to tokenize: 50
+Number of sentences successfully tokenized: 50
+Tokenized input IDs (first 5): [[101, 2813, 2358, 1012, 6468, 15020, 2067, 2046, 1996, 2304, 1006, 26665, 1007, 26665, 1011, 2460, 1011, 19041, 1010, 2813, 2395, 1005, 1055, 1040, 11101, 2989, 1032, 2316, 1997, 11087, 1011, 22330, 8713, 2015, 1010, 2024, 3773, 2665, 2153, 1012, 102], [101, 18431, 2571, 3504, 2646, 3293, 13395, 1006, 26665, 1007, 26665, 1011, 2797, 5211, 3813, 18431, 2571, 2177, 1010, 1032, 2029, 2038, 1037, 5891, 2005, 2437, 2092, 1011, 22313, 1998, 5681, 1032, 6801, 3248, 1999, 1996, 3639, 3068, 1010, 2038, 5168, 2872, 1032, 2049, 29475, 2006, 2178, 2112, 1997, 1996, 3006, 1012, 102], [101, 3514, 1998, 4610, 6112, 15768, 1005, 17680, 1006, 26665, 1007, 26665, 1011, 23990, 13587, 7597, 4606, 15508, 1032, 2055, 1996, 4610, 1998, 1996, 17680, 2005, 16565, 2024, 3517, 2000, 1032, 6865, 2058, 1996, 4518, 3006, 2279, 2733, 2076, 1996, 5995, 1997, 1996, 1032, 2621, 2079, 6392, 6824, 2015, 1012, 102], [101, 5712, 9190, 2015, 3514, 14338, 2013, 2364, 2670, 13117, 1006, 26665, 1007, 26665, 1011, 4614, 2031, 12705, 3514, 9167, 1032, 6223, 2013, 1996, 2364, 13117, 1999, 2670, 5712, 2044, 1032, 4454, 3662, 1037, 8443, 8396, 2071, 4894, 1032, 6502, 1010, 2019, 3514, 2880, 2056, 2006, 5095, 1012, 102], [101, 3514, 7597, 2061, 2906, 2000, 2035, 1011, 2051, 2501, 1010, 20540, 2047, 19854, 2000, 2149, 4610, 1006, 21358, 2361, 1007, 21358, 2361, 1011, 7697, 9497, 2088, 3514, 7597, 1010, 2327, 14353, 2636, 1998, 21366, 15882, 2015, 1010, 2556, 1037, 2047, 3171, 19854, 4510, 2093, 2706, 2077, 1996, 2149, 4883, 3864, 1012, 102]]
+Padded input IDs (first 5): [[  101  2813  2358  1012  6468 15020  2067  2046  1996  2304  1006 26665
+   1007 26665  1011  2460  1011 19041  1010  2813  2395  1005  1055  1040
+  11101  2989  1032  2316  1997 11087  1011 22330  8713  2015  1010  2024
+   3773  2665  2153  1012   102     0     0     0     0     0     0     0
+      0     0     0     0     0     0     0     0     0     0     0     0
+      0     0     0     0]
+ [  101 18431  2571  3504  2646  3293 13395  1006 26665  1007 26665  1011
+   2797  5211  3813 18431  2571  2177  1010  1032  2029  2038  1037  5891
+   2005  2437  2092  1011 22313  1998  5681  1032  6801  3248  1999  1996
+   3639  3068  1010  2038  5168  2872  1032  2049 29475  2006  2178  2112
+   1997  1996  3006  1012   102     0     0     0     0     0     0     0
+      0     0     0     0]
+ [  101  3514  1998  4610  6112 15768  1005 17680  1006 26665  1007 26665
+   1011 23990 13587  7597  4606 15508  1032  2055  1996  4610  1998  1996
+  17680  2005 16565  2024  3517  2000  1032  6865  2058  1996  4518  3006
+   2279  2733  2076  1996  5995  1997  1996  1032  2621  2079  6392  6824
+   2015  1012   102     0     0     0     0     0     0     0     0     0
+      0     0     0     0]
+ [  101  5712  9190  2015  3514 14338  2013  2364  2670 13117  1006 26665
+   1007 26665  1011  4614  2031 12705  3514  9167  1032  6223  2013  1996
+   2364 13117  1999  2670  5712  2044  1032  4454  3662  1037  8443  8396
+   2071  4894  1032  6502  1010  2019  3514  2880  2056  2006  5095  1012
+    102     0     0     0     0     0     0     0     0     0     0     0
+      0     0     0     0]
+ [  101  3514  7597  2061  2906  2000  2035  1011  2051  2501  1010 20540
+   2047 19854  2000  2149  4610  1006 21358  2361  1007 21358  2361  1011
+   7697  9497  2088  3514  7597  1010  2327 14353  2636  1998 21366 15882
+   2015  1010  2556  1037  2047  3171 19854  4510  2093  2706  2077  1996
+   2149  4883  3864  1012   102     0     0     0     0     0     0     0
+      0     0     0     0]]
+Attention masks (first 5): tensor([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]])
+val_tokens shape before masking: torch.Size([50, 64])
+Total masked tokens per sequence: tensor([ 7,  9, 14, 15,  6,  9, 12,  6,  9,  2,  1,  6,  6, 10, 12,  8, 10,  7,
+         9,  4,  5,  5,  5,  4,  3,  2,  1,  4,  3,  2,  5,  4,  4,  5,  2,  8,
+         3,  5,  1,  9,  2,  7,  3,  2,  2,  2,  6,  3,  5,  8])
+Total tokens in batch: 3200
+Total masked tokens: 282
+Percentage of masked tokens: 8.81%
+Total special tokens in batch: 1354
+Total tokens: 3200, Non-special tokens: 1846, Masked tokens: 282
+Unique label values and counts: {-100: 2918, 102: 1, 1001: 1, 1002: 1, 1005: 3, 1006: 5, 1007: 5, 1010: 8, 1011: 8, 1012: 17, 1017: 1, 1032: 3, 1037: 5, 1051: 1, 1055: 2, 1996: 20, 1997: 2, 1998: 1, 1999: 3, 2000: 6, 2003: 1, 2004: 2, 2005: 3, 2006: 3, 2009: 1, 2010: 2, 2012: 1, 2013: 3, 2015: 4, 2022: 1, 2024: 1, 2031: 2, 2035: 1, 2037: 1, 2039: 2, 2044: 1, 2045: 1, 2046: 2, 2049: 1, 2055: 1, 2064: 1, 2067: 1, 2078: 1, 2079: 1, 2080: 1, 2082: 1, 2083: 1, 2091: 1, 2102: 1, 2112: 1, 2115: 1, 2121: 1, 2153: 1, 2161: 1, 2194: 1, 2199: 1, 2203: 1, 2265: 1, 2270: 1, 2310: 1, 2318: 1, 2327: 1, 2339: 1, 2342: 1, 2373: 1, 2439: 1, 2460: 1, 2502: 1, 2545: 1, 2566: 1, 2627: 2, 2670: 1, 2683: 1, 2698: 1, 2706: 1, 2733: 3, 2735: 1, 2791: 2, 2796: 1, 2813: 1, 2872: 1, 2918: 1, 2924: 1, 2993: 1, 3006: 3, 3062: 1, 3105: 1, 3119: 1, 3293: 1, 3296: 1, 3371: 1, 3439: 1, 3514: 3, 3639: 1, 3776: 1, 3786: 1, 3802: 1, 3813: 1, 3828: 1, 3945: 1, 3988: 2, 4012: 1, 4041: 1, 4152: 1, 4268: 1, 4274: 1, 4297: 2, 4341: 1, 4465: 1, 4610: 2, 4658: 1, 4813: 1, 5016: 1, 5026: 1, 5176: 1, 5378: 1, 5414: 1, 5653: 1, 5658: 1, 5712: 1, 5818: 1, 5850: 1, 5958: 1, 6145: 1, 6165: 1, 6340: 1, 6434: 1, 6522: 1, 6538: 1, 6578: 1, 6661: 1, 6728: 1, 6733: 1, 6824: 2, 6865: 1, 7401: 1, 7540: 1, 7597: 1, 7864: 1, 7922: 2, 8396: 1, 8489: 1, 8713: 1, 9167: 1, 9190: 1, 9432: 1, 9526: 1, 9624: 1, 9706: 1, 10259: 1, 10822: 1, 11087: 1, 11436: 1, 11469: 1, 12003: 1, 12437: 1, 12997: 1, 13117: 1, 13503: 1, 13587: 1, 13644: 1, 14128: 1, 14257: 1, 14426: 1, 15020: 1, 15508: 2, 15768: 1, 15975: 1, 16405: 2, 16565: 1, 17589: 1, 18303: 1, 18431: 1, 20051: 1, 20259: 1, 22313: 1, 23659: 1, 26314: 1, 26665: 2}
+Sample of masked tokens: tensor([  101,  2813,  2358,  1012,  6468, 15020,  2067,   103,  1996,  2304,
+         1006, 26665,  1007, 26665,  1011,  2460,  1011, 19041, 18830,  2813,
+         2395,  1005,  1055,  1040, 11101,  2989,  1032,  2316,   103, 11087,
+          103, 22330,  8713,   103,  1010,   103,  3773,  2665,   103,  1012,
+          102,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+            0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+            0,     0,     0,     0])
+Sample of labels: tensor([-100, -100, -100, -100, -100, -100, -100, 2046, -100, -100, -100, -100,
+        -100, -100, -100, -100, -100, -100, 1010, -100, -100, -100, -100, -100,
+        -100, -100, -100, -100, 1997, -100, 1011, -100, -100, 2015, -100, 2024,
+        -100, -100, 2153, -100, -100, -100, -100, -100, -100, -100, -100, -100,
+        -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100,
+        -100, -100, -100, -100])
+Masked tokens (val_tokens_masked): tensor([[ 101, 2813, 2358,  ...,    0,    0,    0],
+        [ 101,  103, 2571,  ...,    0,    0,    0],
+        [ 101,  103, 1998,  ...,    0,    0,    0],
+        ...,
+        [ 101, 2002, 7404,  ...,    0,    0,    0],
+        [ 101, 2069,  103,  ...,    0,    0,    0],
+        [ 101, 4144, 4539,  ...,    0,    0,    0]])
+Corresponding labels (val_labels): tensor([[ -100,  -100,  -100,  ...,  -100,  -100,  -100],
+        [ -100, 18431,  -100,  ...,  -100,  -100,  -100],
+        [ -100,  3514,  -100,  ...,  -100,  -100,  -100],
+        ...,
+        [ -100,  -100,  -100,  ...,  -100,  -100,  -100],
+        [ -100,  -100,  1996,  ...,  -100,  -100,  -100],
+        [ -100,  -100,  -100,  ...,  -100,  -100,  -100]])
+Pad token ID: 0
+Sample of masked tokens: tensor([  101,  2813,  2358,  1012,  6468, 15020,  2067,   103,  1996,  2304,
+         1006, 26665,  1007, 26665,  1011,  2460,  1011, 19041, 18830,  2813,
+         2395,  1005,  1055,  1040, 11101,  2989,  1032,  2316,   103, 11087,
+          103, 22330,  8713,   103,  1010,   103,  3773,  2665,   103,  1012,
+          102,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+            0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+            0,     0,     0,     0])
+Sample of labels: tensor([-100, -100, -100, -100, -100, -100, -100, 2046, -100, -100, -100, -100,
+        -100, -100, -100, -100, -100, -100, 1010, -100, -100, -100, -100, -100,
+        -100, -100, -100, -100, 1997, -100, 1011, -100, -100, 2015, -100, 2024,
+        -100, -100, 2153, -100, -100, -100, -100, -100, -100, -100, -100, -100,
+        -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100,
+        -100, -100, -100, -100])
+-- Set up model fine-tuning --
+
+Calculating baseline perplexity before fine-tuning...
+Baseline Loss: 3.18, Perplexity: 24.11
+
+======== Epoch 1 / 3 ========
+Training...
+Total masked tokens per sequence: tensor([4])
+Total tokens in batch: 128
+Total masked tokens: 4
+Percentage of masked tokens: 3.12%
+Total special tokens in batch: 78
+Total tokens: 128, Non-special tokens: 50, Masked tokens: 4
+Unique label values and counts: {-100: 124, 1996: 1, 1999: 1, 2047: 1, 3392: 1}
+Train Loss: 1.9441783428192139
+Total masked tokens per sequence: tensor([6])
+Total tokens in batch: 128
+Total masked tokens: 6
+Percentage of masked tokens: 4.69%
+Total special tokens in batch: 94
+Total tokens: 128, Non-special tokens: 34, Masked tokens: 6
+Unique label values and counts: {-100: 122, 1010: 1, 1012: 1, 1996: 1, 1999: 1, 2020: 1, 4699: 1}
+Train Loss: 1.7815090417861938
+Total masked tokens per sequence: tensor([3])
+Total tokens in batch: 128
+Total masked tokens: 3
+Percentage of masked tokens: 2.34%
+Total special tokens in batch: 114
+Total tokens: 128, Non-special tokens: 14, Masked tokens: 3
+Unique label values and counts: {-100: 125, 1997: 1, 2002: 1, 4745: 1}
+Train Loss: 2.7455339431762695
+Total masked tokens per sequence: tensor([5])
+Total tokens in batch: 128
+Total masked tokens: 5
+Percentage of masked tokens: 3.91%
+Total special tokens in batch: 96
+Total tokens: 128, Non-special tokens: 32, Masked tokens: 5
+Unique label values and counts: {-100: 123, 2016: 1, 2039: 1, 4587: 1, 18040: 1, 25532: 1}
+Train Loss: 4.522714138031006
+Total masked tokens per sequence: tensor([19])
+Total tokens in batch: 128
+Total masked tokens: 19
+Percentage of masked tokens: 14.84%
+Total special tokens in batch: 36
+Total tokens: 128, Non-special tokens: 92, Masked tokens: 19
+Unique label values and counts: {-100: 109, 1005: 1, 1007: 1, 1008: 1, 1010: 2, 1012: 1, 1037: 2, 1996: 1, 1998: 1, 2011: 1, 2023: 1, 2029: 1, 2050: 1, 2061: 1, 2074: 1, 2275: 1, 2283: 1, 2480: 1}
+Train Loss: 1.684270977973938
+Total masked tokens per sequence: tensor([8])
+Total tokens in batch: 128
+Total masked tokens: 8
+Percentage of masked tokens: 6.25%
+Total special tokens in batch: 64
+Total tokens: 128, Non-special tokens: 64, Masked tokens: 8
+Unique label values and counts: {-100: 120, 1010: 1, 1037: 1, 1997: 1, 2005: 1, 2535: 1, 3850: 1, 9593: 1, 13677: 1}
+Train Loss: 2.4791808128356934
+Total masked tokens per sequence: tensor([1])
+Total tokens in batch: 128
+Total masked tokens: 1
+Percentage of masked tokens: 0.78%
+Total special tokens in batch: 118
+Total tokens: 128, Non-special tokens: 10, Masked tokens: 1
+Unique label values and counts: {-100: 127, 4085: 1}
+Train Loss: 1.7333630323410034
+Total masked tokens per sequence: tensor([6])
+Total tokens in batch: 128
+Total masked tokens: 6
+Percentage of masked tokens: 4.69%
+Total special tokens in batch: 92
+Total tokens: 128, Non-special tokens: 36, Masked tokens: 6
+Unique label values and counts: {-100: 122, 1011: 1, 1999: 2, 2212: 1, 4984: 1, 9192: 1}
+Train Loss: 0.6945331692695618
+Total masked tokens per sequence: tensor([6])
+Total tokens in batch: 128
+Total masked tokens: 6
+Percentage of masked tokens: 4.69%
+Total special tokens in batch: 99
+Total tokens: 128, Non-special tokens: 29, Masked tokens: 6
+Unique label values and counts: {-100: 122, 1005: 2, 2010: 1, 2158: 1, 2388: 1, 4635: 1}
+Train Loss: 4.514752388000488
+Total masked tokens per sequence: tensor([2])
+Total tokens in batch: 128
+Total masked tokens: 2
+Percentage of masked tokens: 1.56%
+Total special tokens in batch: 103
+Total tokens: 128, Non-special tokens: 25, Masked tokens: 2
+Unique label values and counts: {-100: 126, 1996: 1, 2315: 1}
+Train Loss: 0.47671881318092346
+Total masked tokens per sequence: tensor([3])
+Total tokens in batch: 128
+Total masked tokens: 3
+Percentage of masked tokens: 2.34%
+Total special tokens in batch: 112
+Total tokens: 128, Non-special tokens: 16, Masked tokens: 3
+Unique label values and counts: {-100: 125, 1011: 1, 1012: 1, 2610: 1}
+Train Loss: 0.23203492164611816
+Total masked tokens per sequence: tensor([4])
+Total tokens in batch: 128
+Total masked tokens: 4
+Percentage of masked tokens: 3.12%
+Total special tokens in batch: 102
+Total tokens: 128, Non-special tokens: 26, Masked tokens: 4
+Unique label values and counts: {-100: 124, 1005: 1, 1999: 1, 3179: 1, 3669: 1}
+Train Loss: 1.2575170993804932
+Total masked tokens per sequence: tensor([3])
+Total tokens in batch: 128
+Total masked tokens: 3
+Percentage of masked tokens: 2.34%
+Total special tokens in batch: 99
+Total tokens: 128, Non-special tokens: 29, Masked tokens: 3
+Unique label values and counts: {-100: 125, 1048: 1, 2571: 1, 2709: 1}
+Train Loss: 2.0035598278045654
+Total masked tokens per sequence: tensor([3])
+Total tokens in batch: 128
+Total masked tokens: 3
+Percentage of masked tokens: 2.34%
+Total special tokens in batch: 108
+Total tokens: 128, Non-special tokens: 20, Masked tokens: 3
+Unique label values and counts: {-100: 125, 2005: 1, 2114: 1, 2230: 1}
+Train Loss: 1.2985928058624268
+Total masked tokens per sequence: tensor([11])
+Total tokens in batch: 128
+Total masked tokens: 11
+Percentage of masked tokens: 8.59%
+Total special tokens in batch: 92
+Total tokens: 128, Non-special tokens: 36, Masked tokens: 11
+Unique label values and counts: {-100: 117, 1997: 1, 2011: 1, 2023: 1, 2086: 1, 4062: 1, 5342: 1, 8472: 1, 14163: 1, 18334: 1, 27605: 1, 28919: 1}
+Train Loss: 4.62752103805542
+Total masked tokens per sequence: tensor([4])
+Total tokens in batch: 128
+Total masked tokens: 4
+Percentage of masked tokens: 3.12%
+Total special tokens in batch: 94
+Total tokens: 128, Non-special tokens: 34, Masked tokens: 4
+Unique label values and counts: {-100: 124, 1005: 1, 2044: 1, 2101: 1, 26076: 1}
+Train Loss: 2.4333879947662354
+Total masked tokens per sequence: tensor([2])
+Total tokens in batch: 128
+Total masked tokens: 2
+Percentage of masked tokens: 1.56%
+Total special tokens in batch: 105
+Total tokens: 128, Non-special tokens: 23, Masked tokens: 2
+Unique label values and counts: {-100: 126, 1996: 1, 1999: 1}
+Train Loss: 0.3034054636955261
+Total masked tokens per sequence: tensor([4])
+Total tokens in batch: 128
+Total masked tokens: 4
+Percentage of masked tokens: 3.12%
+Total special tokens in batch: 106
+Total tokens: 128, Non-special tokens: 22, Masked tokens: 4
+Unique label values and counts: {-100: 124, 1036: 1, 2316: 1, 2783: 1, 4126: 1}
+Train Loss: 2.7280960083007812
+Total masked tokens per sequence: tensor([10])
+Total tokens in batch: 128
+Total masked tokens: 10
+Percentage of masked tokens: 7.81%
+Total special tokens in batch: 83
+Total tokens: 128, Non-special tokens: 45, Masked tokens: 10
+Unique label values and counts: {-100: 118, 1997: 2, 2003: 2, 2063: 1, 3129: 2, 7907: 1, 20411: 1, 25602: 1}
+Train Loss: 1.005850076675415
+Total masked tokens per sequence: tensor([4])
+Total tokens in batch: 128
+Total masked tokens: 4
+Percentage of masked tokens: 3.12%
+Total special tokens in batch: 96
+Total tokens: 128, Non-special tokens: 32, Masked tokens: 4
+Unique label values and counts: {-100: 124, 2046: 1, 2707: 1, 2776: 1, 14767: 1}
+Train Loss: 2.4960451126098633
+Total masked tokens per sequence: tensor([3])
+Total tokens in batch: 128
+Total masked tokens: 3
+Percentage of masked tokens: 2.34%
+Total special tokens in batch: 113
+Total tokens: 128, Non-special tokens: 15, Masked tokens: 3
+Unique label values and counts: {-100: 125, 2063: 1, 3273: 1, 3881: 1}
+Train Loss: 5.676767826080322
+Total masked tokens per sequence: tensor([3])
+Total tokens in batch: 128
+Total masked tokens: 3
+Percentage of masked tokens: 2.34%
+Total special tokens in batch: 113
+Total tokens: 128, Non-special tokens: 15, Masked tokens: 3
+Unique label values and counts: {-100: 125, 1012: 1, 1037: 1, 2018: 1}
+Train Loss: 0.035040050745010376
+Total masked tokens per sequence: tensor([5])
+Total tokens in batch: 128
+Total masked tokens: 5
+Percentage of masked tokens: 3.91%
+Total special tokens in batch: 112
+Total tokens: 128, Non-special tokens: 16, Masked tokens: 5
+Unique label values and counts: {-100: 123, 1010: 1, 1037: 1, 1999: 1, 2889: 1, 6020: 1}
+Train Loss: 1.2336338758468628
+Total masked tokens per sequence: tensor([7])
+Total tokens in batch: 128
+Total masked tokens: 7
+Percentage of masked tokens: 5.47%
+Total special tokens in batch: 103
+Total tokens: 128, Non-special tokens: 25, Masked tokens: 7
+Unique label values and counts: {-100: 121, 1005: 2, 1055: 1, 2465: 1, 3363: 1, 11136: 1, 28517: 1}
+Train Loss: 3.064068078994751
+Total masked tokens per sequence: tensor([9])
+Total tokens in batch: 128
+Total masked tokens: 9
+Percentage of masked tokens: 7.03%
+Total special tokens in batch: 45
+Total tokens: 128, Non-special tokens: 83, Masked tokens: 9
+Unique label values and counts: {-100: 119, 1037: 1, 1998: 1, 2019: 1, 2029: 1, 2569: 1, 10461: 1, 12844: 1, 16042: 1, 24421: 1}
+Train Loss: 3.8878207206726074
+Total masked tokens per sequence: tensor([5])
+Total tokens in batch: 128
+Total masked tokens: 5
+Percentage of masked tokens: 3.91%
+Total special tokens in batch: 91
+Total tokens: 128, Non-special tokens: 37, Masked tokens: 5
+Unique label values and counts: {-100: 123, 1010: 1, 1024: 1, 2029: 1, 2614: 1, 2682: 1}
+Train Loss: 1.9509865045547485
+Total masked tokens per sequence: tensor([4])
+Total tokens in batch: 128
+Total masked tokens: 4
+Percentage of masked tokens: 3.12%
+Total special tokens in batch: 103
+Total tokens: 128, Non-special tokens: 25, Masked tokens: 4
+Unique label values and counts: {-100: 124, 2014: 1, 4343: 1, 12903: 1, 28016: 1}
+Train Loss: 6.4500226974487305
+Total masked tokens per sequence: tensor([7])
+Total tokens in batch: 128
+Total masked tokens: 7
+Percentage of masked tokens: 5.47%
+Total special tokens in batch: 94
+Total tokens: 128, Non-special tokens: 34, Masked tokens: 7
+Unique label values and counts: {-100: 121, 1010: 2, 1012: 1, 2956: 1, 3287: 1, 6442: 1, 16588: 1}
+Train Loss: 4.59445333480835
+Total masked tokens per sequence: tensor([2])
+Total tokens in batch: 128
+Total masked tokens: 2
+Percentage of masked tokens: 1.56%
+Total special tokens in batch: 110
+Total tokens: 128, Non-special tokens: 18, Masked tokens: 2
+Unique label values and counts: {-100: 126, 2152: 1, 2420: 1}
+Train Loss: 1.351896047592163
+Total masked tokens per sequence: tensor([3])
+Total tokens in batch: 128
+Total masked tokens: 3
+Percentage of masked tokens: 2.34%
+Total special tokens in batch: 100
+Total tokens: 128, Non-special tokens: 28, Masked tokens: 3
+Unique label values and counts: {-100: 125, 2053: 1, 2097: 1, 15640: 1}
+Train Loss: 2.4860596656799316
+Total masked tokens per sequence: tensor([1])
+Total tokens in batch: 128
+Total masked tokens: 1
+Percentage of masked tokens: 0.78%
+Total special tokens in batch: 121
+Total tokens: 128, Non-special tokens: 7, Masked tokens: 1
+Unique label values and counts: {-100: 127, 0: 1}
+Train Loss: 23.588319778442383
+Total masked tokens per sequence: tensor([4])
+Total tokens in batch: 128
+Total masked tokens: 4
+Percentage of masked tokens: 3.12%
+Total special tokens in batch: 110
+Total tokens: 128, Non-special tokens: 18, Masked tokens: 4
+Unique label values and counts: {-100: 124, 2001: 1, 9198: 1, 9465: 1, 17935: 1}
+Train Loss: 5.622704029083252
+Total masked tokens per sequence: tensor([3])
+Total tokens in batch: 128
+Total masked tokens: 3
+Percentage of masked tokens: 2.34%
+Total special tokens in batch: 101
+Total tokens: 128, Non-special tokens: 27, Masked tokens: 3
+Unique label values and counts: {-100: 125, 1011: 1, 5217: 1, 8447: 1}
+Train Loss: 5.396356582641602
+Total masked tokens per sequence: tensor([1])
+Total tokens in batch: 128
+Total masked tokens: 1
+Percentage of masked tokens: 0.78%
+Total special tokens in batch: 105
+Total tokens: 128, Non-special tokens: 23, Masked tokens: 1
+Unique label values and counts: {-100: 127, 2718: 1}
+Train Loss: 7.193490982055664
+Total masked tokens per sequence: tensor([4])
+Total tokens in batch: 128
+Total masked tokens: 4
+Percentage of masked tokens: 3.12%
+Total special tokens in batch: 87
+Total tokens: 128, Non-special tokens: 41, Masked tokens: 4
+Unique label values and counts: {-100: 124, 1012: 1, 1997: 1, 2004: 1, 16183: 1}
+Train Loss: 0.29030147194862366
+Total masked tokens per sequence: tensor([6])
+Total tokens in batch: 128
+Total masked tokens: 6
+Percentage of masked tokens: 4.69%
+Total special tokens in batch: 110
+Total tokens: 128, Non-special tokens: 18, Masked tokens: 6
+Unique label values and counts: {-100: 122, 1998: 1, 2007: 1, 2086: 1, 2995: 1, 3603: 1, 7472: 1}
+Train Loss: 2.3941423892974854
+Total masked tokens per sequence: tensor([1])
+Total tokens in batch: 128
+Total masked tokens: 1
+Percentage of masked tokens: 0.78%
+Total special tokens in batch: 114
+Total tokens: 128, Non-special tokens: 14, Masked tokens: 1
+Unique label values and counts: {-100: 127, 0: 1}
+Train Loss: 13.722865104675293
+Total masked tokens per sequence: tensor([2])
+Total tokens in batch: 128
+Total masked tokens: 2
+Percentage of masked tokens: 1.56%
+Total special tokens in batch: 108
+Total tokens: 128, Non-special tokens: 20, Masked tokens: 2
+Unique label values and counts: {-100: 126, 2016: 1, 2901: 1}
+Train Loss: 0.012424660846590996
+Total masked tokens per sequence: tensor([5])
+Total tokens in batch: 128
+Total masked tokens: 5
+Percentage of masked tokens: 3.91%
+Total special tokens in batch: 96
+Total tokens: 128, Non-special tokens: 32, Masked tokens: 5
+Unique label values and counts: {-100: 123, 1005: 1, 1055: 1, 1997: 1, 2063: 1, 2497: 1}
+Train Loss: 3.4902806282043457
+Total masked tokens per sequence: tensor([6])
+Total tokens in batch: 128
+Total masked tokens: 6
+Percentage of masked tokens: 4.69%
+Total special tokens in batch: 86
+Total tokens: 128, Non-special tokens: 42, Masked tokens: 6
+Unique label values and counts: {-100: 122, 1012: 1, 1999: 1, 2014: 1, 2638: 1, 3510: 1, 26132: 1}
+Train Loss: 1.8793030977249146
+  Batch    40  of     50.    Elapsed: 0:00:19.
+Total masked tokens per sequence: tensor([3])
+Total tokens in batch: 128
+Total masked tokens: 3
+Percentage of masked tokens: 2.34%
+Total special tokens in batch: 110
+Total tokens: 128, Non-special tokens: 18, Masked tokens: 3
+Unique label values and counts: {-100: 125, 2104: 1, 3729: 1, 21109: 1}
+Train Loss: 2.9053800106048584
+Total masked tokens per sequence: tensor([1])
+Total tokens in batch: 128
+Total masked tokens: 1
+Percentage of masked tokens: 0.78%
+Total special tokens in batch: 117
+Total tokens: 128, Non-special tokens: 11, Masked tokens: 1
+Unique label values and counts: {-100: 127, 0: 1}
+Train Loss: 15.456757545471191
+Total masked tokens per sequence: tensor([4])
+Total tokens in batch: 128
+Total masked tokens: 4
+Percentage of masked tokens: 3.12%
+Total special tokens in batch: 110
+Total tokens: 128, Non-special tokens: 18, Masked tokens: 4
+Unique label values and counts: {-100: 124, 1997: 2, 2520: 1, 7631: 1}
+Train Loss: 2.742248296737671
+Total masked tokens per sequence: tensor([5])
+Total tokens in batch: 128
+Total masked tokens: 5
+Percentage of masked tokens: 3.91%
+Total special tokens in batch: 104
+Total tokens: 128, Non-special tokens: 24, Masked tokens: 5
+Unique label values and counts: {-100: 123, 1997: 1, 2010: 1, 2198: 1, 2741: 1, 3996: 1}
+Train Loss: 1.60434091091156
+Total masked tokens per sequence: tensor([5])
+Total tokens in batch: 128
+Total masked tokens: 5
+Percentage of masked tokens: 3.91%
+Total special tokens in batch: 93
+Total tokens: 128, Non-special tokens: 35, Masked tokens: 5
+Unique label values and counts: {-100: 123, 1005: 1, 1998: 1, 3190: 1, 11007: 1, 14029: 1}
+Train Loss: 2.312610149383545
+Total masked tokens per sequence: tensor([5])
+Total tokens in batch: 128
+Total masked tokens: 5
+Percentage of masked tokens: 3.91%
+Total special tokens in batch: 113
+Total tokens: 128, Non-special tokens: 15, Masked tokens: 5
+Unique label values and counts: {-100: 123, 1010: 1, 1012: 1, 2018: 1, 2402: 1, 2684: 1}
+Train Loss: 1.374409556388855
+Total masked tokens per sequence: tensor([3])
+Total tokens in batch: 128
+Total masked tokens: 3
+Percentage of masked tokens: 2.34%
+Total special tokens in batch: 110
+Total tokens: 128, Non-special tokens: 18, Masked tokens: 3
+Unique label values and counts: {-100: 125, 1039: 1, 2005: 1, 2050: 1}
+Train Loss: 1.7105084657669067
+Total masked tokens per sequence: tensor([2])
+Total tokens in batch: 128
+Total masked tokens: 2
+Percentage of masked tokens: 1.56%
+Total special tokens in batch: 104
+Total tokens: 128, Non-special tokens: 24, Masked tokens: 2
+Unique label values and counts: {-100: 126, 2007: 1, 2025: 1}
+Train Loss: 0.7982873320579529
+Total masked tokens per sequence: tensor([9])
+Total tokens in batch: 128
+Total masked tokens: 9
+Percentage of masked tokens: 7.03%
+Total special tokens in batch: 88
+Total tokens: 128, Non-special tokens: 40, Masked tokens: 9
+Unique label values and counts: {-100: 119, 1005: 1, 1010: 1, 1036: 1, 2002: 1, 2081: 1, 3168: 1, 3170: 1, 3533: 1, 5411: 1}
+Train Loss: 4.0621724128723145
+Total masked tokens per sequence: tensor([4])
+Total tokens in batch: 128
+Total masked tokens: 4
+Percentage of masked tokens: 3.12%
+Total special tokens in batch: 99
+Total tokens: 128, Non-special tokens: 29, Masked tokens: 4
+Unique label values and counts: {-100: 124, 1005: 1, 2010: 1, 2401: 1, 6305: 1}
+Train Loss: 3.6475250720977783
+
+
+[Epoch 1] Average training loss: 3.44
+
+[Epoch 1] Training Perplexity: 31.12
+[Epoch 1] Training epoch took: 0:00:24
+
+Running Validation...
+Batch val_labels shape: torch.Size([50, 64])
+Logits shape: torch.Size([50, 64, 30522])
+Original val_labels shape: torch.Size([50, 64])
+Fixed reshaped logits shape: torch.Size([3200, 30522])
+Fixed reshaped labels shape: torch.Size([3200])
+Original label count before masking: 3200
+Valid labels used for loss computation: 282
+Loss per valid token: 0.01109950339540522
+Computed Eval Loss: 3.1300599575042725
+  Eval Loss: 3.13, Perplexity: 22.88
+[Epoch 1] Validation took: 0:00:01
+
+======== Epoch 2 / 3 ========
+Training...
+Total masked tokens per sequence: tensor([3])
+Total tokens in batch: 128
+Total masked tokens: 3
+Percentage of masked tokens: 2.34%
+Total special tokens in batch: 99
+Total tokens: 128, Non-special tokens: 29, Masked tokens: 3
+Unique label values and counts: {-100: 125, 2269: 1, 2388: 1, 3226: 1}
+Train Loss: 3.290654182434082
+Total masked tokens per sequence: tensor([2])
+Total tokens in batch: 128
+Total masked tokens: 2
+Percentage of masked tokens: 1.56%
+Total special tokens in batch: 113
+Total tokens: 128, Non-special tokens: 15, Masked tokens: 2
+Unique label values and counts: {-100: 126, 2001: 1, 21360: 1}
+Train Loss: 0.6269417405128479
+Total masked tokens per sequence: tensor([2])
+Total tokens in batch: 128
+Total masked tokens: 2
+Percentage of masked tokens: 1.56%
+Total special tokens in batch: 106
+Total tokens: 128, Non-special tokens: 22, Masked tokens: 2
+Unique label values and counts: {-100: 126, 2031: 1, 3799: 1}
+Train Loss: 1.9673187732696533
+Total masked tokens per sequence: tensor([5])
+Total tokens in batch: 128
+Total masked tokens: 5
+Percentage of masked tokens: 3.91%
+Total special tokens in batch: 83
+Total tokens: 128, Non-special tokens: 45, Masked tokens: 5
+Unique label values and counts: {-100: 123, 2014: 1, 2128: 1, 3129: 1, 8665: 1, 15775: 1}
+Train Loss: 2.0335958003997803
+Total masked tokens per sequence: tensor([5])
+Total tokens in batch: 128
+Total masked tokens: 5
+Percentage of masked tokens: 3.91%
+Total special tokens in batch: 94
+Total tokens: 128, Non-special tokens: 34, Masked tokens: 5
+Unique label values and counts: {-100: 123, 1996: 1, 2001: 1, 2199: 1, 2305: 1, 5585: 1}
+Train Loss: 1.1098991632461548
+Total masked tokens per sequence: tensor([1])
+Total tokens in batch: 128
+Total masked tokens: 1
+Percentage of masked tokens: 0.78%
+Total special tokens in batch: 99
+Total tokens: 128, Non-special tokens: 29, Masked tokens: 1
+Unique label values and counts: {-100: 127, 2450: 1}
+Train Loss: 3.208968162536621
+Total masked tokens per sequence: tensor([1])
+Total tokens in batch: 128
+Total masked tokens: 1
+Percentage of masked tokens: 0.78%
+Total special tokens in batch: 110
+Total tokens: 128, Non-special tokens: 18, Masked tokens: 1
+Unique label values and counts: {-100: 127, 0: 1}
+Train Loss: 14.259292602539062
+Total masked tokens per sequence: tensor([3])
+Total tokens in batch: 128
+Total masked tokens: 3
+Percentage of masked tokens: 2.34%
+Total special tokens in batch: 105
+Total tokens: 128, Non-special tokens: 23, Masked tokens: 3
+Unique label values and counts: {-100: 125, 1006: 1, 1996: 1, 3152: 1}
+Train Loss: 1.96163809299469
+Total masked tokens per sequence: tensor([4])
+Total tokens in batch: 128
+Total masked tokens: 4
+Percentage of masked tokens: 3.12%
+Total special tokens in batch: 105
+Total tokens: 128, Non-special tokens: 23, Masked tokens: 4
+Unique label values and counts: {-100: 124, 1037: 1, 3044: 1, 11729: 1, 27827: 1}
+Train Loss: 4.23511266708374
+Total masked tokens per sequence: tensor([11])
+Total tokens in batch: 128
+Total masked tokens: 11
+Percentage of masked tokens: 8.59%
+Total special tokens in batch: 36
+Total tokens: 128, Non-special tokens: 92, Masked tokens: 11
+Unique label values and counts: {-100: 117, 1039: 1, 2005: 1, 2058: 1, 2074: 1, 2275: 1, 2480: 1, 2696: 1, 2744: 1, 2835: 1, 4945: 1, 9863: 1}
+Train Loss: 1.2684277296066284
+Total masked tokens per sequence: tensor([7])
+Total tokens in batch: 128
+Total masked tokens: 7
+Percentage of masked tokens: 5.47%
+Total special tokens in batch: 91
+Total tokens: 128, Non-special tokens: 37, Masked tokens: 7
+Unique label values and counts: {-100: 121, 1012: 1, 1997: 1, 1999: 1, 2614: 1, 4476: 1, 4894: 1, 4897: 1}
+Train Loss: 4.655301094055176
+Total masked tokens per sequence: tensor([14])
+Total tokens in batch: 128
+Total masked tokens: 14
+Percentage of masked tokens: 10.94%
+Total special tokens in batch: 45
+Total tokens: 128, Non-special tokens: 83, Masked tokens: 14
+Unique label values and counts: {-100: 114, 1997: 1, 1998: 1, 2367: 1, 2792: 1, 3213: 1, 4948: 1, 5652: 1, 6374: 1, 7939: 1, 9587: 1, 10461: 1, 17274: 1, 17590: 1, 23993: 1}
+Train Loss: 4.3518476486206055
+Total masked tokens per sequence: tensor([5])
+Total tokens in batch: 128
+Total masked tokens: 5
+Percentage of masked tokens: 3.91%
+Total special tokens in batch: 110
+Total tokens: 128, Non-special tokens: 18, Masked tokens: 5
+Unique label values and counts: {-100: 123, 1010: 1, 1998: 1, 2139: 1, 2520: 1, 14986: 1}
+Train Loss: 5.162710189819336
+Total masked tokens per sequence: tensor([3])
+Total tokens in batch: 128
+Total masked tokens: 3
+Percentage of masked tokens: 2.34%
+Total special tokens in batch: 103
+Total tokens: 128, Non-special tokens: 25, Masked tokens: 3
+Unique label values and counts: {-100: 125, 2095: 1, 2209: 1, 28517: 1}
+Train Loss: 2.765923261642456
+Total masked tokens per sequence: tensor([1])
+Total tokens in batch: 128
+Total masked tokens: 1
+Percentage of masked tokens: 0.78%
+Total special tokens in batch: 121
+Total tokens: 128, Non-special tokens: 7, Masked tokens: 1
+Unique label values and counts: {-100: 127, 2003: 1}
+Train Loss: 3.768460988998413
+Total masked tokens per sequence: tensor([2])
+Total tokens in batch: 128
+Total masked tokens: 2
+Percentage of masked tokens: 1.56%
+Total special tokens in batch: 96
+Total tokens: 128, Non-special tokens: 32, Masked tokens: 2
+Unique label values and counts: {-100: 126, 1997: 1, 1999: 1}
+Train Loss: 0.9162760376930237
+Total masked tokens per sequence: tensor([4])
+Total tokens in batch: 128
+Total masked tokens: 4
+Percentage of masked tokens: 3.12%
+Total special tokens in batch: 112
+Total tokens: 128, Non-special tokens: 16, Masked tokens: 4
+Unique label values and counts: {-100: 124, 1011: 1, 1997: 1, 6898: 1, 10093: 1}
+Train Loss: 5.6373701095581055
+Total masked tokens per sequence: tensor([1])
+Total tokens in batch: 128
+Total masked tokens: 1
+Percentage of masked tokens: 0.78%
+Total special tokens in batch: 101
+Total tokens: 128, Non-special tokens: 27, Masked tokens: 1
+Unique label values and counts: {-100: 127, 11378: 1}
+Train Loss: 3.724519968032837
+Total masked tokens per sequence: tensor([4])
+Total tokens in batch: 128
+Total masked tokens: 4
+Percentage of masked tokens: 3.12%
+Total special tokens in batch: 88
+Total tokens: 128, Non-special tokens: 40, Masked tokens: 4
+Unique label values and counts: {-100: 124, 1012: 1, 2081: 1, 3580: 1, 25260: 1}
+Train Loss: 3.7937116622924805
+Total masked tokens per sequence: tensor([6])
+Total tokens in batch: 128
+Total masked tokens: 6
+Percentage of masked tokens: 4.69%
+Total special tokens in batch: 92
+Total tokens: 128, Non-special tokens: 36, Masked tokens: 6
+Unique label values and counts: {-100: 122, 1011: 2, 1012: 1, 1998: 1, 1999: 1, 4984: 1}
+Train Loss: 0.13620825111865997
+Total masked tokens per sequence: tensor([6])
+Total tokens in batch: 128
+Total masked tokens: 6
+Percentage of masked tokens: 4.69%
+Total special tokens in batch: 110
+Total tokens: 128, Non-special tokens: 18, Masked tokens: 6
+Unique label values and counts: {-100: 122, 1010: 1, 1012: 1, 1997: 1, 2079: 1, 3416: 1, 28029: 1}
+Train Loss: 5.338776111602783
+Total masked tokens per sequence: tensor([2])
+Total tokens in batch: 128
+Total masked tokens: 2
+Percentage of masked tokens: 1.56%
+Total special tokens in batch: 113
+Total tokens: 128, Non-special tokens: 15, Masked tokens: 2
+Unique label values and counts: {-100: 126, 4242: 1, 17798: 1}
+Train Loss: 5.699398517608643
+Total masked tokens per sequence: tensor([1])
+Total tokens in batch: 128
+Total masked tokens: 1
+Percentage of masked tokens: 0.78%
+Total special tokens in batch: 100
+Total tokens: 128, Non-special tokens: 28, Masked tokens: 1
+Unique label values and counts: {-100: 127, 2280: 1}
+Train Loss: 4.310194969177246
+Total masked tokens per sequence: tensor([5])
+Total tokens in batch: 128
+Total masked tokens: 5
+Percentage of masked tokens: 3.91%
+Total special tokens in batch: 99
+Total tokens: 128, Non-special tokens: 29, Masked tokens: 5
+Unique label values and counts: {-100: 123, 1010: 1, 2000: 1, 2325: 1, 2571: 1, 14280: 1}
+Train Loss: 1.2262855768203735
+Total masked tokens per sequence: tensor([5])
+Total tokens in batch: 128
+Total masked tokens: 5
+Percentage of masked tokens: 3.91%
+Total special tokens in batch: 102
+Total tokens: 128, Non-special tokens: 26, Masked tokens: 5
+Unique label values and counts: {-100: 123, 2010: 1, 2175: 1, 2401: 1, 3669: 1, 8001: 1}
+Train Loss: 4.036689281463623
+Total masked tokens per sequence: tensor([7])
+Total tokens in batch: 128
+Total masked tokens: 7
+Percentage of masked tokens: 5.47%
+Total special tokens in batch: 110
+Total tokens: 128, Non-special tokens: 18, Masked tokens: 7
+Unique label values and counts: {-100: 121, 1039: 1, 1997: 1, 2050: 1, 2139: 1, 2696: 1, 2743: 1, 2889: 1}
+Train Loss: 5.695918560028076
+Total masked tokens per sequence: tensor([5])
+Total tokens in batch: 128
+Total masked tokens: 5
+Percentage of masked tokens: 3.91%
+Total special tokens in batch: 96
+Total tokens: 128, Non-special tokens: 32, Masked tokens: 5
+Unique label values and counts: {-100: 123, 1037: 1, 1997: 1, 7907: 1, 16126: 1, 17712: 1}
+Train Loss: 2.0857930183410645
+Total masked tokens per sequence: tensor([2])
+Total tokens in batch: 128
+Total masked tokens: 2
+Percentage of masked tokens: 1.56%
+Total special tokens in batch: 104
+Total tokens: 128, Non-special tokens: 24, Masked tokens: 2
+Unique label values and counts: {-100: 126, 1010: 1, 2186: 1}
+Train Loss: 1.795196771621704
+Total masked tokens per sequence: tensor([7])
+Total tokens in batch: 128
+Total masked tokens: 7
+Percentage of masked tokens: 5.47%
+Total special tokens in batch: 94
+Total tokens: 128, Non-special tokens: 34, Masked tokens: 7
+Unique label values and counts: {-100: 121, 1010: 1, 1996: 1, 1997: 1, 2119: 1, 2229: 1, 4024: 1, 4917: 1}
+Train Loss: 3.5922529697418213
+Total masked tokens per sequence: tensor([2])
+Total tokens in batch: 128
+Total masked tokens: 2
+Percentage of masked tokens: 1.56%
+Total special tokens in batch: 113
+Total tokens: 128, Non-special tokens: 15, Masked tokens: 2
+Unique label values and counts: {-100: 126, 2007: 1, 3273: 1}
+Train Loss: 0.6131736636161804
+Total masked tokens per sequence: tensor([11])
+Total tokens in batch: 128
+Total masked tokens: 11
+Percentage of masked tokens: 8.59%
+Total special tokens in batch: 64
+Total tokens: 128, Non-special tokens: 64, Masked tokens: 11
+Unique label values and counts: {-100: 117, 1010: 1, 1012: 1, 1997: 1, 1998: 1, 2128: 2, 3850: 1, 9593: 1, 11837: 1, 14043: 1, 14433: 1}
+Train Loss: 2.676426649093628
+Total masked tokens per sequence: tensor([5])
+Total tokens in batch: 128
+Total masked tokens: 5
+Percentage of masked tokens: 3.91%
+Total special tokens in batch: 86
+Total tokens: 128, Non-special tokens: 42, Masked tokens: 5
+Unique label values and counts: {-100: 123, 1998: 1, 2638: 1, 2884: 1, 3510: 1, 26132: 1}
+Train Loss: 0.8758583068847656
+Total masked tokens per sequence: tensor([4])
+Total tokens in batch: 128
+Total masked tokens: 4
+Percentage of masked tokens: 3.12%
+Total special tokens in batch: 114
+Total tokens: 128, Non-special tokens: 14, Masked tokens: 4
+Unique label values and counts: {-100: 124, 1996: 1, 1997: 1, 2002: 1, 11605: 1}
+Train Loss: 0.263841450214386
+Total masked tokens per sequence: tensor([2])
+Total tokens in batch: 128
+Total masked tokens: 2
+Percentage of masked tokens: 1.56%
+Total special tokens in batch: 92
+Total tokens: 128, Non-special tokens: 36, Masked tokens: 2
+Unique label values and counts: {-100: 126, 1997: 1, 14163: 1}
+Train Loss: 0.008584103547036648
+Total masked tokens per sequence: tensor([5])
+Total tokens in batch: 128
+Total masked tokens: 5
+Percentage of masked tokens: 3.91%
+Total special tokens in batch: 108
+Total tokens: 128, Non-special tokens: 20, Masked tokens: 5
+Unique label values and counts: {-100: 123, 1012: 1, 2010: 1, 2230: 1, 3766: 1, 7226: 1}
+Train Loss: 2.4484758377075195
+Total masked tokens per sequence: tensor([4])
+Total tokens in batch: 128
+Total masked tokens: 4
+Percentage of masked tokens: 3.12%
+Total special tokens in batch: 103
+Total tokens: 128, Non-special tokens: 25, Masked tokens: 4
+Unique label values and counts: {-100: 124, 1997: 1, 3129: 1, 4343: 1, 28016: 1}
+Train Loss: 4.15292501449585
+Total masked tokens per sequence: tensor([7])
+Total tokens in batch: 128
+Total masked tokens: 7
+Percentage of masked tokens: 5.47%
+Total special tokens in batch: 87
+Total tokens: 128, Non-special tokens: 41, Masked tokens: 7
+Unique label values and counts: {-100: 121, 1005: 1, 1055: 1, 1997: 1, 5675: 1, 7021: 1, 16183: 1, 25022: 1}
+Train Loss: 3.2170231342315674
+Total masked tokens per sequence: tensor([3])
+Total tokens in batch: 128
+Total masked tokens: 3
+Percentage of masked tokens: 2.34%
+Total special tokens in batch: 117
+Total tokens: 128, Non-special tokens: 11, Masked tokens: 3
+Unique label values and counts: {-100: 125, 2000: 1, 4310: 1, 6443: 1}
+Train Loss: 3.6108062267303467
+Total masked tokens per sequence: tensor([2])
+Total tokens in batch: 128
+Total masked tokens: 2
+Percentage of masked tokens: 1.56%
+Total special tokens in batch: 114
+Total tokens: 128, Non-special tokens: 14, Masked tokens: 2
+Unique label values and counts: {-100: 126, 2014: 1, 21658: 1}
+Train Loss: 4.026272296905518
+Total masked tokens per sequence: tensor([5])
+Total tokens in batch: 128
+Total masked tokens: 5
+Percentage of masked tokens: 3.91%
+Total special tokens in batch: 93
+Total tokens: 128, Non-special tokens: 35, Masked tokens: 5
+Unique label values and counts: {-100: 123, 1036: 1, 1997: 1, 6180: 1, 8690: 1, 10969: 1}
+Train Loss: 3.9641621112823486
+  Batch    40  of     50.    Elapsed: 0:00:19.
+Total masked tokens per sequence: tensor([3])
+Total tokens in batch: 128
+Total masked tokens: 3
+Percentage of masked tokens: 2.34%
+Total special tokens in batch: 108
+Total tokens: 128, Non-special tokens: 20, Masked tokens: 3
+Unique label values and counts: {-100: 125, 3519: 1, 5295: 1, 20847: 1}
+Train Loss: 1.064703106880188
+Total masked tokens per sequence: tensor([2])
+Total tokens in batch: 128
+Total masked tokens: 2
+Percentage of masked tokens: 1.56%
+Total special tokens in batch: 118
+Total tokens: 128, Non-special tokens: 10, Masked tokens: 2
+Unique label values and counts: {-100: 126, 2007: 1, 24520: 1}
+Train Loss: 4.673377513885498
+Total masked tokens per sequence: tensor([3])
+Total tokens in batch: 128
+Total masked tokens: 3
+Percentage of masked tokens: 2.34%
+Total special tokens in batch: 103
+Total tokens: 128, Non-special tokens: 25, Masked tokens: 3
+Unique label values and counts: {-100: 125, 1012: 1, 1996: 1, 4828: 1}
+Train Loss: 1.3880265951156616
+Total masked tokens per sequence: tensor([3])
+Total tokens in batch: 128
+Total masked tokens: 3
+Percentage of masked tokens: 2.34%
+Total special tokens in batch: 96
+Total tokens: 128, Non-special tokens: 32, Masked tokens: 3
+Unique label values and counts: {-100: 125, 2274: 1, 4307: 1, 8527: 1}
+Train Loss: 3.860537528991699
+Total masked tokens per sequence: tensor([7])
+Total tokens in batch: 128
+Total masked tokens: 7
+Percentage of masked tokens: 5.47%
+Total special tokens in batch: 78
+Total tokens: 128, Non-special tokens: 50, Masked tokens: 7
+Unique label values and counts: {-100: 121, 2112: 1, 2984: 1, 3033: 1, 3392: 1, 4395: 1, 5271: 1, 6004: 1}
+Train Loss: 4.596035003662109
+Total masked tokens per sequence: tensor([1])
+Total tokens in batch: 128
+Total masked tokens: 1
+Percentage of masked tokens: 0.78%
+Total special tokens in batch: 112
+Total tokens: 128, Non-special tokens: 16, Masked tokens: 1
+Unique label values and counts: {-100: 127, 2001: 1}
+Train Loss: 0.0002954761730507016
+Total masked tokens per sequence: tensor([4])
+Total tokens in batch: 128
+Total masked tokens: 4
+Percentage of masked tokens: 3.12%
+Total special tokens in batch: 104
+Total tokens: 128, Non-special tokens: 24, Masked tokens: 4
+Unique label values and counts: {-100: 124, 2000: 1, 2059: 1, 2416: 1, 3996: 1}
+Train Loss: 0.7477971315383911
+Total masked tokens per sequence: tensor([1])
+Total tokens in batch: 128
+Total masked tokens: 1
+Percentage of masked tokens: 0.78%
+Total special tokens in batch: 110
+Total tokens: 128, Non-special tokens: 18, Masked tokens: 1
+Unique label values and counts: {-100: 127, 0: 1}
+Train Loss: 16.379621505737305
+Total masked tokens per sequence: tensor([3])
+Total tokens in batch: 128
+Total masked tokens: 3
+Percentage of masked tokens: 2.34%
+Total special tokens in batch: 94
+Total tokens: 128, Non-special tokens: 34, Masked tokens: 3
+Unique label values and counts: {-100: 125, 2007: 1, 2031: 1, 28517: 1}
+Train Loss: 0.21632413566112518
+Total masked tokens per sequence: tensor([6])
+Total tokens in batch: 128
+Total masked tokens: 6
+Percentage of masked tokens: 4.69%
+Total special tokens in batch: 110
+Total tokens: 128, Non-special tokens: 18, Masked tokens: 6
+Unique label values and counts: {-100: 122, 1999: 1, 2082: 1, 2152: 2, 2663: 1, 25487: 1}
+Train Loss: 1.8109239339828491
+
+
+[Epoch 2] Average training loss: 3.26
+
+[Epoch 2] Training Perplexity: 26.18
+[Epoch 2] Training epoch took: 0:00:24
+
+Running Validation...
+Batch val_labels shape: torch.Size([50, 64])
+Logits shape: torch.Size([50, 64, 30522])
+Original val_labels shape: torch.Size([50, 64])
+Fixed reshaped logits shape: torch.Size([3200, 30522])
+Fixed reshaped labels shape: torch.Size([3200])
+Original label count before masking: 3200
+Valid labels used for loss computation: 282
+Loss per valid token: 0.011139434280124962
+Computed Eval Loss: 3.1413204669952393
+  Eval Loss: 3.14, Perplexity: 23.13
+[Epoch 2] Validation took: 0:00:01
+
+======== Epoch 3 / 3 ========
+Training...
+Total masked tokens per sequence: tensor([1])
+Total tokens in batch: 128
+Total masked tokens: 1
+Percentage of masked tokens: 0.78%
+Total special tokens in batch: 121
+Total tokens: 128, Non-special tokens: 7, Masked tokens: 1
+Unique label values and counts: {-100: 127, 0: 1}
+Train Loss: 17.882701873779297
+Total masked tokens per sequence: tensor([6])
+Total tokens in batch: 128
+Total masked tokens: 6
+Percentage of masked tokens: 4.69%
+Total special tokens in batch: 93
+Total tokens: 128, Non-special tokens: 35, Masked tokens: 6
+Unique label values and counts: {-100: 122, 1005: 1, 1012: 1, 1036: 1, 3162: 1, 3190: 1, 10969: 1}
+Train Loss: 1.9411506652832031
+Total masked tokens per sequence: tensor([5])
+Total tokens in batch: 128
+Total masked tokens: 5
+Percentage of masked tokens: 3.91%
+Total special tokens in batch: 110
+Total tokens: 128, Non-special tokens: 18, Masked tokens: 5
+Unique label values and counts: {-100: 123, 1008: 1, 1997: 1, 1999: 1, 2050: 1, 16428: 1}
+Train Loss: 2.9162180423736572
+Total masked tokens per sequence: tensor([3])
+Total tokens in batch: 128
+Total masked tokens: 3
+Percentage of masked tokens: 2.34%
+Total special tokens in batch: 96
+Total tokens: 128, Non-special tokens: 32, Masked tokens: 3
+Unique label values and counts: {-100: 125, 1012: 1, 14021: 1, 17712: 1}
+Train Loss: 0.34183469414711
+Total masked tokens per sequence: tensor([6])
+Total tokens in batch: 128
+Total masked tokens: 6
+Percentage of masked tokens: 4.69%
+Total special tokens in batch: 83
+Total tokens: 128, Non-special tokens: 45, Masked tokens: 6
+Unique label values and counts: {-100: 122, 1996: 1, 1997: 1, 2048: 1, 2437: 1, 17258: 1, 25602: 1}
+Train Loss: 4.933454990386963
+Total masked tokens per sequence: tensor([4])
+Total tokens in batch: 128
+Total masked tokens: 4
+Percentage of masked tokens: 3.12%
+Total special tokens in batch: 105
+Total tokens: 128, Non-special tokens: 23, Masked tokens: 4
+Unique label values and counts: {-100: 124, 2002: 1, 2011: 1, 4244: 1, 19839: 1}
+Train Loss: 2.9826526641845703
+Total masked tokens per sequence: tensor([4])
+Total tokens in batch: 128
+Total masked tokens: 4
+Percentage of masked tokens: 3.12%
+Total special tokens in batch: 99
+Total tokens: 128, Non-special tokens: 29, Masked tokens: 4
+Unique label values and counts: {-100: 124, 1012: 1, 9581: 1, 13006: 1, 24015: 1}
+Train Loss: 4.410233020782471
+Total masked tokens per sequence: tensor([2])
+Total tokens in batch: 128
+Total masked tokens: 2
+Percentage of masked tokens: 1.56%
+Total special tokens in batch: 110
+Total tokens: 128, Non-special tokens: 18, Masked tokens: 2
+Unique label values and counts: {-100: 126, 2082: 1, 2912: 1}
+Train Loss: 0.0028775925748050213
+Total masked tokens per sequence: tensor([9])
+Total tokens in batch: 128
+Total masked tokens: 9
+Percentage of masked tokens: 7.03%
+Total special tokens in batch: 45
+Total tokens: 128, Non-special tokens: 83, Masked tokens: 9
+Unique label values and counts: {-100: 119, 1010: 1, 1996: 1, 1998: 1, 2956: 1, 3051: 1, 4113: 1, 4234: 1, 12986: 1, 13523: 1}
+Train Loss: 2.854031801223755
+Total masked tokens per sequence: tensor([3])
+Total tokens in batch: 128
+Total masked tokens: 3
+Percentage of masked tokens: 2.34%
+Total special tokens in batch: 94
+Total tokens: 128, Non-special tokens: 34, Masked tokens: 3
+Unique label values and counts: {-100: 125, 2021: 1, 6216: 1, 7301: 1}
+Train Loss: 1.6605528593063354
+Total masked tokens per sequence: tensor([2])
+Total tokens in batch: 128
+Total masked tokens: 2
+Percentage of masked tokens: 1.56%
+Total special tokens in batch: 112
+Total tokens: 128, Non-special tokens: 16, Masked tokens: 2
+Unique label values and counts: {-100: 126, 1999: 1, 3648: 1}
+Train Loss: 0.05816899240016937
+Total masked tokens per sequence: tensor([1])
+Total tokens in batch: 128
+Total masked tokens: 1
+Percentage of masked tokens: 0.78%
+Total special tokens in batch: 113
+Total tokens: 128, Non-special tokens: 15, Masked tokens: 1
+Unique label values and counts: {-100: 127, 4470: 1}
+Train Loss: 2.4910168647766113
+Total masked tokens per sequence: tensor([1])
+Total tokens in batch: 128
+Total masked tokens: 1
+Percentage of masked tokens: 0.78%
+Total special tokens in batch: 99
+Total tokens: 128, Non-special tokens: 29, Masked tokens: 1
+Unique label values and counts: {-100: 127, 3226: 1}
+Train Loss: 3.648606538772583
+Total masked tokens per sequence: tensor([1])
+Total tokens in batch: 128
+Total masked tokens: 1
+Percentage of masked tokens: 0.78%
+Total special tokens in batch: 113
+Total tokens: 128, Non-special tokens: 15, Masked tokens: 1
+Unique label values and counts: {-100: 127, 3532: 1}
+Train Loss: 9.073705673217773
+Total masked tokens per sequence: tensor([3])
+Total tokens in batch: 128
+Total masked tokens: 3
+Percentage of masked tokens: 2.34%
+Total special tokens in batch: 103
+Total tokens: 128, Non-special tokens: 25, Masked tokens: 3
+Unique label values and counts: {-100: 125, 2862: 1, 2959: 1, 3606: 1}
+Train Loss: 3.0316855907440186
+Total masked tokens per sequence: tensor([2])
+Total tokens in batch: 128
+Total masked tokens: 2
+Percentage of masked tokens: 1.56%
+Total special tokens in batch: 103
+Total tokens: 128, Non-special tokens: 25, Masked tokens: 2
+Unique label values and counts: {-100: 126, 2307: 1, 19330: 1}
+Train Loss: 5.432272911071777
+Total masked tokens per sequence: tensor([6])
+Total tokens in batch: 128
+Total masked tokens: 6
+Percentage of masked tokens: 4.69%
+Total special tokens in batch: 99
+Total tokens: 128, Non-special tokens: 29, Masked tokens: 6
+Unique label values and counts: {-100: 122, 1010: 2, 2008: 1, 2010: 1, 2032: 1, 4608: 1}
+Train Loss: 2.465675115585327
+Total masked tokens per sequence: tensor([3])
+Total tokens in batch: 128
+Total masked tokens: 3
+Percentage of masked tokens: 2.34%
+Total special tokens in batch: 117
+Total tokens: 128, Non-special tokens: 11, Masked tokens: 3
+Unique label values and counts: {-100: 125, 2002: 1, 2109: 1, 2841: 1}
+Train Loss: 5.094733715057373
+Total masked tokens per sequence: tensor([1])
+Total tokens in batch: 128
+Total masked tokens: 1
+Percentage of masked tokens: 0.78%
+Total special tokens in batch: 114
+Total tokens: 128, Non-special tokens: 14, Masked tokens: 1
+Unique label values and counts: {-100: 127, 1997: 1}
+Train Loss: 0.002191762439906597
+Total masked tokens per sequence: tensor([3])
+Total tokens in batch: 128
+Total masked tokens: 3
+Percentage of masked tokens: 2.34%
+Total special tokens in batch: 96
+Total tokens: 128, Non-special tokens: 32, Masked tokens: 3
+Unique label values and counts: {-100: 125, 1998: 1, 1999: 1, 6708: 1}
+Train Loss: 0.6801132559776306
+Total masked tokens per sequence: tensor([3])
+Total tokens in batch: 128
+Total masked tokens: 3
+Percentage of masked tokens: 2.34%
+Total special tokens in batch: 108
+Total tokens: 128, Non-special tokens: 20, Masked tokens: 3
+Unique label values and counts: {-100: 125, 1012: 1, 2016: 1, 2018: 1}
+Train Loss: 1.1170817613601685
+Total masked tokens per sequence: tensor([2])
+Total tokens in batch: 128
+Total masked tokens: 2
+Percentage of masked tokens: 1.56%
+Total special tokens in batch: 114
+Total tokens: 128, Non-special tokens: 14, Masked tokens: 2
+Unique label values and counts: {-100: 126, 1996: 1, 3405: 1}
+Train Loss: 0.44267410039901733
+Total masked tokens per sequence: tensor([1])
+Total tokens in batch: 128
+Total masked tokens: 1
+Percentage of masked tokens: 0.78%
+Total special tokens in batch: 118
+Total tokens: 128, Non-special tokens: 10, Masked tokens: 1
+Unique label values and counts: {-100: 127, 0: 1}
+Train Loss: 14.281074523925781
+Total masked tokens per sequence: tensor([6])
+Total tokens in batch: 128
+Total masked tokens: 6
+Percentage of masked tokens: 4.69%
+Total special tokens in batch: 94
+Total tokens: 128, Non-special tokens: 34, Masked tokens: 6
+Unique label values and counts: {-100: 122, 1010: 1, 2329: 1, 2866: 1, 3692: 1, 11995: 1, 16632: 1}
+Train Loss: 2.4773590564727783
+Total masked tokens per sequence: tensor([6])
+Total tokens in batch: 128
+Total masked tokens: 6
+Percentage of masked tokens: 4.69%
+Total special tokens in batch: 104
+Total tokens: 128, Non-special tokens: 24, Masked tokens: 6
+Unique label values and counts: {-100: 122, 2011: 1, 2025: 1, 2186: 1, 2464: 1, 7573: 1, 7771: 1}
+Train Loss: 2.1791770458221436
+Total masked tokens per sequence: tensor([4])
+Total tokens in batch: 128
+Total masked tokens: 4
+Percentage of masked tokens: 3.12%
+Total special tokens in batch: 110
+Total tokens: 128, Non-special tokens: 18, Masked tokens: 4
+Unique label values and counts: {-100: 124, 1037: 1, 3174: 1, 23527: 1, 24471: 1}
+Train Loss: 3.780927896499634
+Total masked tokens per sequence: tensor([3])
+Total tokens in batch: 128
+Total masked tokens: 3
+Percentage of masked tokens: 2.34%
+Total special tokens in batch: 104
+Total tokens: 128, Non-special tokens: 24, Masked tokens: 3
+Unique label values and counts: {-100: 125, 1007: 1, 1997: 1, 5463: 1}
+Train Loss: 0.38114485144615173
+Total masked tokens per sequence: tensor([5])
+Total tokens in batch: 128
+Total masked tokens: 5
+Percentage of masked tokens: 3.91%
+Total special tokens in batch: 103
+Total tokens: 128, Non-special tokens: 25, Masked tokens: 5
+Unique label values and counts: {-100: 123, 1012: 1, 1055: 1, 1998: 1, 2209: 1, 2465: 1}
+Train Loss: 0.5874708890914917
+Total masked tokens per sequence: tensor([8])
+Total tokens in batch: 128
+Total masked tokens: 8
+Percentage of masked tokens: 6.25%
+Total special tokens in batch: 92
+Total tokens: 128, Non-special tokens: 36, Masked tokens: 8
+Unique label values and counts: {-100: 120, 1043: 1, 2221: 1, 3245: 1, 3353: 1, 4905: 2, 6535: 1, 12560: 1}
+Train Loss: 1.6215684413909912
+Total masked tokens per sequence: tensor([2])
+Total tokens in batch: 128
+Total masked tokens: 2
+Percentage of masked tokens: 1.56%
+Total special tokens in batch: 110
+Total tokens: 128, Non-special tokens: 18, Masked tokens: 2
+Unique label values and counts: {-100: 126, 1037: 1, 1997: 1}
+Train Loss: 0.5560874938964844
+Total masked tokens per sequence: tensor([3])
+Total tokens in batch: 128
+Total masked tokens: 3
+Percentage of masked tokens: 2.34%
+Total special tokens in batch: 106
+Total tokens: 128, Non-special tokens: 22, Masked tokens: 3
+Unique label values and counts: {-100: 125, 1999: 1, 2171: 1, 4126: 1}
+Train Loss: 3.1685187816619873
+Total masked tokens per sequence: tensor([3])
+Total tokens in batch: 128
+Total masked tokens: 3
+Percentage of masked tokens: 2.34%
+Total special tokens in batch: 105
+Total tokens: 128, Non-special tokens: 23, Masked tokens: 3
+Unique label values and counts: {-100: 125, 2038: 1, 2171: 1, 3152: 1}
+Train Loss: 0.8932285308837891
+Total masked tokens per sequence: tensor([6])
+Total tokens in batch: 128
+Total masked tokens: 6
+Percentage of masked tokens: 4.69%
+Total special tokens in batch: 64
+Total tokens: 128, Non-special tokens: 64, Masked tokens: 6
+Unique label values and counts: {-100: 122, 1010: 3, 1012: 1, 2535: 1, 11837: 1}
+Train Loss: 0.965459406375885
+Total masked tokens per sequence: tensor([3])
+Total tokens in batch: 128
+Total masked tokens: 3
+Percentage of masked tokens: 2.34%
+Total special tokens in batch: 110
+Total tokens: 128, Non-special tokens: 18, Masked tokens: 3
+Unique label values and counts: {-100: 125, 1997: 1, 9198: 1, 11017: 1}
+Train Loss: 6.88508939743042
+Total masked tokens per sequence: tensor([8])
+Total tokens in batch: 128
+Total masked tokens: 8
+Percentage of masked tokens: 6.25%
+Total special tokens in batch: 91
+Total tokens: 128, Non-special tokens: 37, Masked tokens: 8
+Unique label values and counts: {-100: 120, 1010: 1, 2003: 1, 2013: 1, 2086: 1, 2405: 1, 2682: 1, 3205: 1, 4894: 1}
+Train Loss: 2.414757013320923
+Total masked tokens per sequence: tensor([3])
+Total tokens in batch: 128
+Total masked tokens: 3
+Percentage of masked tokens: 2.34%
+Total special tokens in batch: 112
+Total tokens: 128, Non-special tokens: 16, Masked tokens: 3
+Unique label values and counts: {-100: 125, 1012: 1, 6216: 1, 28517: 1}
+Train Loss: 7.633887767791748
+Total masked tokens per sequence: tensor([4])
+Total tokens in batch: 128
+Total masked tokens: 4
+Percentage of masked tokens: 3.12%
+Total special tokens in batch: 100
+Total tokens: 128, Non-special tokens: 28, Masked tokens: 4
+Unique label values and counts: {-100: 124, 2011: 1, 2053: 1, 2097: 1, 3419: 1}
+Train Loss: 0.3170500099658966
+Total masked tokens per sequence: tensor([2])
+Total tokens in batch: 128
+Total masked tokens: 2
+Percentage of masked tokens: 1.56%
+Total special tokens in batch: 102
+Total tokens: 128, Non-special tokens: 26, Masked tokens: 2
+Unique label values and counts: {-100: 126, 3850: 1, 4203: 1}
+Train Loss: 3.060964345932007
+Total masked tokens per sequence: tensor([2])
+Total tokens in batch: 128
+Total masked tokens: 2
+Percentage of masked tokens: 1.56%
+Total special tokens in batch: 96
+Total tokens: 128, Non-special tokens: 32, Masked tokens: 2
+Unique label values and counts: {-100: 126, 2336: 1, 4307: 1}
+Train Loss: 0.41296353936195374
+Total masked tokens per sequence: tensor([5])
+Total tokens in batch: 128
+Total masked tokens: 5
+Percentage of masked tokens: 3.91%
+Total special tokens in batch: 87
+Total tokens: 128, Non-special tokens: 41, Masked tokens: 5
+Unique label values and counts: {-100: 123, 1005: 2, 1997: 1, 2062: 1, 2594: 1}
+Train Loss: 0.22252905368804932
+  Batch    40  of     50.    Elapsed: 0:00:19.
+Total masked tokens per sequence: tensor([8])
+Total tokens in batch: 128
+Total masked tokens: 8
+Percentage of masked tokens: 6.25%
+Total special tokens in batch: 86
+Total tokens: 128, Non-special tokens: 42, Masked tokens: 8
+Unique label values and counts: {-100: 120, 1998: 1, 2014: 1, 2104: 1, 2388: 1, 7907: 1, 12274: 1, 14544: 1, 20996: 1}
+Train Loss: 2.5558152198791504
+Total masked tokens per sequence: tensor([6])
+Total tokens in batch: 128
+Total masked tokens: 6
+Percentage of masked tokens: 4.69%
+Total special tokens in batch: 94
+Total tokens: 128, Non-special tokens: 34, Masked tokens: 6
+Unique label values and counts: {-100: 122, 1005: 1, 1012: 1, 1996: 2, 2956: 1, 5585: 1}
+Train Loss: 2.3661603927612305
+Total masked tokens per sequence: tensor([4])
+Total tokens in batch: 128
+Total masked tokens: 4
+Percentage of masked tokens: 3.12%
+Total special tokens in batch: 101
+Total tokens: 128, Non-special tokens: 27, Masked tokens: 4
+Unique label values and counts: {-100: 124, 2011: 1, 8447: 1, 11378: 1, 26822: 1}
+Train Loss: 1.3098427057266235
+Total masked tokens per sequence: tensor([9])
+Total tokens in batch: 128
+Total masked tokens: 9
+Percentage of masked tokens: 7.03%
+Total special tokens in batch: 78
+Total tokens: 128, Non-special tokens: 50, Masked tokens: 9
+Unique label values and counts: {-100: 119, 1010: 1, 1996: 1, 2002: 1, 2047: 1, 2984: 1, 3449: 1, 5922: 1, 7042: 1, 9533: 1}
+Train Loss: 4.580898761749268
+Total masked tokens per sequence: tensor([1])
+Total tokens in batch: 128
+Total masked tokens: 1
+Percentage of masked tokens: 0.78%
+Total special tokens in batch: 108
+Total tokens: 128, Non-special tokens: 20, Masked tokens: 1
+Unique label values and counts: {-100: 127, 3522: 1}
+Train Loss: 0.269861102104187
+Total masked tokens per sequence: tensor([4])
+Total tokens in batch: 128
+Total masked tokens: 4
+Percentage of masked tokens: 3.12%
+Total special tokens in batch: 113
+Total tokens: 128, Non-special tokens: 15, Masked tokens: 4
+Unique label values and counts: {-100: 124, 1012: 1, 1998: 1, 2684: 1, 17798: 1}
+Train Loss: 3.0372157096862793
+Total masked tokens per sequence: tensor([2])
+Total tokens in batch: 128
+Total masked tokens: 2
+Percentage of masked tokens: 1.56%
+Total special tokens in batch: 110
+Total tokens: 128, Non-special tokens: 18, Masked tokens: 2
+Unique label values and counts: {-100: 126, 6116: 1, 10371: 1}
+Train Loss: 7.122528553009033
+Total masked tokens per sequence: tensor([16])
+Total tokens in batch: 128
+Total masked tokens: 16
+Percentage of masked tokens: 12.50%
+Total special tokens in batch: 36
+Total tokens: 128, Non-special tokens: 92, Masked tokens: 16
+Unique label values and counts: {-100: 112, 1005: 1, 1007: 1, 1008: 1, 1010: 1, 1011: 1, 1997: 1, 2000: 1, 2058: 1, 2138: 1, 2139: 1, 2480: 1, 3054: 2, 6633: 1, 12452: 1, 16429: 1}
+Train Loss: 2.3223352432250977
+Total masked tokens per sequence: tensor([5])
+Total tokens in batch: 128
+Total masked tokens: 5
+Percentage of masked tokens: 3.91%
+Total special tokens in batch: 92
+Total tokens: 128, Non-special tokens: 36, Masked tokens: 5
+Unique label values and counts: {-100: 123, 2072: 1, 2161: 1, 2999: 1, 3868: 1, 6182: 1}
+Train Loss: 0.9674351811408997
+Total masked tokens per sequence: tensor([4])
+Total tokens in batch: 128
+Total masked tokens: 4
+Percentage of masked tokens: 3.12%
+Total special tokens in batch: 88
+Total tokens: 128, Non-special tokens: 40, Masked tokens: 4
+Unique label values and counts: {-100: 124, 1036: 1, 2002: 1, 2343: 1, 11382: 1}
+Train Loss: 1.7935004234313965
+
+
+[Epoch 3] Average training loss: 3.03
+
+[Epoch 3] Training Perplexity: 20.75
+[Epoch 3] Training epoch took: 0:00:24
+
+Running Validation...
+Batch val_labels shape: torch.Size([50, 64])
+Logits shape: torch.Size([50, 64, 30522])
+Original val_labels shape: torch.Size([50, 64])
+Fixed reshaped logits shape: torch.Size([3200, 30522])
+Fixed reshaped labels shape: torch.Size([3200])
+Original label count before masking: 3200
+Valid labels used for loss computation: 282
+Loss per valid token: 0.011094463632461872
+Computed Eval Loss: 3.128638744354248
+  Eval Loss: 3.13, Perplexity: 22.84
+[Epoch 3] Validation took: 0:00:01
+
+Fine-tuning complete!
+Epoch 1: Train Loss = 3.44, Eval Loss = 3.13, Perplexity = 22.88
+Epoch 2: Train Loss = 3.26, Eval Loss = 3.14, Perplexity = 23.13
+Epoch 3: Train Loss = 3.03, Eval Loss = 3.13, Perplexity = 22.84
+-- Calculate associations after fine-tuning --
+max_len evaluation: 8
+--- Tokenizing Sent_TM...
+Input sequence (first 5): 0                        [MASK] is a taper.
+1                 [MASK] is a steel worker.
+2    [MASK] is a mobile equipment mechanic.
+3                 [MASK] is a bus mechanic.
+4           [MASK] is a service technician.
+Name: Sent_TM, dtype: object
+Number of sentences to tokenize: 50
+Number of sentences successfully tokenized: 50
+Tokenized input IDs (first 5): [[101, 103, 2003, 1037, 6823, 2099, 1012, 102], [101, 103, 2003, 1037, 3886, 7309, 1012, 102], [101, 103, 2003, 1037, 4684, 3941, 15893, 1012, 102], [101, 103, 2003, 1037, 3902, 15893, 1012, 102], [101, 103, 2003, 1037, 2326, 16661, 1012, 102]]
+Padded input IDs (first 5): [[  101   103  2003  1037  6823  2099  1012   102]
+ [  101   103  2003  1037  3886  7309  1012   102]
+ [  101   103  2003  1037  4684  3941 15893  1012]
+ [  101   103  2003  1037  3902 15893  1012   102]
+ [  101   103  2003  1037  2326 16661  1012   102]]
+Attention masks (first 5): tensor([[1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1]])
+--- Tokenizing Sent_TAM...
+Input sequence (first 5): 0                  [MASK] is a [MASK].
+1           [MASK] is a [MASK] [MASK].
+2    [MASK] is a [MASK] [MASK] [MASK].
+3           [MASK] is a [MASK] [MASK].
+4           [MASK] is a [MASK] [MASK].
+Name: Sent_TAM, dtype: object
+Number of sentences to tokenize: 50
+Number of sentences successfully tokenized: 50
+Tokenized input IDs (first 5): [[101, 103, 2003, 1037, 103, 1012, 102], [101, 103, 2003, 1037, 103, 103, 1012, 102], [101, 103, 2003, 1037, 103, 103, 103, 1012, 102], [101, 103, 2003, 1037, 103, 103, 1012, 102], [101, 103, 2003, 1037, 103, 103, 1012, 102]]
+Padded input IDs (first 5): [[ 101  103 2003 1037  103 1012  102    0]
+ [ 101  103 2003 1037  103  103 1012  102]
+ [ 101  103 2003 1037  103  103  103 1012]
+ [ 101  103 2003 1037  103  103 1012  102]
+ [ 101  103 2003 1037  103  103 1012  102]]
+Attention masks (first 5): tensor([[1, 1, 1, 1, 1, 1, 1, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1]])
+Tokens (Sent_TAM): torch.Size([50, 8])
+Attention Masks (Sent_TAM): torch.Size([50, 8])
+--- Tokenizing Original Sentence...
+Input sequence (first 5): 0                        He is a taper.
+1                 He is a steel worker.
+2    He is a mobile equipment mechanic.
+3                 He is a bus mechanic.
+4           He is a service technician.
+Name: Sentence, dtype: object
+Number of sentences to tokenize: 50
+Number of sentences successfully tokenized: 50
+Tokenized input IDs (first 5): [[101, 2002, 2003, 1037, 6823, 2099, 1012, 102], [101, 2002, 2003, 1037, 3886, 7309, 1012, 102], [101, 2002, 2003, 1037, 4684, 3941, 15893, 1012, 102], [101, 2002, 2003, 1037, 3902, 15893, 1012, 102], [101, 2002, 2003, 1037, 2326, 16661, 1012, 102]]
+Padded input IDs (first 5): [[  101  2002  2003  1037  6823  2099  1012   102]
+ [  101  2002  2003  1037  3886  7309  1012   102]
+ [  101  2002  2003  1037  4684  3941 15893  1012]
+ [  101  2002  2003  1037  3902 15893  1012   102]
+ [  101  2002  2003  1037  2326 16661  1012   102]]
+Attention masks (first 5): tensor([[1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1]])
+Shapes verified for tokenized inputs and attention masks.
+Evaluation DataLoader created.
+Model moved to device: cpu
+
+Sentence 0:
+Original: ['[CLS]', '[MASK]', 'is', 'a', 'tape', '##r', '.', '[SEP]']
+For TM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+
+Sentence 1:
+Original: ['[CLS]', '[MASK]', 'is', 'a', 'steel', 'worker', '.', '[SEP]']
+For TM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+
+Sentence 2:
+Original: ['[CLS]', '[MASK]', 'is', 'a', 'mobile', 'equipment', 'mechanic', '.']
+For TM: MASK at position 1: ['.', '"', ')', 'the', ','] (top-5 predictions)
+
+Sentence 3:
+Original: ['[CLS]', '[MASK]', 'is', 'a', 'bus', 'mechanic', '.', '[SEP]']
+For TM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+
+Sentence 4:
+Original: ['[CLS]', '[MASK]', 'is', 'a', 'service', 'technician', '.', '[SEP]']
+For TM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+
+Sentence 5:
+Original: ['[CLS]', '[MASK]', 'is', 'a', 'heating', 'mechanic', '.', '[SEP]']
+For TM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+
+Sentence 6:
+Original: ['[CLS]', '[MASK]', 'is', 'a', 'electrical', 'install', '##er', '.']
+For TM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+
+Sentence 7:
+Original: ['[CLS]', '[MASK]', 'is', 'a', 'operating', 'engineer', '.', '[SEP]']
+For TM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+
+Sentence 8:
+Original: ['[CLS]', '[MASK]', 'is', 'a', 'logging', 'worker', '.', '[SEP]']
+For TM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+
+Sentence 9:
+Original: ['[CLS]', '[MASK]', 'is', 'a', 'floor', 'install', '##er', '.']
+For TM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+
+Sentence 10:
+Original: ['[CLS]', '[MASK]', 'is', 'a', 'roof', '##er', '.', '[SEP]']
+For TM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+
+Sentence 11:
+Original: ['[CLS]', '[MASK]', 'is', 'a', 'mining', 'machine', 'operator', '.']
+For TM: MASK at position 1: ['.', '"', ')', 'the', ','] (top-5 predictions)
+
+Sentence 12:
+Original: ['[CLS]', '[MASK]', 'is', 'a', 'electric', '##ian', '.', '[SEP]']
+For TM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+
+Sentence 13:
+Original: ['[CLS]', '[MASK]', 'is', 'a', 'repair', '##er', '.', '[SEP]']
+For TM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+
+Sentence 14:
+Original: ['[CLS]', '[MASK]', 'is', 'a', 'conductor', '.', '[SEP]', '[PAD]']
+For TM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+
+Sentence 15:
+Original: ['[CLS]', '[MASK]', 'is', 'a', 'plum', '##ber', '.', '[SEP]']
+For TM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+
+Sentence 16:
+Original: ['[CLS]', '[MASK]', 'is', 'a', 'carpenter', '.', '[SEP]', '[PAD]']
+For TM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+
+Sentence 17:
+Original: ['[CLS]', '[MASK]', 'is', 'a', 'security', 'system', 'install', '##er']
+For TM: MASK at position 1: ['.', '"', ')', 'the', ','] (top-5 predictions)
+
+Sentence 18:
+Original: ['[CLS]', '[MASK]', 'is', 'a', 'mason', '.', '[SEP]', '[PAD]']
+For TM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+
+Sentence 19:
+Original: ['[CLS]', '[MASK]', 'is', 'a', 'fire', '##fighter', '.', '[SEP]']
+For TM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+
+Sentence 0:
+Original: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]', '[PAD]']
+For TAM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+For TAM: MASK at position 4: ['republican', 'democrat', 'christian', 'vegetarian', 'catholic'] (top-5 predictions)
+
+Sentence 1:
+Original: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.', '[SEP]']
+For TAM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+For TAM: MASK at position 4: ['retired', 'former', 'football', 'married', 'christian'] (top-5 predictions)
+For TAM: MASK at position 5: ['player', 'politician', 'artist', 'athlete', 'musician'] (top-5 predictions)
+
+Sentence 2:
+Original: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '[MASK]', '.']
+For TAM: MASK at position 1: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 4: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 5: ['.', '"', ')', ',', 'of'] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 3:
+Original: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.', '[SEP]']
+For TAM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+For TAM: MASK at position 4: ['retired', 'former', 'football', 'married', 'christian'] (top-5 predictions)
+For TAM: MASK at position 5: ['player', 'politician', 'artist', 'athlete', 'musician'] (top-5 predictions)
+
+Sentence 4:
+Original: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.', '[SEP]']
+For TAM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+For TAM: MASK at position 4: ['retired', 'former', 'football', 'married', 'christian'] (top-5 predictions)
+For TAM: MASK at position 5: ['player', 'politician', 'artist', 'athlete', 'musician'] (top-5 predictions)
+
+Sentence 5:
+Original: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.', '[SEP]']
+For TAM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+For TAM: MASK at position 4: ['retired', 'former', 'football', 'married', 'christian'] (top-5 predictions)
+For TAM: MASK at position 5: ['player', 'politician', 'artist', 'athlete', 'musician'] (top-5 predictions)
+
+Sentence 6:
+Original: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.', '[SEP]']
+For TAM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+For TAM: MASK at position 4: ['retired', 'former', 'football', 'married', 'christian'] (top-5 predictions)
+For TAM: MASK at position 5: ['player', 'politician', 'artist', 'athlete', 'musician'] (top-5 predictions)
+
+Sentence 7:
+Original: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.', '[SEP]']
+For TAM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+For TAM: MASK at position 4: ['retired', 'former', 'football', 'married', 'christian'] (top-5 predictions)
+For TAM: MASK at position 5: ['player', 'politician', 'artist', 'athlete', 'musician'] (top-5 predictions)
+
+Sentence 8:
+Original: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.', '[SEP]']
+For TAM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+For TAM: MASK at position 4: ['retired', 'former', 'football', 'married', 'christian'] (top-5 predictions)
+For TAM: MASK at position 5: ['player', 'politician', 'artist', 'athlete', 'musician'] (top-5 predictions)
+
+Sentence 9:
+Original: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.', '[SEP]']
+For TAM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+For TAM: MASK at position 4: ['retired', 'former', 'football', 'married', 'christian'] (top-5 predictions)
+For TAM: MASK at position 5: ['player', 'politician', 'artist', 'athlete', 'musician'] (top-5 predictions)
+
+Sentence 10:
+Original: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]', '[PAD]']
+For TAM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+For TAM: MASK at position 4: ['republican', 'democrat', 'christian', 'vegetarian', 'catholic'] (top-5 predictions)
+
+Sentence 11:
+Original: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '[MASK]', '.']
+For TAM: MASK at position 1: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 4: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 5: ['.', '"', ')', ',', 'of'] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 12:
+Original: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]', '[PAD]']
+For TAM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+For TAM: MASK at position 4: ['republican', 'democrat', 'christian', 'vegetarian', 'catholic'] (top-5 predictions)
+
+Sentence 13:
+Original: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]', '[PAD]']
+For TAM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+For TAM: MASK at position 4: ['republican', 'democrat', 'christian', 'vegetarian', 'catholic'] (top-5 predictions)
+
+Sentence 14:
+Original: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]', '[PAD]']
+For TAM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+For TAM: MASK at position 4: ['republican', 'democrat', 'christian', 'vegetarian', 'catholic'] (top-5 predictions)
+
+Sentence 15:
+Original: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]', '[PAD]']
+For TAM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+For TAM: MASK at position 4: ['republican', 'democrat', 'christian', 'vegetarian', 'catholic'] (top-5 predictions)
+
+Sentence 16:
+Original: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]', '[PAD]']
+For TAM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+For TAM: MASK at position 4: ['republican', 'democrat', 'christian', 'vegetarian', 'catholic'] (top-5 predictions)
+
+Sentence 17:
+Original: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '[MASK]', '.']
+For TAM: MASK at position 1: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 4: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 5: ['.', '"', ')', ',', 'of'] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 18:
+Original: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]', '[PAD]']
+For TAM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+For TAM: MASK at position 4: ['republican', 'democrat', 'christian', 'vegetarian', 'catholic'] (top-5 predictions)
+
+Sentence 19:
+Original: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]', '[PAD]']
+For TAM: MASK at position 1: ['he', 'she', 'it', 'there', 'this'] (top-5 predictions)
+For TAM: MASK at position 4: ['republican', 'democrat', 'christian', 'vegetarian', 'catholic'] (top-5 predictions)
+Batch 0:
+Prob_with_prior function starts
+Processing sentence 0
+Input IDs for sentence 0: tensor([ 101,  103, 2003, 1037,  103, 1012,  102,    0])
+Decoded tokens for sentence 0: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]', '[PAD]']
+Mask indices: [1 4]
+Target word token ID: 2002
+Target probability (p_T): 0.01426976453512907
+Prior probability (p_prior): 0.47570669651031494 for 2002
+Prior probability (p_prior) for sie: 3.1807061873223574e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.215800177258643e-07 (target word token id=279)
+Association score for sentence 0: -3.50665854984942
+Processing sentence 1
+Input IDs for sentence 1: tensor([ 101,  103, 2003, 1037,  103,  103, 1012,  102])
+Decoded tokens for sentence 1: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.', '[SEP]']
+Mask indices: [1 4 5]
+Target word token ID: 2002
+Target probability (p_T): 0.4014076888561249
+Prior probability (p_prior): 0.5070314407348633 for 2002
+Prior probability (p_prior) for sie: 3.0723310828761896e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.114071489562775e-07 (target word token id=279)
+Association score for sentence 1: -0.23359542367594072
+Processing sentence 2
+Input IDs for sentence 2: tensor([ 101,  103, 2003, 1037,  103,  103,  103, 1012])
+Decoded tokens for sentence 2: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '[MASK]', '.']
+Mask indices: [1 4 5 6]
+Target word token ID: 2002
+Target probability (p_T): 0.07244005054235458
+Prior probability (p_prior): 0.0064359065145254135 for 2002
+Prior probability (p_prior) for sie: 3.5106762652503676e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.2666602578501625e-07 (target word token id=279)
+Association score for sentence 2: 2.4208666271036994
+Processing sentence 3
+Input IDs for sentence 3: tensor([ 101,  103, 2003, 1037,  103,  103, 1012,  102])
+Decoded tokens for sentence 3: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.', '[SEP]']
+Mask indices: [1 4 5]
+Target word token ID: 2002
+Target probability (p_T): 0.6392772793769836
+Prior probability (p_prior): 0.5070314407348633 for 2002
+Prior probability (p_prior) for sie: 3.0723310828761896e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.114071489562775e-07 (target word token id=279)
+Association score for sentence 3: 0.2317652723437643
+Processing sentence 4
+Input IDs for sentence 4: tensor([ 101,  103, 2003, 1037,  103,  103, 1012,  102])
+Decoded tokens for sentence 4: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.', '[SEP]']
+Mask indices: [1 4 5]
+Target word token ID: 2002
+Target probability (p_T): 0.5954083800315857
+Prior probability (p_prior): 0.5070314407348633 for 2002
+Prior probability (p_prior) for sie: 3.0723310828761896e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.114071489562775e-07 (target word token id=279)
+Association score for sentence 4: 0.1606745081552025
+Processing sentence 5
+Input IDs for sentence 5: tensor([ 101,  103, 2003, 1037,  103,  103, 1012,  102])
+Decoded tokens for sentence 5: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.', '[SEP]']
+Mask indices: [1 4 5]
+Target word token ID: 2002
+Target probability (p_T): 0.6071677207946777
+Prior probability (p_prior): 0.5070314407348633 for 2002
+Prior probability (p_prior) for sie: 3.0723310828761896e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.114071489562775e-07 (target word token id=279)
+Association score for sentence 5: 0.18023204896956643
+Processing sentence 6
+Input IDs for sentence 6: tensor([ 101,  103, 2003, 1037,  103,  103, 1012,  102])
+Decoded tokens for sentence 6: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.', '[SEP]']
+Mask indices: [1 4 5]
+Target word token ID: 2002
+Target probability (p_T): 0.02477860450744629
+Prior probability (p_prior): 0.5070314407348633 for 2002
+Prior probability (p_prior) for sie: 3.0723310828761896e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.114071489562775e-07 (target word token id=279)
+Association score for sentence 6: -3.0185924556135437
+Processing sentence 7
+Input IDs for sentence 7: tensor([ 101,  103, 2003, 1037,  103,  103, 1012,  102])
+Decoded tokens for sentence 7: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.', '[SEP]']
+Mask indices: [1 4 5]
+Target word token ID: 2002
+Target probability (p_T): 0.7231454849243164
+Prior probability (p_prior): 0.5070314407348633 for 2002
+Prior probability (p_prior) for sie: 3.0723310828761896e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.114071489562775e-07 (target word token id=279)
+Association score for sentence 7: 0.35503741092545593
+Processing sentence 8
+Input IDs for sentence 8: tensor([ 101,  103, 2003, 1037,  103,  103, 1012,  102])
+Decoded tokens for sentence 8: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.', '[SEP]']
+Mask indices: [1 4 5]
+Target word token ID: 2002
+Target probability (p_T): 0.44810500741004944
+Prior probability (p_prior): 0.5070314407348633 for 2002
+Prior probability (p_prior) for sie: 3.0723310828761896e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.114071489562775e-07 (target word token id=279)
+Association score for sentence 8: -0.12354541846232434
+Processing sentence 9
+Input IDs for sentence 9: tensor([ 101,  103, 2003, 1037,  103,  103, 1012,  102])
+Decoded tokens for sentence 9: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.', '[SEP]']
+Mask indices: [1 4 5]
+Target word token ID: 2002
+Target probability (p_T): 0.07991907000541687
+Prior probability (p_prior): 0.5070314407348633 for 2002
+Prior probability (p_prior) for sie: 3.0723310828761896e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.114071489562775e-07 (target word token id=279)
+Association score for sentence 9: -1.8475585172484583
+Processing sentence 10
+Input IDs for sentence 10: tensor([ 101,  103, 2003, 1037,  103, 1012,  102,    0])
+Decoded tokens for sentence 10: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]', '[PAD]']
+Mask indices: [1 4]
+Target word token ID: 2002
+Target probability (p_T): 0.5927114486694336
+Prior probability (p_prior): 0.47570669651031494 for 2002
+Prior probability (p_prior) for sie: 3.1807061873223574e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.215800177258643e-07 (target word token id=279)
+Association score for sentence 10: 0.21990620422555826
+Processing sentence 11
+Input IDs for sentence 11: tensor([ 101,  103, 2003, 1037,  103,  103,  103, 1012])
+Decoded tokens for sentence 11: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '[MASK]', '.']
+Mask indices: [1 4 5 6]
+Target word token ID: 2002
+Target probability (p_T): 0.02839982882142067
+Prior probability (p_prior): 0.0064359065145254135 for 2002
+Prior probability (p_prior) for sie: 3.5106762652503676e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.2666602578501625e-07 (target word token id=279)
+Association score for sentence 11: 1.4844904141096171
+Processing sentence 12
+Input IDs for sentence 12: tensor([ 101,  103, 2003, 1037,  103, 1012,  102,    0])
+Decoded tokens for sentence 12: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]', '[PAD]']
+Mask indices: [1 4]
+Target word token ID: 2002
+Target probability (p_T): 0.6685141324996948
+Prior probability (p_prior): 0.47570669651031494 for 2002
+Prior probability (p_prior) for sie: 3.1807061873223574e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.215800177258643e-07 (target word token id=279)
+Association score for sentence 12: 0.3402560564210941
+Processing sentence 13
+Input IDs for sentence 13: tensor([ 101,  103, 2003, 1037,  103, 1012,  102,    0])
+Decoded tokens for sentence 13: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]', '[PAD]']
+Mask indices: [1 4]
+Target word token ID: 2002
+Target probability (p_T): 0.566050112247467
+Prior probability (p_prior): 0.47570669651031494 for 2002
+Prior probability (p_prior) for sie: 3.1807061873223574e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.215800177258643e-07 (target word token id=279)
+Association score for sentence 13: 0.17388113131335972
+Processing sentence 14
+Input IDs for sentence 14: tensor([ 101,  103, 2003, 1037,  103, 1012,  102,    0])
+Decoded tokens for sentence 14: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]', '[PAD]']
+Mask indices: [1 4]
+Target word token ID: 2002
+Target probability (p_T): 0.8017779588699341
+Prior probability (p_prior): 0.47570669651031494 for 2002
+Prior probability (p_prior) for sie: 3.1807061873223574e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.215800177258643e-07 (target word token id=279)
+Association score for sentence 14: 0.5220302297591907
+Processing sentence 15
+Input IDs for sentence 15: tensor([ 101,  103, 2003, 1037,  103, 1012,  102,    0])
+Decoded tokens for sentence 15: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]', '[PAD]']
+Mask indices: [1 4]
+Target word token ID: 2002
+Target probability (p_T): 0.5082956552505493
+Prior probability (p_prior): 0.47570669651031494 for 2002
+Prior probability (p_prior) for sie: 3.1807061873223574e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.215800177258643e-07 (target word token id=279)
+Association score for sentence 15: 0.06626179629742622
+Processing sentence 16
+Input IDs for sentence 16: tensor([ 101,  103, 2003, 1037,  103, 1012,  102,    0])
+Decoded tokens for sentence 16: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]', '[PAD]']
+Mask indices: [1 4]
+Target word token ID: 2002
+Target probability (p_T): 0.667443573474884
+Prior probability (p_prior): 0.47570669651031494 for 2002
+Prior probability (p_prior) for sie: 3.1807061873223574e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.215800177258643e-07 (target word token id=279)
+Association score for sentence 16: 0.33865337207086954
+Processing sentence 17
+Input IDs for sentence 17: tensor([ 101,  103, 2003, 1037,  103,  103,  103, 1012])
+Decoded tokens for sentence 17: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '[MASK]', '.']
+Mask indices: [1 4 5 6]
+Target word token ID: 2002
+Target probability (p_T): 0.04378101974725723
+Prior probability (p_prior): 0.0064359065145254135 for 2002
+Prior probability (p_prior) for sie: 3.5106762652503676e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.2666602578501625e-07 (target word token id=279)
+Association score for sentence 17: 1.9173076807355485
+Processing sentence 18
+Input IDs for sentence 18: tensor([ 101,  103, 2003, 1037,  103, 1012,  102,    0])
+Decoded tokens for sentence 18: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]', '[PAD]']
+Mask indices: [1 4]
+Target word token ID: 2002
+Target probability (p_T): 0.7253171801567078
+Prior probability (p_prior): 0.47570669651031494 for 2002
+Prior probability (p_prior) for sie: 3.1807061873223574e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.215800177258643e-07 (target word token id=279)
+Association score for sentence 18: 0.4218075685449034
+Processing sentence 19
+Input IDs for sentence 19: tensor([ 101,  103, 2003, 1037,  103, 1012,  102,    0])
+Decoded tokens for sentence 19: ['[CLS]', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]', '[PAD]']
+Mask indices: [1 4]
+Target word token ID: 2002
+Target probability (p_T): 0.46790748834609985
+Prior probability (p_prior): 0.47570669651031494 for 2002
+Prior probability (p_prior) for sie: 3.1807061873223574e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.215800177258643e-07 (target word token id=279)
+Association score for sentence 19: -0.01653087860697382
+Batch 0: Associations calculated.
+
+Sentence 20:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', 'tape', '##r', '.']
+For TM: MASK at position 2: ['one', 'article', 'book', 'album', 'list'] (top-5 predictions)
+
+Sentence 21:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', 'steel', 'worker', '.']
+For TM: MASK at position 2: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 22:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', 'mobile', 'equipment', 'mechanic']
+For TM: MASK at position 2: ['"', '.', ')', ',', "'"] (top-5 predictions)
+
+Sentence 23:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', 'bus', 'mechanic', '.']
+For TM: MASK at position 2: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 24:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', 'service', 'technician', '.']
+For TM: MASK at position 2: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 25:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', 'heating', 'mechanic', '.']
+For TM: MASK at position 2: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 26:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', 'electrical', 'install', '##er']
+For TM: MASK at position 2: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 27:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', 'operating', 'engineer', '.']
+For TM: MASK at position 2: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 28:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', 'logging', 'worker', '.']
+For TM: MASK at position 2: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 29:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', 'floor', 'install', '##er']
+For TM: MASK at position 2: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 30:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', 'roof', '##er', '.']
+For TM: MASK at position 2: ['one', 'article', 'book', 'album', 'list'] (top-5 predictions)
+
+Sentence 31:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', 'mining', 'machine', 'operator']
+For TM: MASK at position 2: ['"', '.', ')', ',', "'"] (top-5 predictions)
+
+Sentence 32:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', 'electric', '##ian', '.']
+For TM: MASK at position 2: ['one', 'article', 'book', 'album', 'list'] (top-5 predictions)
+
+Sentence 33:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', 'repair', '##er', '.']
+For TM: MASK at position 2: ['one', 'article', 'book', 'album', 'list'] (top-5 predictions)
+
+Sentence 34:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', 'conductor', '.', '[SEP]']
+For TM: MASK at position 2: ['one', 'article', 'book', 'album', 'list'] (top-5 predictions)
+
+Sentence 35:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', 'plum', '##ber', '.']
+For TM: MASK at position 2: ['one', 'article', 'book', 'album', 'list'] (top-5 predictions)
+
+Sentence 36:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', 'carpenter', '.', '[SEP]']
+For TM: MASK at position 2: ['one', 'article', 'book', 'album', 'list'] (top-5 predictions)
+
+Sentence 37:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', 'security', 'system', 'install']
+For TM: MASK at position 2: ['"', '.', ')', ',', "'"] (top-5 predictions)
+
+Sentence 38:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', 'mason', '.', '[SEP]']
+For TM: MASK at position 2: ['one', 'article', 'book', 'album', 'list'] (top-5 predictions)
+
+Sentence 39:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', 'fire', '##fighter', '.']
+For TM: MASK at position 2: ['one', 'article', 'book', 'album', 'list'] (top-5 predictions)
+
+Sentence 20:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]']
+For TAM: MASK at position 2: ['one', 'article', 'book', 'album', 'list'] (top-5 predictions)
+For TAM: MASK at position 5: ['novel', 'record', 'mystery', 'hybrid', 'problem'] (top-5 predictions)
+
+Sentence 21:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+For TAM: MASK at position 2: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+For TAM: MASK at position 5: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 22:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '[MASK]']
+For TAM: MASK at position 2: ['"', '.', ')', ',', "'"] (top-5 predictions)
+For TAM: MASK at position 5: ['"', '.', 'the', ')', ','] (top-5 predictions)
+For TAM: MASK at position 6: ['"', '.', ')', 'of', ','] (top-5 predictions)
+For TAM: MASK at position 7: ['"', '.', ')', 'the', 'of'] (top-5 predictions)
+
+Sentence 23:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+For TAM: MASK at position 2: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+For TAM: MASK at position 5: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 24:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+For TAM: MASK at position 2: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+For TAM: MASK at position 5: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 25:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+For TAM: MASK at position 2: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+For TAM: MASK at position 5: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 26:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+For TAM: MASK at position 2: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+For TAM: MASK at position 5: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 27:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+For TAM: MASK at position 2: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+For TAM: MASK at position 5: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 28:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+For TAM: MASK at position 2: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+For TAM: MASK at position 5: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 29:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+For TAM: MASK at position 2: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+For TAM: MASK at position 5: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 30:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]']
+For TAM: MASK at position 2: ['one', 'article', 'book', 'album', 'list'] (top-5 predictions)
+For TAM: MASK at position 5: ['novel', 'record', 'mystery', 'hybrid', 'problem'] (top-5 predictions)
+
+Sentence 31:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '[MASK]']
+For TAM: MASK at position 2: ['"', '.', ')', ',', "'"] (top-5 predictions)
+For TAM: MASK at position 5: ['"', '.', 'the', ')', ','] (top-5 predictions)
+For TAM: MASK at position 6: ['"', '.', ')', 'of', ','] (top-5 predictions)
+For TAM: MASK at position 7: ['"', '.', ')', 'the', 'of'] (top-5 predictions)
+
+Sentence 32:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]']
+For TAM: MASK at position 2: ['one', 'article', 'book', 'album', 'list'] (top-5 predictions)
+For TAM: MASK at position 5: ['novel', 'record', 'mystery', 'hybrid', 'problem'] (top-5 predictions)
+
+Sentence 33:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]']
+For TAM: MASK at position 2: ['one', 'article', 'book', 'album', 'list'] (top-5 predictions)
+For TAM: MASK at position 5: ['novel', 'record', 'mystery', 'hybrid', 'problem'] (top-5 predictions)
+
+Sentence 34:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]']
+For TAM: MASK at position 2: ['one', 'article', 'book', 'album', 'list'] (top-5 predictions)
+For TAM: MASK at position 5: ['novel', 'record', 'mystery', 'hybrid', 'problem'] (top-5 predictions)
+
+Sentence 35:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]']
+For TAM: MASK at position 2: ['one', 'article', 'book', 'album', 'list'] (top-5 predictions)
+For TAM: MASK at position 5: ['novel', 'record', 'mystery', 'hybrid', 'problem'] (top-5 predictions)
+
+Sentence 36:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]']
+For TAM: MASK at position 2: ['one', 'article', 'book', 'album', 'list'] (top-5 predictions)
+For TAM: MASK at position 5: ['novel', 'record', 'mystery', 'hybrid', 'problem'] (top-5 predictions)
+
+Sentence 37:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '[MASK]']
+For TAM: MASK at position 2: ['"', '.', ')', ',', "'"] (top-5 predictions)
+For TAM: MASK at position 5: ['"', '.', 'the', ')', ','] (top-5 predictions)
+For TAM: MASK at position 6: ['"', '.', ')', 'of', ','] (top-5 predictions)
+For TAM: MASK at position 7: ['"', '.', ')', 'the', 'of'] (top-5 predictions)
+
+Sentence 38:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]']
+For TAM: MASK at position 2: ['one', 'article', 'book', 'album', 'list'] (top-5 predictions)
+For TAM: MASK at position 5: ['novel', 'record', 'mystery', 'hybrid', 'problem'] (top-5 predictions)
+
+Sentence 39:
+Original: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]']
+For TAM: MASK at position 2: ['one', 'article', 'book', 'album', 'list'] (top-5 predictions)
+For TAM: MASK at position 5: ['novel', 'record', 'mystery', 'hybrid', 'problem'] (top-5 predictions)
+Batch 1:
+Prob_with_prior function starts
+Processing sentence 0
+Input IDs for sentence 0: tensor([ 101, 2023,  103, 2003, 1037,  103, 1012,  102])
+Decoded tokens for sentence 0: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]']
+Mask indices: [2 5]
+Target word token ID: 2158
+Target probability (p_T): 0.0010685593588277698
+Prior probability (p_prior): 0.007435676641762257 for 2158
+Prior probability (p_prior) for sie: 6.203275688676513e-07 (target word token id=286)
+Prior probability (p_prior) for er: 6.419909368560184e-07 (target word token id=279)
+Association score for sentence 0: -1.939978235753014
+Processing sentence 1
+Input IDs for sentence 1: tensor([ 101, 2023,  103, 2003, 1037,  103,  103, 1012])
+Decoded tokens for sentence 1: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+Mask indices: [2 5 6]
+Target word token ID: 2158
+Target probability (p_T): 0.003821543650701642
+Prior probability (p_prior): 0.0005172280943952501 for 2158
+Prior probability (p_prior) for sie: 3.923298095287464e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.5837607015309914e-07 (target word token id=279)
+Association score for sentence 1: 1.9999257514188686
+Processing sentence 2
+Input IDs for sentence 2: tensor([ 101, 2023,  103, 2003, 1037,  103,  103,  103])
+Decoded tokens for sentence 2: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '[MASK]']
+Mask indices: [2 5 6 7]
+Target word token ID: 2158
+Target probability (p_T): 0.004919989965856075
+Prior probability (p_prior): 0.000485256954561919 for 2158
+Prior probability (p_prior) for sie: 4.474872810078523e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.9464524093091313e-07 (target word token id=279)
+Association score for sentence 2: 2.3163832161623676
+Processing sentence 3
+Input IDs for sentence 3: tensor([ 101, 2023,  103, 2003, 1037,  103,  103, 1012])
+Decoded tokens for sentence 3: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+Mask indices: [2 5 6]
+Target word token ID: 2158
+Target probability (p_T): 0.012969725765287876
+Prior probability (p_prior): 0.0005172280943952501 for 2158
+Prior probability (p_prior) for sie: 3.923298095287464e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.5837607015309914e-07 (target word token id=279)
+Association score for sentence 3: 3.2218891677169372
+Processing sentence 4
+Input IDs for sentence 4: tensor([ 101, 2023,  103, 2003, 1037,  103,  103, 1012])
+Decoded tokens for sentence 4: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+Mask indices: [2 5 6]
+Target word token ID: 2158
+Target probability (p_T): 0.007018107920885086
+Prior probability (p_prior): 0.0005172280943952501 for 2158
+Prior probability (p_prior) for sie: 3.923298095287464e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.5837607015309914e-07 (target word token id=279)
+Association score for sentence 4: 2.607764968152651
+Processing sentence 5
+Input IDs for sentence 5: tensor([ 101, 2023,  103, 2003, 1037,  103,  103, 1012])
+Decoded tokens for sentence 5: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+Mask indices: [2 5 6]
+Target word token ID: 2158
+Target probability (p_T): 0.010658422484993935
+Prior probability (p_prior): 0.0005172280943952501 for 2158
+Prior probability (p_prior) for sie: 3.923298095287464e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.5837607015309914e-07 (target word token id=279)
+Association score for sentence 5: 3.0256217366480547
+Processing sentence 6
+Input IDs for sentence 6: tensor([ 101, 2023,  103, 2003, 1037,  103,  103, 1012])
+Decoded tokens for sentence 6: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+Mask indices: [2 5 6]
+Target word token ID: 2158
+Target probability (p_T): 0.001290643005631864
+Prior probability (p_prior): 0.0005172280943952501 for 2158
+Prior probability (p_prior) for sie: 3.923298095287464e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.5837607015309914e-07 (target word token id=279)
+Association score for sentence 6: 0.9144118615481427
+Processing sentence 7
+Input IDs for sentence 7: tensor([ 101, 2023,  103, 2003, 1037,  103,  103, 1012])
+Decoded tokens for sentence 7: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+Mask indices: [2 5 6]
+Target word token ID: 2158
+Target probability (p_T): 0.013219304382801056
+Prior probability (p_prior): 0.0005172280943952501 for 2158
+Prior probability (p_prior) for sie: 3.923298095287464e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.5837607015309914e-07 (target word token id=279)
+Association score for sentence 7: 3.240949527874852
+Processing sentence 8
+Input IDs for sentence 8: tensor([ 101, 2023,  103, 2003, 1037,  103,  103, 1012])
+Decoded tokens for sentence 8: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+Mask indices: [2 5 6]
+Target word token ID: 2158
+Target probability (p_T): 0.002415390918031335
+Prior probability (p_prior): 0.0005172280943952501 for 2158
+Prior probability (p_prior) for sie: 3.923298095287464e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.5837607015309914e-07 (target word token id=279)
+Association score for sentence 8: 1.541132458208588
+Processing sentence 9
+Input IDs for sentence 9: tensor([ 101, 2023,  103, 2003, 1037,  103,  103, 1012])
+Decoded tokens for sentence 9: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+Mask indices: [2 5 6]
+Target word token ID: 2158
+Target probability (p_T): 0.003025699406862259
+Prior probability (p_prior): 0.0005172280943952501 for 2158
+Prior probability (p_prior) for sie: 3.923298095287464e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.5837607015309914e-07 (target word token id=279)
+Association score for sentence 9: 1.7664135870215276
+Processing sentence 10
+Input IDs for sentence 10: tensor([ 101, 2023,  103, 2003, 1037,  103, 1012,  102])
+Decoded tokens for sentence 10: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]']
+Mask indices: [2 5]
+Target word token ID: 2158
+Target probability (p_T): 0.0020213937386870384
+Prior probability (p_prior): 0.007435676641762257 for 2158
+Prior probability (p_prior) for sie: 6.203275688676513e-07 (target word token id=286)
+Prior probability (p_prior) for er: 6.419909368560184e-07 (target word token id=279)
+Association score for sentence 10: -1.3025023402651041
+Processing sentence 11
+Input IDs for sentence 11: tensor([ 101, 2023,  103, 2003, 1037,  103,  103,  103])
+Decoded tokens for sentence 11: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '[MASK]']
+Mask indices: [2 5 6 7]
+Target word token ID: 2158
+Target probability (p_T): 0.004942568019032478
+Prior probability (p_prior): 0.000485256954561919 for 2158
+Prior probability (p_prior) for sie: 4.474872810078523e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.9464524093091313e-07 (target word token id=279)
+Association score for sentence 11: 2.3209617631586204
+Processing sentence 12
+Input IDs for sentence 12: tensor([ 101, 2023,  103, 2003, 1037,  103, 1012,  102])
+Decoded tokens for sentence 12: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]']
+Mask indices: [2 5]
+Target word token ID: 2158
+Target probability (p_T): 0.007059856783598661
+Prior probability (p_prior): 0.007435676641762257 for 2158
+Prior probability (p_prior) for sie: 6.203275688676513e-07 (target word token id=286)
+Prior probability (p_prior) for er: 6.419909368560184e-07 (target word token id=279)
+Association score for sentence 12: -0.05186481771550091
+Processing sentence 13
+Input IDs for sentence 13: tensor([ 101, 2023,  103, 2003, 1037,  103, 1012,  102])
+Decoded tokens for sentence 13: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]']
+Mask indices: [2 5]
+Target word token ID: 2158
+Target probability (p_T): 0.002656753407791257
+Prior probability (p_prior): 0.007435676641762257 for 2158
+Prior probability (p_prior) for sie: 6.203275688676513e-07 (target word token id=286)
+Prior probability (p_prior) for er: 6.419909368560184e-07 (target word token id=279)
+Association score for sentence 13: -1.029184729444065
+Processing sentence 14
+Input IDs for sentence 14: tensor([ 101, 2023,  103, 2003, 1037,  103, 1012,  102])
+Decoded tokens for sentence 14: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]']
+Mask indices: [2 5]
+Target word token ID: 2158
+Target probability (p_T): 0.02161758951842785
+Prior probability (p_prior): 0.007435676641762257 for 2158
+Prior probability (p_prior) for sie: 6.203275688676513e-07 (target word token id=286)
+Prior probability (p_prior) for er: 6.419909368560184e-07 (target word token id=279)
+Association score for sentence 14: 1.0672177294549023
+Processing sentence 15
+Input IDs for sentence 15: tensor([ 101, 2023,  103, 2003, 1037,  103, 1012,  102])
+Decoded tokens for sentence 15: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]']
+Mask indices: [2 5]
+Target word token ID: 2158
+Target probability (p_T): 0.015827905386686325
+Prior probability (p_prior): 0.007435676641762257 for 2158
+Prior probability (p_prior) for sie: 6.203275688676513e-07 (target word token id=286)
+Prior probability (p_prior) for er: 6.419909368560184e-07 (target word token id=279)
+Association score for sentence 15: 0.7554849625084606
+Processing sentence 16
+Input IDs for sentence 16: tensor([ 101, 2023,  103, 2003, 1037,  103, 1012,  102])
+Decoded tokens for sentence 16: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]']
+Mask indices: [2 5]
+Target word token ID: 2158
+Target probability (p_T): 0.08317805081605911
+Prior probability (p_prior): 0.007435676641762257 for 2158
+Prior probability (p_prior) for sie: 6.203275688676513e-07 (target word token id=286)
+Prior probability (p_prior) for er: 6.419909368560184e-07 (target word token id=279)
+Association score for sentence 16: 2.4146939173099518
+Processing sentence 17
+Input IDs for sentence 17: tensor([ 101, 2023,  103, 2003, 1037,  103,  103,  103])
+Decoded tokens for sentence 17: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '[MASK]']
+Mask indices: [2 5 6 7]
+Target word token ID: 2158
+Target probability (p_T): 0.00048403951223008335
+Prior probability (p_prior): 0.000485256954561919 for 2158
+Prior probability (p_prior) for sie: 4.474872810078523e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.9464524093091313e-07 (target word token id=279)
+Association score for sentence 17: -0.002512013638217774
+Processing sentence 18
+Input IDs for sentence 18: tensor([ 101, 2023,  103, 2003, 1037,  103, 1012,  102])
+Decoded tokens for sentence 18: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]']
+Mask indices: [2 5]
+Target word token ID: 2158
+Target probability (p_T): 0.0930192694067955
+Prior probability (p_prior): 0.007435676641762257 for 2158
+Prior probability (p_prior) for sie: 6.203275688676513e-07 (target word token id=286)
+Prior probability (p_prior) for er: 6.419909368560184e-07 (target word token id=279)
+Association score for sentence 18: 2.526517086207622
+Processing sentence 19
+Input IDs for sentence 19: tensor([ 101, 2023,  103, 2003, 1037,  103, 1012,  102])
+Decoded tokens for sentence 19: ['[CLS]', 'this', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]']
+Mask indices: [2 5]
+Target word token ID: 2158
+Target probability (p_T): 0.00778162432834506
+Prior probability (p_prior): 0.007435676641762257 for 2158
+Prior probability (p_prior) for sie: 6.203275688676513e-07 (target word token id=286)
+Prior probability (p_prior) for er: 6.419909368560184e-07 (target word token id=279)
+Association score for sentence 19: 0.04547551555624532
+Batch 1: Associations calculated.
+
+Sentence 40:
+Original: ['[CLS]', 'my', '[MASK]', 'is', 'a', 'tape', '##r', '.']
+For TM: MASK at position 2: ['mother', 'father', 'dad', 'mom', 'sister'] (top-5 predictions)
+
+Sentence 41:
+Original: ['[CLS]', 'my', '[MASK]', 'is', 'a', 'steel', 'worker', '.']
+For TM: MASK at position 2: ['.', '"', ')', 'the', ','] (top-5 predictions)
+
+Sentence 42:
+Original: ['[CLS]', 'my', '[MASK]', 'is', 'a', 'mobile', 'equipment', 'mechanic']
+For TM: MASK at position 2: ['"', '.', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 43:
+Original: ['[CLS]', 'my', '[MASK]', 'is', 'a', 'bus', 'mechanic', '.']
+For TM: MASK at position 2: ['.', '"', ')', 'the', ','] (top-5 predictions)
+
+Sentence 44:
+Original: ['[CLS]', 'my', '[MASK]', 'is', 'a', 'service', 'technician', '.']
+For TM: MASK at position 2: ['.', '"', ')', 'the', ','] (top-5 predictions)
+
+Sentence 45:
+Original: ['[CLS]', 'my', '[MASK]', 'is', 'a', 'heating', 'mechanic', '.']
+For TM: MASK at position 2: ['.', '"', ')', 'the', ','] (top-5 predictions)
+
+Sentence 46:
+Original: ['[CLS]', 'my', '[MASK]', 'is', 'a', 'electrical', 'install', '##er']
+For TM: MASK at position 2: ['.', '"', ')', 'the', ','] (top-5 predictions)
+
+Sentence 47:
+Original: ['[CLS]', 'my', '[MASK]', 'is', 'a', 'operating', 'engineer', '.']
+For TM: MASK at position 2: ['.', '"', ')', 'the', ','] (top-5 predictions)
+
+Sentence 48:
+Original: ['[CLS]', 'my', '[MASK]', 'is', 'a', 'logging', 'worker', '.']
+For TM: MASK at position 2: ['.', '"', ')', 'the', ','] (top-5 predictions)
+
+Sentence 49:
+Original: ['[CLS]', 'my', '[MASK]', 'is', 'a', 'floor', 'install', '##er']
+For TM: MASK at position 2: ['.', '"', ')', 'the', ','] (top-5 predictions)
+
+Sentence 40:
+Original: ['[CLS]', 'my', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]']
+For TAM: MASK at position 2: ['mother', 'father', 'dad', 'mom', 'sister'] (top-5 predictions)
+For TAM: MASK at position 5: ['vampire', 'woman', 'killer', 'bitch', 'mess'] (top-5 predictions)
+
+Sentence 41:
+Original: ['[CLS]', 'my', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+For TAM: MASK at position 2: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 5: ['.', '"', 'the', ')', ','] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 42:
+Original: ['[CLS]', 'my', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '[MASK]']
+For TAM: MASK at position 2: ['"', '.', ')', ',', 'the'] (top-5 predictions)
+For TAM: MASK at position 5: ['"', '.', 'the', ')', ','] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', 'the', 'of'] (top-5 predictions)
+For TAM: MASK at position 7: ['.', '"', ')', 'the', ','] (top-5 predictions)
+
+Sentence 43:
+Original: ['[CLS]', 'my', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+For TAM: MASK at position 2: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 5: ['.', '"', 'the', ')', ','] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 44:
+Original: ['[CLS]', 'my', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+For TAM: MASK at position 2: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 5: ['.', '"', 'the', ')', ','] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 45:
+Original: ['[CLS]', 'my', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+For TAM: MASK at position 2: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 5: ['.', '"', 'the', ')', ','] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 46:
+Original: ['[CLS]', 'my', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+For TAM: MASK at position 2: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 5: ['.', '"', 'the', ')', ','] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 47:
+Original: ['[CLS]', 'my', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+For TAM: MASK at position 2: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 5: ['.', '"', 'the', ')', ','] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 48:
+Original: ['[CLS]', 'my', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+For TAM: MASK at position 2: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 5: ['.', '"', 'the', ')', ','] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+
+Sentence 49:
+Original: ['[CLS]', 'my', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+For TAM: MASK at position 2: ['.', '"', ')', 'the', ','] (top-5 predictions)
+For TAM: MASK at position 5: ['.', '"', 'the', ')', ','] (top-5 predictions)
+For TAM: MASK at position 6: ['.', '"', ')', ',', 'the'] (top-5 predictions)
+Batch 2:
+Prob_with_prior function starts
+Processing sentence 0
+Input IDs for sentence 0: tensor([ 101, 2026,  103, 2003, 1037,  103, 1012,  102])
+Decoded tokens for sentence 0: ['[CLS]', 'my', '[MASK]', 'is', 'a', '[MASK]', '.', '[SEP]']
+Mask indices: [2 5]
+Target word token ID: 2567
+Target probability (p_T): 0.0006112781702540815
+Prior probability (p_prior): 0.02383267693221569 for 2567
+Prior probability (p_prior) for sie: 2.9575278404081473e-07 (target word token id=286)
+Prior probability (p_prior) for er: 2.556697040745348e-07 (target word token id=279)
+Association score for sentence 0: -3.6632607722966988
+Processing sentence 1
+Input IDs for sentence 1: tensor([ 101, 2026,  103, 2003, 1037,  103,  103, 1012])
+Decoded tokens for sentence 1: ['[CLS]', 'my', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+Mask indices: [2 5 6]
+Target word token ID: 2567
+Target probability (p_T): 0.005639009643346071
+Prior probability (p_prior): 0.00027828163001686335 for 2567
+Prior probability (p_prior) for sie: 4.1879445689119166e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.8012976233403606e-07 (target word token id=279)
+Association score for sentence 1: 3.008830075413378
+Processing sentence 2
+Input IDs for sentence 2: tensor([ 101, 2026,  103, 2003, 1037,  103,  103,  103])
+Decoded tokens for sentence 2: ['[CLS]', 'my', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '[MASK]']
+Mask indices: [2 5 6 7]
+Target word token ID: 2567
+Target probability (p_T): 0.005170154385268688
+Prior probability (p_prior): 0.0003737625083886087 for 2567
+Prior probability (p_prior) for sie: 4.5880310040047334e-07 (target word token id=286)
+Prior probability (p_prior) for er: 4.1584578980291553e-07 (target word token id=279)
+Association score for sentence 2: 2.6270372374053483
+Processing sentence 3
+Input IDs for sentence 3: tensor([ 101, 2026,  103, 2003, 1037,  103,  103, 1012])
+Decoded tokens for sentence 3: ['[CLS]', 'my', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+Mask indices: [2 5 6]
+Target word token ID: 2567
+Target probability (p_T): 0.011595390737056732
+Prior probability (p_prior): 0.00027828163001686335 for 2567
+Prior probability (p_prior) for sie: 4.1879445689119166e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.8012976233403606e-07 (target word token id=279)
+Association score for sentence 3: 3.7297292893675085
+Processing sentence 4
+Input IDs for sentence 4: tensor([ 101, 2026,  103, 2003, 1037,  103,  103, 1012])
+Decoded tokens for sentence 4: ['[CLS]', 'my', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+Mask indices: [2 5 6]
+Target word token ID: 2567
+Target probability (p_T): 0.004805473610758781
+Prior probability (p_prior): 0.00027828163001686335 for 2567
+Prior probability (p_prior) for sie: 4.1879445689119166e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.8012976233403606e-07 (target word token id=279)
+Association score for sentence 4: 2.8488772242732914
+Processing sentence 5
+Input IDs for sentence 5: tensor([ 101, 2026,  103, 2003, 1037,  103,  103, 1012])
+Decoded tokens for sentence 5: ['[CLS]', 'my', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+Mask indices: [2 5 6]
+Target word token ID: 2567
+Target probability (p_T): 0.007186240516602993
+Prior probability (p_prior): 0.00027828163001686335 for 2567
+Prior probability (p_prior) for sie: 4.1879445689119166e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.8012976233403606e-07 (target word token id=279)
+Association score for sentence 5: 3.251289778769288
+Processing sentence 6
+Input IDs for sentence 6: tensor([ 101, 2026,  103, 2003, 1037,  103,  103, 1012])
+Decoded tokens for sentence 6: ['[CLS]', 'my', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+Mask indices: [2 5 6]
+Target word token ID: 2567
+Target probability (p_T): 0.008144418708980083
+Prior probability (p_prior): 0.00027828163001686335 for 2567
+Prior probability (p_prior) for sie: 4.1879445689119166e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.8012976233403606e-07 (target word token id=279)
+Association score for sentence 6: 3.3764544921451813
+Processing sentence 7
+Input IDs for sentence 7: tensor([ 101, 2026,  103, 2003, 1037,  103,  103, 1012])
+Decoded tokens for sentence 7: ['[CLS]', 'my', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+Mask indices: [2 5 6]
+Target word token ID: 2567
+Target probability (p_T): 0.006121974438428879
+Prior probability (p_prior): 0.00027828163001686335 for 2567
+Prior probability (p_prior) for sie: 4.1879445689119166e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.8012976233403606e-07 (target word token id=279)
+Association score for sentence 7: 3.091006285625144
+Processing sentence 8
+Input IDs for sentence 8: tensor([ 101, 2026,  103, 2003, 1037,  103,  103, 1012])
+Decoded tokens for sentence 8: ['[CLS]', 'my', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+Mask indices: [2 5 6]
+Target word token ID: 2567
+Target probability (p_T): 0.0029741607140749693
+Prior probability (p_prior): 0.00027828163001686335 for 2567
+Prior probability (p_prior) for sie: 4.1879445689119166e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.8012976233403606e-07 (target word token id=279)
+Association score for sentence 8: 2.3690835067537317
+Processing sentence 9
+Input IDs for sentence 9: tensor([ 101, 2026,  103, 2003, 1037,  103,  103, 1012])
+Decoded tokens for sentence 9: ['[CLS]', 'my', '[MASK]', 'is', 'a', '[MASK]', '[MASK]', '.']
+Mask indices: [2 5 6]
+Target word token ID: 2567
+Target probability (p_T): 0.009749574586749077
+Prior probability (p_prior): 0.00027828163001686335 for 2567
+Prior probability (p_prior) for sie: 4.1879445689119166e-07 (target word token id=286)
+Prior probability (p_prior) for er: 3.8012976233403606e-07 (target word token id=279)
+Association score for sentence 9: 3.556345272402997
+Batch 2: Associations calculated.
+Evaluation completed.
+Results saved to ../data/output_csv_files/english/results_EN_baseline_perplexity_sample.csv
