@@ -1,4 +1,4 @@
-with function replicate_results_perplexity.py
+with which function????
 
 Unnamed: 0	Sentence	Sent_TM	Sent_AM	Sent_TAM	Template	Person	Gender	Profession	Prof_Gender	Pre_Assoc	Post_Assoc
 0	He is a taper.	[MASK] is a taper.	He is a [MASK].	[MASK] is a [MASK].	<person subject> is a <profession>.	He	male	taper	male	-4.876234164608103	-4.4938922198629685

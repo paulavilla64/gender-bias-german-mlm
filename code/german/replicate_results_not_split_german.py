@@ -14,14 +14,14 @@ import numpy as np
 from torch.utils.data import TensorDataset, RandomSampler, DataLoader
 import torch
 from nltk import sent_tokenize
-from transformers import BertTokenizer, BertForMaskedLM, AdamW, get_linear_schedule_with_warmup
+from transformers import AdamW, get_linear_schedule_with_warmup, AutoTokenizer, AutoModelForMaskedLM
 
 from bias_utils.utils import model_evaluation, input_pipeline, format_time, mask_tokens
 
 print('-- Prepare evaluation data --')
 
 # Read a TSV file
-data = pd.read_csv('../BEC-Pro/BEC-Pro_EN.tsv', sep='\t')
+data = pd.read_csv('../BEC-Pro/modified_file_DE_gender_neutral.csv', sep='\t')
 
 # Take only the first 50 rows of data
 # data = data.head(50)
@@ -64,11 +64,11 @@ set_seed(42)  # Put this at the beginning of both scripts
 print('-- Import BERT model --')
 
 # Load the BERT tokenizer and dbmdz model
-# model_name_dbmdz = "bert-base-german-dbmdz-cased"
-# tokenizer = AutoTokenizer.from_pretrained(model_name_dbmdz)
-# model = AutoModelForMaskedLM.from_pretrained(model_name_dbmdz,
-#                                             output_attentions=False,
-#                                             output_hidden_states=False)
+model_name_dbmdz = "bert-base-german-dbmdz-cased"
+tokenizer = AutoTokenizer.from_pretrained(model_name_dbmdz)
+model = AutoModelForMaskedLM.from_pretrained(model_name_dbmdz,
+                                            output_attentions=False,
+                                            output_hidden_states=False)
 
 # Load tokenizer and google bert model
 # model_name_google_bert = "google-bert/bert-base-german-cased"
@@ -95,17 +95,17 @@ print('-- Import BERT model --')
 #                                              output_attentions=False,
 #                                              output_hidden_states=False)
 
-model_name_bert = "bert-base-uncased"
-tokenizer = BertTokenizer.from_pretrained(model_name_bert)
-model = BertForMaskedLM.from_pretrained(model_name_bert,
-                                            output_attentions=False,
-                                            output_hidden_states=False)
+# model_name_bert = "bert-base-uncased"
+# tokenizer = BertTokenizer.from_pretrained(model_name_bert)
+# model = BertForMaskedLM.from_pretrained(model_name_bert,
+#                                             output_attentions=False,
+#                                             output_hidden_states=False)
 
-print("loading english bert")
+print("loading german bert")
 
 # Verify model and tokenizer
 print(f"Tokenizer: {tokenizer}")
-print(f"Model loaded: {model_name_bert}")
+print(f"Model loaded: {model_name_dbmdz}")
 
 
 # PRE-PROCESSING
@@ -170,7 +170,6 @@ def fine_tune(model, train_dataloader, epochs, tokenizer, device):
                 print('  Batch {:>5,}  of  {:>5,}.    Elapsed: {:}.'.format(
                     step, len(train_dataloader), elapsed))
             
-            print("Raw Input IDs (before masking):", batch[0])
 
             # mask inputs so the model can actually learn something
             # Apply masking to input tokens (for masked language modeling)
@@ -188,14 +187,6 @@ def fine_tune(model, train_dataloader, epochs, tokenizer, device):
             b_labels = b_labels.to(device)
             b_input_mask = batch[1].to(device)
 
-            print("Masked Input IDs:", b_input_ids)
-            print("Masked Labels:", b_labels)
-            print("Attention Mask:", b_input_mask)
-
-            
-            print("First 5 values of b_input_ids:", b_input_ids[:5])
-            print("First 5 values of b_labels:", b_labels[:5])
-
             # clear previous gradients
             model.zero_grad()
 
@@ -203,7 +194,6 @@ def fine_tune(model, train_dataloader, epochs, tokenizer, device):
             outputs_train = model(b_input_ids,
                             attention_mask=b_input_mask,
                             labels=b_labels)
-            print("Model Outputs:", outputs_train)
 
             # The call to `model` always returns a tuple, so we need to pull the
             # loss value out of the tuple.
@@ -247,9 +237,9 @@ def fine_tune(model, train_dataloader, epochs, tokenizer, device):
 print('-- Import fine-tuning data --')
 
 # Fine-tune
-tune_corpus = pd.read_csv('../data/Gap/gap_flipped.tsv', sep='\t')
+tune_corpus = pd.read_csv('../data/Gap/gap_flipped_translated.tsv', sep='\t')
 tune_data = []
-for text in tune_corpus.Text:
+for text in tune_corpus.Text_German:
     tune_data += sent_tokenize(text)
 
 # make able to handle
@@ -283,7 +273,7 @@ epochs = 3
 model = fine_tune(model, train_dataloader, epochs, tokenizer, device)
 
 # Save the model state
-torch.save(model.state_dict(), '../models/finetuned_bert.pt')
+torch.save(model.state_dict(), '../models/finetuned_german_bert.pt')
 print("Model saved without validation influence")
 
 print('-- Calculate associations after fine-tuning --')
@@ -295,6 +285,6 @@ post_associations = model_evaluation(
 data = data.assign(Post_Assoc=post_associations)
 
 # Save the results
-output_file = "../data/output_csv_files/english/results_padding_EN_with_model_save.csv"
+output_file = "../data/output_csv_files/german/results_DE_gender_neutral_with_model_save.csv"
 data.to_csv(output_file, sep='\t', index=False)
 print(f"Results saved to {output_file}")
