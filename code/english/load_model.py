@@ -45,8 +45,8 @@ print("Model loaded successfully!")
 
 # Load the evaluation data
 data = pd.read_csv('../BEC-Pro/BEC-Pro_EN.tsv', sep='\t')
-data = data.head(50)  # Same as in your original script
-print("Loaded evaluation data (first 50 rows)")
+# data = data.head(50)  # Same as in your original script
+# print("Loaded evaluation data (first 50 rows)")
 
 # Function to compute perplexity
 def compute_perplexity(model, val_dataloader, device, description=""):
@@ -79,7 +79,7 @@ eval_data = []
 for text in eval_corpus.Sentence:
     eval_data += sent_tokenize(text)
 
-eval_data = eval_data[:50]  # Same as in your original script
+# eval_data = eval_data[:50]  # Same as in your original script
 
 # Get max length for padding
 max_len_eval = max([len(sent.split()) for sent in eval_data])
@@ -132,11 +132,6 @@ print("Fine-tuned model loaded successfully!")
 # Calculate post-fine-tuning perplexity
 finetuned_loss, finetuned_perplexity = compute_perplexity(finetuned_model, val_dataloader, device, "Fine-tuned")
 
-
-# Calculate perplexity
-# eval_loss, perplexity = compute_perplexity(model, val_dataloader, device)
-# print(f"Perplexity on validation set: {perplexity:.2f}")
-
 # Calculate post-association scores
 print('Calculating post-association scores...')
 post_associations = model_evaluation(data, tokenizer, finetuned_model, device)
@@ -145,7 +140,7 @@ post_associations = model_evaluation(data, tokenizer, finetuned_model, device)
 data = data.assign(Post_Assoc=post_associations)
 
 # Save the results
-output_file = "../data/output_csv_files/english/results_EN_separate_workflow_sample_padding.csv"
+output_file = "../data/output_csv_files/english/results_EN_perplexity_workflow.csv"
 data.to_csv(output_file, sep='\t', index=False)
 print(f"Results saved to {output_file}")
 
