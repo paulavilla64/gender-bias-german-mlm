@@ -53,22 +53,7 @@ set_all_seeds(42)
 model_name_bert = "bert-base-uncased"
 tokenizer = BertTokenizer.from_pretrained(model_name_bert)
 print("Tokenizer loaded successfully!")
-# model = BertForMaskedLM.from_pretrained(model_name_bert,
-#                                        output_attentions=False,
-#                                        output_hidden_states=False)
 
-# Load the fine-tuned model weights
-# model_path = "../models/finetuned_bert.pt"  # Path to your saved model
-# model.load_state_dict(torch.load(model_path))
-# model.to(device)
-
-# print("Model loaded successfully!")
-
-# Load the evaluation data
-# data = pd.read_csv('../BEC-Pro/BEC-Pro_EN.tsv', sep='\t')
-# print("Loaded evaluation data")
-# data = data.head(50)  # Same as in your original script
-# print("Loaded evaluation data (first 50 rows)")
 
 # Function to compute perplexity
 def compute_perplexity(model, val_dataloader, device, description=""):
@@ -130,7 +115,6 @@ val_dataloader = DataLoader(
 # PART 1: Calculate baseline perplexity with pre-trained model
 print("\n=== BASELINE METRICS (PRE-TRAINED MODEL) ===")
 model_name_bert = "bert-base-uncased"
-#tokenizer = BertTokenizer.from_pretrained(model_name_bert)
 baseline_model = BertForMaskedLM.from_pretrained(model_name_bert,
                                        output_attentions=False,
                                        output_hidden_states=False)
@@ -215,44 +199,3 @@ print(f"\nResults saved to {results_file}")
 # Print summary
 print("\n=== SUMMARY ===")
 print(results_df[['checkpoint', 'epoch', 'validation_loss', 'perplexity']])
-
-
-
-# # PART 2: Calculate post-fine-tuning metrics
-# print("\n=== POST-FINE-TUNING METRICS ===")
-
-# # Load the fine-tuned model weights
-# model_path = "../models/finetuned_bert.pt"  # Path to your saved model
-# finetuned_model = BertForMaskedLM.from_pretrained(model_name_bert,
-#                                        output_attentions=False,
-#                                        output_hidden_states=False)
-# finetuned_model.load_state_dict(torch.load(model_path))
-# finetuned_model.to(device)
-# print("Fine-tuned model loaded successfully!")
-
-# # Calculate post-fine-tuning perplexity
-# finetuned_loss, finetuned_perplexity = compute_perplexity(finetuned_model, val_dataloader, device, "Fine-tuned")
-
-# # Calculate post-association scores
-# print('Calculating post-association scores...')
-# post_associations = model_evaluation(data, tokenizer, finetuned_model, device)
-
-# # Add post-association scores to the dataframe
-# data = data.assign(Post_Assoc=post_associations)
-
-# # Save the results
-# output_file = "../data/output_csv_files/english/results_EN_perplexity_workflow.csv"
-# data.to_csv(output_file, sep='\t', index=False)
-# print(f"Results saved to {output_file}")
-
-# # Print summary statistics of post-association scores
-# print("\nSummary of post-association scores:")
-# print(f"Mean: {np.mean(post_associations):.4f}")
-# print(f"Median: {np.median(post_associations):.4f}")
-# print(f"Min: {np.min(post_associations):.4f}")
-# print(f"Max: {np.max(post_associations):.4f}")
-# print(f"Standard deviation: {np.std(post_associations):.4f}")
-
-# # Print perplexity improvement
-# perplexity_change = ((baseline_perplexity - finetuned_perplexity) / baseline_perplexity) * 100
-# print(f"\nPerplexity change: {perplexity_change:.2f}% ({'improved' if perplexity_change > 0 else 'worsened'})")
