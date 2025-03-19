@@ -4,7 +4,7 @@ import numpy as np
 import math
 
 # Read a CSV file
-data = pd.read_csv('../data/output_csv_files/results_EN_baseline_perplexity_full.csv', sep='\t')
+data = pd.read_csv('../../data/output_csv_files/english/results_padding_EN_with_model_save_epochs.csv', sep='\t')
 
 pre_association = data['Pre_Assoc'].to_list()
 post_association = data['Post_Assoc'].to_list()
