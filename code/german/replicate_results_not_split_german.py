@@ -18,29 +18,22 @@ from transformers import AdamW, get_linear_schedule_with_warmup, AutoTokenizer, 
 
 from bias_utils.utils import model_evaluation, input_pipeline, format_time, mask_tokens
 
-print('-- Prepare evaluation data --')
+print(f"Torch version: {torch.__version__}")
+print(f"CUDA available: {torch.cuda.is_available()}")
+print(f"CUDA device count: {torch.cuda.device_count()}")
+print(f"Current CUDA device: {torch.cuda.current_device()}")
+print(f"CUDA device name: {torch.cuda.get_device_name(torch.cuda.current_device())}")
 
-# Read a TSV file
-data = pd.read_csv('../BEC-Pro/modified_file_DE_gender_neutral.csv', sep='\t')
 
-# Take only the first 50 rows of data
-# data = data.head(50)
-# print("Loaded first 50 rows of the dataset:")
-# print(data)
+gpu_id = "4" 
 
 # check if GPU is available
 if torch.cuda.is_available():
-    device = torch.device('cuda')
+    device = torch.device(f"cuda:{gpu_id}")
     print('We will use the GPU:', torch.cuda.get_device_name(0))
 else:
     print('No GPU available, using the CPU instead.')
     device = torch.device('cpu')
-
-# Set random seeds
-# random.seed(42)
-# np.random.seed(42)
-# torch.manual_seed(42)
-# torch.cuda.manual_seed(42)
 
 # Set fixed seeds everywhere
 def set_seed(seed):
@@ -56,12 +49,22 @@ def set_seed(seed):
 
 set_seed(42)  # Put this at the beginning of both scripts
 
+print('-- Prepare evaluation data --')
+
+# Read a TSV file
+data = pd.read_csv('../BEC-Pro/modified_file_DE_gender_neutral.csv', sep='\t')
+
+# Take only the first 50 rows of data
+# data = data.head(50)
+# print("Loaded first 50 rows of the dataset:")
+# print(data)
+
 # TECHNICAL SPECIFICATIONS AND MODELS
 # Use the Huggingface transformers library for PyTorch with a default random seed of 42 for all experiments
 # The model used for bias evaluation and fine-tuning is a pre-trained BERTBASE model with a language modelling head on top.
 # For English, the tokenizer and model are loaded with the standard pre-trained uncased BERTBASE model.
 
-print('-- Import BERT model --')
+print('-- Import DBMDZ model --')
 
 # Load the BERT tokenizer and dbmdz model
 model_name_dbmdz = "bert-base-german-dbmdz-cased"
@@ -101,7 +104,7 @@ model = AutoModelForMaskedLM.from_pretrained(model_name_dbmdz,
 #                                             output_attentions=False,
 #                                             output_hidden_states=False)
 
-print("loading german bert")
+print("loading dbmdz")
 
 # Verify model and tokenizer
 print(f"Tokenizer: {tokenizer}")
@@ -124,6 +127,10 @@ pre_associations = model_evaluation(data, tokenizer, model, device)
 data = data.assign(Pre_Assoc=pre_associations)
 
 def fine_tune(model, train_dataloader, epochs, tokenizer, device):
+    model_dir = '../models/dbmdz_checkpoints'
+
+    os.makedirs(model_dir, exist_ok=True)
+    
     model.to(device)
 
     # ##### NEXT part + comments from tutorial:
@@ -143,7 +150,7 @@ def fine_tune(model, train_dataloader, epochs, tokenizer, device):
                                                 num_training_steps=total_steps) # Total training steps
 
     # Store the average loss after each epoch so we can plot them.
-    train_loss_values = []
+    # train_loss_values = []
 
     for epoch_i in range(0, epochs):
         print('')
@@ -199,7 +206,6 @@ def fine_tune(model, train_dataloader, epochs, tokenizer, device):
             # loss value out of the tuple.
             # Extract the loss from the model's output tuple
             train_loss = outputs_train[0]
-            print(f"Train Loss: {train_loss}")
 
             total_train_loss += train_loss.item()
 
@@ -217,16 +223,26 @@ def fine_tune(model, train_dataloader, epochs, tokenizer, device):
         avg_train_loss = total_train_loss / len(train_dataloader)
 
         # torch.exp: Returns a new tensor with the exponential of the elements of the input tensor.
-        perplexity = torch.exp(torch.tensor(avg_train_loss))
+        # perplexity = torch.exp(torch.tensor(avg_train_loss))
 
         # Store the loss value for plotting the learning curve.
-        train_loss_values.append(avg_train_loss)
+        # train_loss_values.append(avg_train_loss)
 
         print('')
         print('  Average training loss: {0:.2f}'.format(avg_train_loss))
-        print(f'\n[Epoch {epoch_i + 1}] Training Perplexity: {perplexity:.2f}')
         print(f"[Epoch {epoch_i + 1}] Training epoch took: {format_time(time.time() - t0)}")
         
+        # Save model after each epoch - save everything needed to resume training
+        epoch_checkpoint_path = os.path.join(model_dir, f'finetuned_dbmdz_epoch_{epoch_i+1}.pt')
+        torch.save({
+            'epoch': epoch_i+1,
+            'model_state_dict': model.state_dict(),
+            'optimizer_state_dict': optimizer.state_dict(),
+            'scheduler_state_dict': scheduler.state_dict(),
+        }, epoch_checkpoint_path)
+        print(f"Model checkpoint saved at {epoch_checkpoint_path}")
+        
+
     print("")
 
     print('Fine-tuning complete!')
@@ -237,7 +253,7 @@ def fine_tune(model, train_dataloader, epochs, tokenizer, device):
 print('-- Import fine-tuning data --')
 
 # Fine-tune
-tune_corpus = pd.read_csv('../data/Gap/gap_flipped_translated.tsv', sep='\t')
+tune_corpus = pd.read_csv('../Gap/gap_flipped_translated.tsv', sep='\t')
 tune_data = []
 for text in tune_corpus.Text_German:
     tune_data += sent_tokenize(text)
@@ -273,8 +289,8 @@ epochs = 3
 model = fine_tune(model, train_dataloader, epochs, tokenizer, device)
 
 # Save the model state
-torch.save(model.state_dict(), '../models/finetuned_german_bert.pt')
-print("Model saved without validation influence")
+torch.save(model.state_dict(), '../models/finetuned_dbmdz_final.pt')
+print("Final model saved")
 
 print('-- Calculate associations after fine-tuning --')
 # here tokenization is happening
@@ -285,6 +301,6 @@ post_associations = model_evaluation(
 data = data.assign(Post_Assoc=post_associations)
 
 # Save the results
-output_file = "../data/output_csv_files/german/results_DE_gender_neutral_with_model_save.csv"
+output_file = "../data/output_csv_files/german/results_DE_gender_neutral_with_model_save_epochs.csv"
 data.to_csv(output_file, sep='\t', index=False)
 print(f"Results saved to {output_file}")
