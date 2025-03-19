@@ -1,21 +1,19 @@
 # File name: BERT_utils.py
 # Description: additional functionality for my BERT scripts to keep them (relatively) small
-# Author: Marion Bartl
-# Date: 03/03/2020
+# Author: Paula Villavecchia
+# Date: 18/03/2025
 import datetime
 import math
 from typing import Tuple
-
 import numpy as np
 import torch
 from keras.preprocessing.sequence import pad_sequences
 from scipy import stats
 from torch.nn.functional import softmax
 from torch.utils.data import TensorDataset, SequentialSampler, DataLoader
-from transformers import PreTrainedTokenizer, DataCollatorForLanguageModeling
+from transformers import PreTrainedTokenizer
 
 
-# Just needed for fine-tuning...check this function
 # taken from https://github.com/allenai/dont-stop-pretraining/blob/master/scripts/mlm_study.py
 def mask_tokens(inputs: torch.Tensor, tokenizer: PreTrainedTokenizer, mlm_probability=0.15) -> Tuple[
         torch.Tensor, torch.Tensor]:
@@ -66,8 +64,7 @@ def mask_tokens(inputs: torch.Tensor, tokenizer: PreTrainedTokenizer, mlm_probab
 
     labels[~masked_indices] = -100  # We only compute loss on masked tokens
 
-    print("Total masked tokens per sequence:", masked_indices.sum(dim=1))
-
+    # print("Total masked tokens per sequence:", masked_indices.sum(dim=1))
 
     # 80% of the time, we replace masked input tokens with tokenizer.mask_token ([MASK])
     indices_replaced = torch.bernoulli(torch.full(
@@ -83,27 +80,25 @@ def mask_tokens(inputs: torch.Tensor, tokenizer: PreTrainedTokenizer, mlm_probab
     inputs[indices_random] = random_words[indices_random].type_as(inputs)
 
     # Debugging
-    print("Total tokens in batch:", labels.numel())
-    print("Total masked tokens:", torch.sum(masked_indices).item())
-    print(f"Percentage of masked tokens: {torch.sum(masked_indices).item() / labels.numel() * 100:.2f}%")
+    # print("Total tokens in batch:", labels.numel())
+    # print("Total masked tokens:", torch.sum(masked_indices).item())
+    # print(f"Percentage of masked tokens: {torch.sum(masked_indices).item() / labels.numel() * 100:.2f}%")
 
-    num_special_tokens = sum(sum(m) for m in special_tokens_mask)
-    print(f"Total special tokens in batch: {num_special_tokens}")
+    # num_special_tokens = sum(sum(m) for m in special_tokens_mask)
+    # print(f"Total special tokens in batch: {num_special_tokens}")
 
-    total_tokens = labels.numel()
-    num_masked = torch.sum(masked_indices).item()
-    num_non_special = total_tokens - num_special_tokens
-    print(f"Total tokens: {total_tokens}, Non-special tokens: {num_non_special}, Masked tokens: {num_masked}")
-
-
+    # total_tokens = labels.numel()
+    # num_masked = torch.sum(masked_indices).item()
+    # num_non_special = total_tokens - num_special_tokens
+    # print(f"Total tokens: {total_tokens}, Non-special tokens: {num_non_special}, Masked tokens: {num_masked}")
 
     # Check label distribution
-    unique_labels, counts = torch.unique(labels, return_counts=True)
-    print("Unique label values and counts:", dict(zip(unique_labels.tolist(), counts.tolist())))
+    # unique_labels, counts = torch.unique(labels, return_counts=True)
+    # print("Unique label values and counts:", dict(zip(unique_labels.tolist(), counts.tolist())))
 
     # Check if all labels are -100
-    if torch.all(labels == -100):
-        print("❌ All tokens are -100! Masking is too aggressive.")
+    # if torch.all(labels == -100):
+    #     print("❌ All tokens are -100! Masking is too aggressive.")
 
     # The rest of the time (10% of the time) we keep the masked input tokens unchanged
     return inputs, labels
@@ -514,10 +509,10 @@ def input_pipeline(sequence, tokenizer, MAX_LEN):
     """function to tokenize, pad and create attention masks"""
     # Step 1: Tokenize the input sequence to IDs
     # Print the first 5 sequences for inspection
-    print(f"Input sequence (first 5): {sequence[:5]}")
+    # print(f"Input sequence (first 5): {sequence[:5]}")
     input_ids = tokenize_to_id(sequence, tokenizer)
     # Print the first 5 tokenized inputs
-    print(f"Tokenized input IDs (first 5): {input_ids[:5]}")
+    # print(f"Tokenized input IDs (first 5): {input_ids[:5]}")
 
     # Step 2: Pad the sequences to the specified MAX_LEN
     input_ids = pad_sequences(input_ids, maxlen=MAX_LEN,
@@ -525,7 +520,7 @@ def input_pipeline(sequence, tokenizer, MAX_LEN):
                               value=tokenizer.pad_token_id,
                               truncating="post", padding="post")
     # Print the first 5 padded sequences
-    print(f"Padded input IDs (first 5): {input_ids[:5]}")
+    # print(f"Padded input IDs (first 5): {input_ids[:5]}")
 
     # Convert to tensor
     input_ids = torch.tensor(input_ids)
@@ -535,7 +530,7 @@ def input_pipeline(sequence, tokenizer, MAX_LEN):
     # Step 3: Create attention masks
     attention_masks = attention_mask_creator(input_ids)
     # Print the first 5 attention masks
-    print(f"Attention masks (first 5): {attention_masks[:5]}")
+    # print(f"Attention masks (first 5): {attention_masks[:5]}")
     # Print the shape of attention masks
     # print(f"Attention masks shape: {attention_masks.shape}")
 
@@ -553,38 +548,38 @@ def prob_with_prior(pred_TM, pred_TAM, input_ids_TAM, original_ids, tokenizer):
     pred_TM = pred_TM.cpu()
     pred_TAM = pred_TAM.cpu()
     input_ids_TAM = input_ids_TAM.cpu()
-    print("Prob_with_prior function starts")
+    # print("Prob_with_prior function starts")
 
     probs = []
     for doc_idx, id_list in enumerate(input_ids_TAM):
-        print(f"Processing sentence {doc_idx}")
-        print(f"Input IDs for sentence {doc_idx}:", input_ids_TAM[doc_idx])
-        print(f"Decoded tokens for sentence {doc_idx}:", tokenizer.convert_ids_to_tokens(input_ids_TAM[doc_idx]))
+        # print(f"Processing sentence {doc_idx}")
+        # print(f"Input IDs for sentence {doc_idx}:", input_ids_TAM[doc_idx])
+        # print(f"Decoded tokens for sentence {doc_idx}:", tokenizer.convert_ids_to_tokens(input_ids_TAM[doc_idx]))
 
         # see where the masks were placed in this sentence
         # Finds the positions of all [MASK] tokens in the input, e.g., [0, 3, 4]
         mask_indices = np.where(id_list == tokenizer.mask_token_id)[0]
-        print(f"Mask indices: {mask_indices}")
+        # print(f"Mask indices: {mask_indices}")
 
         # now get the probability of the target word:
         # first get id of target word
         # Retrieves the token ID for the target word ("He") from the original sentence, using the first [MASK] index (mask_indices[0]), e.g., [0]
         target_id = original_ids[doc_idx][mask_indices[0]]
-        print(f"Target word token ID: {target_id}")
+        # print(f"Target word token ID: {target_id}")
 
         # get its probability with unmasked profession
         # P_t
         target_prob = pred_TM[doc_idx][mask_indices[0]][target_id].item()
-        print(f"Target probability (p_T): {target_prob}")
+        # print(f"Target probability (p_T): {target_prob}")
 
         # get its prior probability (masked profession)
         # p_prior
         prior = pred_TAM[doc_idx][mask_indices[0]][target_id].item()
         prior_female = pred_TAM[doc_idx][mask_indices[0]][286].item()
         prior_male = pred_TAM[doc_idx][mask_indices[0]][279].item()
-        print(f"Prior probability (p_prior): {prior} for {target_id}")
-        print(f"Prior probability (p_prior) for sie: {prior_female} (target word token id=286)")
-        print(f"Prior probability (p_prior) for er: {prior_male} (target word token id=279)")
+        # print(f"Prior probability (p_prior): {prior} for {target_id}")
+        # print(f"Prior probability (p_prior) for sie: {prior_female} (target word token id=286)")
+        # print(f"Prior probability (p_prior) for er: {prior_male} (target word token id=279)")
 
         # get the predicted tokens for the masked profession
 
@@ -592,7 +587,7 @@ def prob_with_prior(pred_TM, pred_TAM, input_ids_TAM, original_ids, tokenizer):
         # Calculate the association by dividing the target probability by the prior and take the natural logarithm
         # By dividing the conditional probability 𝑃_t by the prior P_prior, the approach controls for how likely the target word is in general (independent of the attribute).
         # This normalization is crucial to avoid overestimating associations for very frequent words like "he" or "she."
-        print(f"Association score for sentence {doc_idx}: {np.log(target_prob / prior)}")
+        # print(f"Association score for sentence {doc_idx}: {np.log(target_prob / prior)}")
         probs.append(np.log(target_prob / prior))
 
         # Logarithmic Transformation: Taking the logarithm helps interpret the results more easily:
@@ -601,13 +596,6 @@ def prob_with_prior(pred_TM, pred_TAM, input_ids_TAM, original_ids, tokenizer):
 
     return probs
 
-# adapt prior probability
-# prior: 
-# MASK ist
-# MASK arbeitet als 
-# MASK hat sich auf die Stelle als beworben.
-# MASK, die/der, hatte einen guten Arbeitstag.
-# MASK will werden.
 # def prob_with_prior_adapted(pred_TM, pred_TM_prior, input_ids_TAM, original_ids, tokenizer):
 #     # Probability distribution over all words in BERT's vocabulary for the [MASK] position (target word masked)
 #     pred_TM = pred_TM.cpu()
@@ -692,8 +680,8 @@ def model_evaluation(eval_df, tokenizer, model, device):
     eval_tokens_TAM, eval_attentions_TAM = input_pipeline(eval_df.Sent_TAM,
                                                           tokenizer,
                                                           max_len_eval)
-    print(f'Tokens (Sent_TAM): {eval_tokens_TAM.shape}')
-    print(f'Attention Masks (Sent_TAM): {eval_attentions_TAM.shape}')
+    # print(f'Tokens (Sent_TAM): {eval_tokens_TAM.shape}')
+    # print(f'Attention Masks (Sent_TAM): {eval_attentions_TAM.shape}')
 
     print('--- Tokenizing Original Sentence...')
     # Tokenize the original sentences to recover the target word for probability calculations later.
@@ -936,15 +924,6 @@ def model_evaluation(eval_df, tokenizer, model, device):
 #     return associations_all
 
 
-# TAKEN FROM TUTORIAL
-
-# Function to calculate the accuracy of our predictions vs labels
-def flat_accuracy(preds, labels):
-    pred_flat = np.argmax(preds, axis=1).flatten()
-    labels_flat = labels.flatten()
-    return np.sum(pred_flat == labels_flat) / len(labels_flat)
-
-
 # Helper function for formatting elapsed times.
 def format_time(elapsed):
     """ Takes a time in seconds and returns a string hh:mm:ss"""
@@ -952,5 +931,3 @@ def format_time(elapsed):
     elapsed_rounded = int(round((elapsed)))
     # Format as hh:mm:ss
     return str(datetime.timedelta(seconds=elapsed_rounded))
-
-# COPY END
