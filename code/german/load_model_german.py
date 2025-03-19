@@ -1,13 +1,40 @@
+# Sets up the environment (seeds, device detection)
+# Loads the tokenizer
+# Prepares the validation data from AG News dataset
+# Defines a function to compute perplexity
+# Computes baseline perplexity with the original pre-trained BERT
+# Loads each checkpoint model from your training directory
+# Computes perplexity for each checkpoint
+# Saves the results to a CSV file
+
 import pandas as pd
 import math
 import torch
 import numpy as np
 import random
 import os
+import glob
 from nltk import sent_tokenize
 from torch.utils.data import TensorDataset, DataLoader, SequentialSampler
 from transformers import  AutoTokenizer, AutoModelForMaskedLM
-from bias_utils.utils import model_evaluation, input_pipeline, mask_tokens
+from bias_utils.utils import input_pipeline, mask_tokens
+
+print(f"Torch version: {torch.__version__}")
+print(f"CUDA available: {torch.cuda.is_available()}")
+print(f"CUDA device count: {torch.cuda.device_count()}")
+print(f"Current CUDA device: {torch.cuda.current_device()}")
+print(f"CUDA device name: {torch.cuda.get_device_name(torch.cuda.current_device())}")
+
+
+gpu_id = "4" 
+
+# check if GPU is available
+if torch.cuda.is_available():
+    device = torch.device(f"cuda:{gpu_id}")
+    print('We will use the GPU:', torch.cuda.get_device_name(0))
+else:
+    print('No GPU available, using the CPU instead.')
+    device = torch.device('cpu')
 
 # Set all seeds for reproducibility
 def set_all_seeds(seed_val=42):
@@ -21,32 +48,9 @@ def set_all_seeds(seed_val=42):
 
 set_all_seeds(42)
 
-# Check if GPU is available
-if torch.cuda.is_available():
-    device = torch.device('cuda')
-    print('We will use the GPU:', torch.cuda.get_device_name(0))
-else:
-    print('No GPU available, using the CPU instead.')
-    device = torch.device('cpu')
-
 # Load the model and tokenizer
 model_name_bert = "bert-base-german-dbmdz-cased"
 tokenizer = AutoTokenizer.from_pretrained(model_name_bert)
-model = AutoModelForMaskedLM.from_pretrained(model_name_bert,
-                                       output_attentions=False,
-                                       output_hidden_states=False)
-
-# Load the fine-tuned model weights
-model_path = "../models/finetuned_model_german.pt"  # Path to your saved model
-model.load_state_dict(torch.load(model_path))
-model.to(device)
-
-print("Model loaded successfully!")
-
-# Load the evaluation data
-data = pd.read_csv('modified_file_DE_gender_neutral.csv', sep='\t')
-# data = data.head(50)  # Same as in your original script
-# print("Loaded evaluation data (first 50 rows)")
 
 # Function to compute perplexity
 def compute_perplexity(model, val_dataloader, device, description=""):
@@ -108,7 +112,6 @@ val_dataloader = DataLoader(
 # PART 1: Calculate baseline perplexity with pre-trained model
 print("\n=== BASELINE METRICS (PRE-TRAINED MODEL) ===")
 model_name_bert = "bert-base-german-dbmdz-cased"
-tokenizer = AutoTokenizer.from_pretrained(model_name_bert)
 baseline_model = AutoModelForMaskedLM.from_pretrained(model_name_bert,
                                        output_attentions=False,
                                        output_hidden_states=False)
@@ -117,41 +120,119 @@ baseline_model.to(device)
 # Compute baseline perplexity
 baseline_loss, baseline_perplexity = compute_perplexity(baseline_model, val_dataloader, device, "Baseline")
 
-# PART 2: Calculate post-fine-tuning metrics
-print("\n=== POST-FINE-TUNING METRICS ===")
+# Create a simple DataFrame to store results
+results = []
 
-# Load the fine-tuned model weights
-model_path = "../models/finetuned_model_german.pt"  # Path to your saved model
-finetuned_model = AutoModelForMaskedLM.from_pretrained(model_name_bert,
+# Find all checkpoint files
+checkpoints_dir = '../models/dbmdz_checkpoints'
+checkpoint_files = sorted(glob.glob(os.path.join(checkpoints_dir, 'finetuned_dbmdz_epoch_*.pt')))
+
+if not checkpoint_files:
+    print("No checkpoint files found in directory:", checkpoints_dir)
+else:
+    print(f"Found {len(checkpoint_files)} checkpoint files")
+
+    # Process each checkpoint
+    for checkpoint_file in checkpoint_files:
+        checkpoint_name = os.path.basename(checkpoint_file)
+        print(f"\n=== Processing checkpoint: {checkpoint_name} ===")
+        
+        # Load the model
+        model = AutoModelForMaskedLM.from_pretrained(model_name_bert,
                                        output_attentions=False,
                                        output_hidden_states=False)
-finetuned_model.load_state_dict(torch.load(model_path))
-finetuned_model.to(device)
-print("Fine-tuned model loaded successfully!")
+        
+        # Load checkpoint
+        checkpoint = torch.load(checkpoint_file)
+        model.load_state_dict(checkpoint['model_state_dict'])
+        model.to(device)
+        
+        # Get epoch number from checkpoint
+        epoch = checkpoint['epoch']
+        print(f"Checkpoint from epoch {epoch} loaded successfully!")
+        
+        # Compute perplexity
+        val_loss, perplexity = compute_perplexity(model, val_dataloader, device, f"Epoch {epoch}")
+        
+        # Store results
+        results.append({
+            'checkpoint': checkpoint_name,
+            'epoch': epoch,
+            'validation_loss': val_loss,
+            'perplexity': perplexity
+        })
 
-# Calculate post-fine-tuning perplexity
-finetuned_loss, finetuned_perplexity = compute_perplexity(finetuned_model, val_dataloader, device, "Fine-tuned")
+# Process final model if it exists
+final_model_path = '../models/finetuned_dbmdz_final.pt'
+if os.path.exists(final_model_path):
+    print("\n=== Processing final model ===")
+    final_model = AutoModelForMaskedLM.from_pretrained(model_name_bert,
+                                        output_attentions=False,
+                                        output_hidden_states=False)
+    final_model.load_state_dict(torch.load(final_model_path))
+    final_model.to(device)
 
-# Calculate post-association scores
-print('Calculating post-association scores...')
-post_associations = model_evaluation(data, tokenizer, finetuned_model, device)
+    # Compute final metrics
+    final_loss, final_perplexity = compute_perplexity(final_model, val_dataloader, device, "Final Model")
+    
+    # Store results
+    results.append({
+        'checkpoint': 'final_model',
+        'epoch': 'final',
+        'validation_loss': final_loss,
+        'perplexity': final_perplexity
+    })
 
-# Add post-association scores to the dataframe
-data = data.assign(Post_Assoc=post_associations)
+print("Final model loaded successfully!")
 
-# Save the results
-output_file = "../data/output_csv_files/german/results_DE_perplexity_gender_neutral_workflow.csv"
-data.to_csv(output_file, sep='\t', index=False)
-print(f"Results saved to {output_file}")
+# Convert results to DataFrame and save
+results_df = pd.DataFrame(results)
+results_file = "../data/output_csv_files/german/results_DE_gender_neutral_with_model_save_epochs_perplexity.csv"
+results_df.to_csv(results_file, index=False)
+print(f"\nResults saved to {results_file}")
 
-# Print summary statistics of post-association scores
-print("\nSummary of post-association scores:")
-print(f"Mean: {np.mean(post_associations):.4f}")
-print(f"Median: {np.median(post_associations):.4f}")
-print(f"Min: {np.min(post_associations):.4f}")
-print(f"Max: {np.max(post_associations):.4f}")
-print(f"Standard deviation: {np.std(post_associations):.4f}")
+# Print summary
+print("\n=== SUMMARY ===")
+print(results_df[['checkpoint', 'epoch', 'validation_loss', 'perplexity']])
 
-# Print perplexity improvement
-perplexity_change = ((baseline_perplexity - finetuned_perplexity) / baseline_perplexity) * 100
-print(f"\nPerplexity change: {perplexity_change:.2f}% ({'improved' if perplexity_change > 0 else 'worsened'})")
+
+
+
+# # PART 2: Calculate post-fine-tuning metrics
+# print("\n=== POST-FINE-TUNING METRICS ===")
+
+# # Load the fine-tuned model weights
+# model_path = "../models/finetuned_model_german.pt"  # Path to your saved model
+# finetuned_model = AutoModelForMaskedLM.from_pretrained(model_name_bert,
+#                                        output_attentions=False,
+#                                        output_hidden_states=False)
+# finetuned_model.load_state_dict(torch.load(model_path))
+# finetuned_model.to(device)
+# print("Fine-tuned model loaded successfully!")
+
+# # Calculate post-fine-tuning perplexity
+# finetuned_loss, finetuned_perplexity = compute_perplexity(finetuned_model, val_dataloader, device, "Fine-tuned")
+
+# # Calculate post-association scores
+# print('Calculating post-association scores...')
+# post_associations = model_evaluation(data, tokenizer, finetuned_model, device)
+
+# # Add post-association scores to the dataframe
+# data = data.assign(Post_Assoc=post_associations)
+
+# # Save the results
+# output_file = "../data/output_csv_files/german/results_DE_perplexity_gender_neutral_workflow.csv"
+# data.to_csv(output_file, sep='\t', index=False)
+# print(f"Results saved to {output_file}")
+
+# # Print summary statistics of post-association scores
+# print("\nSummary of post-association scores:")
+# print(f"Mean: {np.mean(post_associations):.4f}")
+# print(f"Median: {np.median(post_associations):.4f}")
+# print(f"Min: {np.min(post_associations):.4f}")
+# print(f"Max: {np.max(post_associations):.4f}")
+# print(f"Standard deviation: {np.std(post_associations):.4f}")
+
+# # Print perplexity improvement
+# perplexity_change = ((baseline_perplexity - finetuned_perplexity) / baseline_perplexity) * 100
+# print(f"\nPerplexity change: {perplexity_change:.2f}% ({'improved' if perplexity_change > 0 else 'worsened'})")
