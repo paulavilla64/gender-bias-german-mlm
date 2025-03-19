@@ -273,7 +273,7 @@ model = fine_tune(model, train_dataloader, epochs, tokenizer, device)
 
 # Save the final model state
 torch.save(model.state_dict(), '../models/finetuned_bert_final.pt')
-print("Final model saved without validation influence")
+print("Final model saved")
 
 print('-- Calculate associations after fine-tuning --')
 # here tokenization is happening
