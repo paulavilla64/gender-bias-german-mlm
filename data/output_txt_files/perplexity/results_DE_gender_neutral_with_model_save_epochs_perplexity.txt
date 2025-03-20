@@ -1,0 +1,61 @@
+Torch version: 2.5.1
+CUDA available: True
+CUDA device count: 9
+Current CUDA device: 0
+CUDA device name: NVIDIA GeForce RTX 2080 Ti
+We will use the GPU: NVIDIA GeForce RTX 2080 Ti
+Preparing validation data...
+Max sentence length in validation set: 64
+Number of sentences to tokenize: 14029
+Number of sentences successfully tokenized: 14029
+
+=== BASELINE METRICS (PRE-TRAINED MODEL) ===
+
+
+Running Baseline perplexity calculation...
+Baseline Loss: 2.0886, Perplexity: 8.07
+Found 3 checkpoint files
+
+=== Processing checkpoint: finetuned_dbmdz_epoch_1.pt ===
+Checkpoint from epoch 1 loaded successfully!
+
+
+Running Epoch 1 perplexity calculation...
+Epoch 1 Loss: 2.1067, Perplexity: 8.22
+
+=== Processing checkpoint: finetuned_dbmdz_epoch_2.pt ===
+Checkpoint from epoch 2 loaded successfully!
+
+
+Running Epoch 2 perplexity calculation...
+Epoch 2 Loss: 2.2088, Perplexity: 9.11
+
+=== Processing checkpoint: finetuned_dbmdz_epoch_3.pt ===
+Checkpoint from epoch 3 loaded successfully!
+
+
+Running Epoch 3 perplexity calculation...
+Epoch 3 Loss: 2.1664, Perplexity: 8.73
+
+=== Processing final model ===
+
+
+Running Final Model perplexity calculation...
+Final Model Loss: 2.1664, Perplexity: 8.73
+Final model loaded successfully!
+
+Results saved to ../data/output_csv_files/german/results_DE_gender_neutral_with_model_save_epochs_perplexity.csv
+
+=== SUMMARY ===
+                   checkpoint  epoch  validation_loss  perplexity
+0                    baseline      0         2.088625    8.073804
+1  finetuned_dbmdz_epoch_1.pt      1         2.106671    8.220827
+2  finetuned_dbmdz_epoch_2.pt      2         2.208849    9.105232
+3  finetuned_dbmdz_epoch_3.pt      3         2.166369    8.726537
+4                 final_model  final         2.166369    8.726537
+
+=== PERPLEXITY IMPROVEMENT ===
+finetuned_dbmdz_epoch_1.pt: -1.82% (worsened)
+finetuned_dbmdz_epoch_2.pt: -12.78% (worsened)
+finetuned_dbmdz_epoch_3.pt: -8.08% (worsened)
+final_model: -8.08% (worsened)
