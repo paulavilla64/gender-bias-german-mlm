@@ -37,16 +37,16 @@ else:
     device = torch.device('cpu')
 
 # Set all seeds for reproducibility
-def set_all_seeds(seed_val=42):
-    random.seed(seed_val)
-    np.random.seed(seed_val)
-    torch.manual_seed(seed_val)
-    torch.cuda.manual_seed_all(seed_val)
-    os.environ['PYTHONHASHSEED'] = str(seed_val)
+def set_all_seeds(seed):
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
+    os.environ['PYTHONHASHSEED'] = str(seed)
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
 
-set_all_seeds(42)
+set_all_seeds(1980)
 
 
 # Load the model and tokenizer
@@ -111,31 +111,96 @@ val_sampler = SequentialSampler(val_data)
 val_dataloader = DataLoader(
     val_data, sampler=val_sampler, batch_size=50, drop_last=False)
 
-
-# PART 1: Calculate baseline perplexity with pre-trained model
-print("\n=== BASELINE METRICS (PRE-TRAINED MODEL) ===")
-model_name_bert = "bert-base-uncased"
-baseline_model = BertForMaskedLM.from_pretrained(model_name_bert,
-                                       output_attentions=False,
-                                       output_hidden_states=False)
-baseline_model.to(device)
-
-print("Bert model loaded successfully!")
-
-# Compute baseline perplexity
-baseline_loss, baseline_perplexity = compute_perplexity(baseline_model, val_dataloader, device, "Baseline")
-
 # Create a simple DataFrame to store results
 results = []
 
 # Find all checkpoint files
-checkpoints_dir = '../models/bert_checkpoints'
-checkpoint_files = sorted(glob.glob(os.path.join(checkpoints_dir, 'finetuned_bert_epoch_*.pt')))
+checkpoints_dir = '../models/bert_checkpoints/random_seed_1980'
+checkpoint_files = sorted(glob.glob(os.path.join(checkpoints_dir, 'finetuned_bert_1980_epoch_*.pt')))
 
 if not checkpoint_files:
     print("No checkpoint files found in directory:", checkpoints_dir)
+    # If no checkpoints found, use the huggingface model as baseline for compatibility
+    print("\n=== BASELINE METRICS (PRE-TRAINED MODEL) ===")
+    print("No local epoch 0 checkpoint found, using Hugging Face model for baseline")
+    baseline_model = BertForMaskedLM.from_pretrained(model_name_bert,
+                                        output_attentions=False,
+                                        output_hidden_states=False)
+    baseline_model.to(device)
+    print("Bert model loaded successfully from Hugging Face!")
+    
+    # Compute baseline perplexity
+    baseline_loss, baseline_perplexity = compute_perplexity(baseline_model, val_dataloader, device, "Baseline")
+    
+    # Store results
+    results.append({
+        'checkpoint': 'baseline_huggingface',
+        'epoch': 0,
+        'validation_loss': baseline_loss,
+        'perplexity': baseline_perplexity
+    })
 else:
     print(f"Found {len(checkpoint_files)} checkpoint files")
+
+    # Look for epoch 0 checkpoint specifically for baseline
+    epoch0_files = [f for f in checkpoint_files if 'epoch_0.pt' in f]
+    
+    if epoch0_files:
+        # Use epoch 0 checkpoint as baseline
+        epoch0_file = epoch0_files[0]
+        print(f"\n=== BASELINE METRICS (EPOCH 0 MODEL) ===")
+        print(f"Using locally saved epoch 0 model: {epoch0_file}")
+        
+        # Load the model architecture
+        baseline_model = BertForMaskedLM.from_pretrained(model_name_bert,
+                                           output_attentions=False,
+                                           output_hidden_states=False)
+        
+        # Load the epoch 0 checkpoint
+        checkpoint = torch.load(epoch0_file)
+        
+        # Check if the checkpoint contains model_state_dict or is a direct state dict
+        if 'model_state_dict' in checkpoint:
+            baseline_model.load_state_dict(checkpoint['model_state_dict'])
+        else:
+            baseline_model.load_state_dict(checkpoint)
+            
+        baseline_model.to(device)
+        print("Epoch 0 model loaded successfully!")
+        
+        # Compute baseline perplexity
+        baseline_loss, baseline_perplexity = compute_perplexity(baseline_model, val_dataloader, device, "Baseline (Epoch 0)")
+        
+        # Store results
+        results.append({
+            'checkpoint': os.path.basename(epoch0_file),
+            'epoch': 0,
+            'validation_loss': baseline_loss,
+            'perplexity': baseline_perplexity
+        })
+        
+        # Remove epoch 0 from the list of checkpoints to process later
+        checkpoint_files.remove(epoch0_file)
+    else:
+        # No epoch 0, fall back to Hugging Face
+        print("\n=== BASELINE METRICS (PRE-TRAINED MODEL) ===")
+        print("No local epoch 0 checkpoint found, using Hugging Face model for baseline")
+        baseline_model = BertForMaskedLM.from_pretrained(model_name_bert,
+                                        output_attentions=False,
+                                        output_hidden_states=False)
+        baseline_model.to(device)
+        print("Bert model loaded successfully from Hugging Face!")
+        
+        # Compute baseline perplexity
+        baseline_loss, baseline_perplexity = compute_perplexity(baseline_model, val_dataloader, device, "Baseline")
+        
+        # Store results
+        results.append({
+            'checkpoint': 'baseline_huggingface',
+            'epoch': 0,
+            'validation_loss': baseline_loss,
+            'perplexity': baseline_perplexity
+        })
 
     # Process each checkpoint
     for checkpoint_file in checkpoint_files:
@@ -149,11 +214,19 @@ else:
         
         # Load checkpoint
         checkpoint = torch.load(checkpoint_file)
-        model.load_state_dict(checkpoint['model_state_dict'])
+
+        # Check if the checkpoint contains model_state_dict or is a direct state dict
+        if 'model_state_dict' in checkpoint:
+            model.load_state_dict(checkpoint['model_state_dict'])
+            # Get epoch number from checkpoint
+            epoch = checkpoint['epoch']
+        else:
+            model.load_state_dict(checkpoint)
+            # Extract epoch from filename if not in checkpoint
+            epoch_part = checkpoint_name.split('_')[-1].split('.')[0]
+            epoch = int(epoch_part) if epoch_part.isdigit() else 'unknown'
+            
         model.to(device)
-        
-        # Get epoch number from checkpoint
-        epoch = checkpoint['epoch']
         print(f"Checkpoint from epoch {epoch} loaded successfully!")
         
         # Compute perplexity
@@ -168,7 +241,7 @@ else:
         })
 
 # Process final model if it exists
-final_model_path = '../models/finetuned_bert_final.pt'
+final_model_path = '../models/finetuned_bert_1980_final.pt'
 if os.path.exists(final_model_path):
     print("\n=== Processing final model ===")
     final_model = BertForMaskedLM.from_pretrained(model_name_bert,
@@ -192,10 +265,21 @@ print("Final model loaded successfully!")
 
 # Convert results to DataFrame and save
 results_df = pd.DataFrame(results)
-results_file = "../data/output_csv_files/english/results_padding_EN_with_model_save_epochs_perplexity.csv"
+results_file = "../data/output_csv_files/english/perplexity/results_EN_bert_1980_perplexity.csv"
 results_df.to_csv(results_file, index=False)
 print(f"\nResults saved to {results_file}")
 
 # Print summary
 print("\n=== SUMMARY ===")
 print(results_df[['checkpoint', 'epoch', 'validation_loss', 'perplexity']])
+
+# Calculate perplexity improvement for each checkpoint compared to baseline
+if len(results) > 1:
+    print("\n=== PERPLEXITY IMPROVEMENT ===")
+    baseline_perplexity = results[0]['perplexity']  # First result is baseline
+    for i in range(1, len(results)):
+        checkpoint = results[i]['checkpoint']
+        perplexity = results[i]['perplexity']
+        improvement = ((baseline_perplexity - perplexity) / baseline_perplexity) * 100
+        status = "improved" if improvement > 0 else "worsened"
+        print(f"{checkpoint}: {improvement:.2f}% ({status})")
