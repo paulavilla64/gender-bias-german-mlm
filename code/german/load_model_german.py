@@ -37,12 +37,12 @@ else:
     device = torch.device('cpu')
 
 # Set all seeds for reproducibility
-def set_all_seeds(seed_val=42):
-    random.seed(seed_val)
-    np.random.seed(seed_val)
-    torch.manual_seed(seed_val)
-    torch.cuda.manual_seed_all(seed_val)
-    os.environ['PYTHONHASHSEED'] = str(seed_val)
+def set_all_seeds(seed):
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
+    os.environ['PYTHONHASHSEED'] = str(seed)
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
 
@@ -121,7 +121,12 @@ baseline_model.to(device)
 baseline_loss, baseline_perplexity = compute_perplexity(baseline_model, val_dataloader, device, "Baseline")
 
 # Create a simple DataFrame to store results
-results = []
+results = [{
+    'checkpoint': 'baseline',
+    'epoch': 0,
+    'validation_loss': baseline_loss,
+    'perplexity': baseline_perplexity
+}]
 
 # Find all checkpoint files
 checkpoints_dir = '../models/dbmdz_checkpoints'
@@ -195,44 +200,12 @@ print(f"\nResults saved to {results_file}")
 print("\n=== SUMMARY ===")
 print(results_df[['checkpoint', 'epoch', 'validation_loss', 'perplexity']])
 
-
-
-
-# # PART 2: Calculate post-fine-tuning metrics
-# print("\n=== POST-FINE-TUNING METRICS ===")
-
-# # Load the fine-tuned model weights
-# model_path = "../models/finetuned_model_german.pt"  # Path to your saved model
-# finetuned_model = AutoModelForMaskedLM.from_pretrained(model_name_bert,
-#                                        output_attentions=False,
-#                                        output_hidden_states=False)
-# finetuned_model.load_state_dict(torch.load(model_path))
-# finetuned_model.to(device)
-# print("Fine-tuned model loaded successfully!")
-
-# # Calculate post-fine-tuning perplexity
-# finetuned_loss, finetuned_perplexity = compute_perplexity(finetuned_model, val_dataloader, device, "Fine-tuned")
-
-# # Calculate post-association scores
-# print('Calculating post-association scores...')
-# post_associations = model_evaluation(data, tokenizer, finetuned_model, device)
-
-# # Add post-association scores to the dataframe
-# data = data.assign(Post_Assoc=post_associations)
-
-# # Save the results
-# output_file = "../data/output_csv_files/german/results_DE_perplexity_gender_neutral_workflow.csv"
-# data.to_csv(output_file, sep='\t', index=False)
-# print(f"Results saved to {output_file}")
-
-# # Print summary statistics of post-association scores
-# print("\nSummary of post-association scores:")
-# print(f"Mean: {np.mean(post_associations):.4f}")
-# print(f"Median: {np.median(post_associations):.4f}")
-# print(f"Min: {np.min(post_associations):.4f}")
-# print(f"Max: {np.max(post_associations):.4f}")
-# print(f"Standard deviation: {np.std(post_associations):.4f}")
-
-# # Print perplexity improvement
-# perplexity_change = ((baseline_perplexity - finetuned_perplexity) / baseline_perplexity) * 100
-# print(f"\nPerplexity change: {perplexity_change:.2f}% ({'improved' if perplexity_change > 0 else 'worsened'})")
+# Calculate perplexity improvement for each checkpoint compared to baseline
+if len(results) > 1:
+    print("\n=== PERPLEXITY IMPROVEMENT ===")
+    for i in range(1, len(results)):
+        checkpoint = results[i]['checkpoint']
+        perplexity = results[i]['perplexity']
+        improvement = ((baseline_perplexity - perplexity) / baseline_perplexity) * 100
+        status = "improved" if improvement > 0 else "worsened"
+        print(f"{checkpoint}: {improvement:.2f}% ({status})")
