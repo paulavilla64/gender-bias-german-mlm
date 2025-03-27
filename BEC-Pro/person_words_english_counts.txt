@@ -1,0 +1,9 @@
+Male person words with occurrence counts in GAP-flipped:
+{'He': 2691, 'boyfriend': 22, 'brother': 209, 'dad': 3, 'father': 286, 'husband': 285, 'man': 142, 'son': 394, 'uncle': 26}
+Total male person word occurrences: 4058
+
+Female person words with occurrence counts in GAP-flipped:
+{'She': 3041, 'aunt': 34, 'daughter': 256, 'girlfriend': 27, 'mom': 7, 'mother': 318, 'sister': 218, 'wife': 177, 'woman': 153}
+Total female person word occurrences: 4231
+
+Total person word occurrences (male + female): 8289
