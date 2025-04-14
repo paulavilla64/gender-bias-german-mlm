@@ -1,0 +1,5 @@
+Male person words:
+['Bruder', 'Ehemann', 'Er', 'Freund', 'Mann', 'Onkel', 'Papa', 'Sohn', 'Vater']
+
+Female person words:
+['Frau', 'Freundin', 'Mama', 'Mutter', 'Schwester', 'Sie', 'Tante', 'Tochter']
