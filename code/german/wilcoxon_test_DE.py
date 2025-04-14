@@ -1,201 +1,148 @@
 import pandas as pd
 from scipy.stats import wilcoxon
-import math
 import numpy as np
+import sys
+import os
 
-# Due to the ineffectiveness of the method for German, we only report on pre- and not on post-associations
-# In order to statistically test the difference between associations for male and female person
-# words, the Wilcoxon signed-rank test was again computed for each profession group separately.
+# typ = "star"
 
+# Define output file path
+output_file_path = f'../../data/statistics/german/gender_neutral/statistics_DE_pre_all_models_gender_neutral_avg.txt'
 
-# Read a CSV file
-data = pd.read_csv('../../data/output_csv_files/german/results_DE_gender_neutral_with_model_save.csv', sep='\t')
+# Create directory if it doesn't exist
+os.makedirs(os.path.dirname(output_file_path), exist_ok=True)
 
-# female gender within statistically female professions
-female_gender_in_female_professions = data.loc[(
-    data['Prof_Gender'] == 'female') & (data['Gender'] == 'female'), 'Pre_Assoc'].tolist()
+# Redirect stdout to file
+original_stdout = sys.stdout
+sys.stdout = open(output_file_path, 'w')
 
-# male gender within statistically female professions
-male_gender_in_female_professions = data.loc[(
-    data['Prof_Gender'] == 'female') & (data['Gender'] == 'male'), 'Pre_Assoc'].tolist()
+# Read the CSV file
+data = pd.read_csv('../../data/output_csv_files/german/gender_neutral/pre_post_assoc_all_models_DE_gender_neutral_avg.csv')
 
-# female gender within statistically male professions
-female_gender_in_male_professions = data.loc[
-    (data['Prof_Gender'] == 'male') & (data['Gender'] == 'female'), 'Pre_Assoc'].tolist()
+# List of models to analyze
+models = ['dbmdz', 'google_bert', 'deepset_bert', 'distilbert']
 
-# male gender within statistically male professions
-male_gender_in_male_professions = data.loc[
-    (data['Prof_Gender'] == 'male') & (data['Gender'] == 'male'), 'Pre_Assoc'].tolist()
+# Function to perform analysis for a specific model and pre-association column
+def analyze_model(data, model_name, pre_assoc_column):
+    print(f"\n----- ANALYSIS FOR {model_name.upper()} MODEL -----\n")
+    
+    # Extract data for female gender within statistically female professions
+    female_gender_in_female_professions = data.loc[
+        (data['Prof_Gender'] == 'female') & (data['Gender'] == 'female'), 
+        pre_assoc_column
+    ].tolist()
 
-# female gender within statistically balanced professions
-female_gender_in_balanced_professions = data.loc[
-    (data['Prof_Gender'] == 'balanced') & (data['Gender'] == 'female'), 'Pre_Assoc'].tolist()
+    # Extract data for male gender within statistically female professions
+    male_gender_in_female_professions = data.loc[
+        (data['Prof_Gender'] == 'female') & (data['Gender'] == 'male'), 
+        pre_assoc_column
+    ].tolist()
 
-# male gender within statistically balanced professions
-male_gender_in_balanced_professions = data.loc[
-    (data['Prof_Gender'] == 'balanced') & (data['Gender'] == 'male'), 'Pre_Assoc'].tolist()
+    # Extract data for female gender within statistically male professions
+    female_gender_in_male_professions = data.loc[
+        (data['Prof_Gender'] == 'male') & (data['Gender'] == 'female'), 
+        pre_assoc_column
+    ].tolist()
 
-# Compute mean of the female gender within statistically female professions
-female_gender_in_female_professions_mean = data.loc[(
-    data['Prof_Gender'] == 'female') & (data['Gender'] == 'female'), 'Pre_Assoc'].mean()
-print(f'Mean for female gender within statistically female professions: {female_gender_in_female_professions_mean}')
+    # Extract data for male gender within statistically male professions
+    male_gender_in_male_professions = data.loc[
+        (data['Prof_Gender'] == 'male') & (data['Gender'] == 'male'), 
+        pre_assoc_column
+    ].tolist()
 
-# Compute mean of the male gender within statistically female professions
-male_gender_in_female_professions_mean = data.loc[(
-    data['Prof_Gender'] == 'female') & (data['Gender'] == 'male'), 'Pre_Assoc'].mean()
-print(f'Mean for male gender within statistically female professions: {male_gender_in_female_professions_mean}')
+    # Extract data for female gender within statistically balanced professions
+    female_gender_in_balanced_professions = data.loc[
+        (data['Prof_Gender'] == 'balanced') & (data['Gender'] == 'female'), 
+        pre_assoc_column
+    ].tolist()
 
-# Compute mean of female gender within statistically male professions
-female_gender_in_male_professions_mean = data.loc[
-    (data['Prof_Gender'] == 'male') & (data['Gender'] == 'female'),
-    'Pre_Assoc'
-].mean()
-print(f'Mean for female gender within statistically male professions: {female_gender_in_male_professions_mean}')
+    # Extract data for male gender within statistically balanced professions
+    male_gender_in_balanced_professions = data.loc[
+        (data['Prof_Gender'] == 'balanced') & (data['Gender'] == 'male'), 
+        pre_assoc_column
+    ].tolist()
 
-# Compute mean of male gender within statistically male professions
-male_gender_in_male_professions_mean = data.loc[
-    (data['Prof_Gender'] == 'male') & (data['Gender'] == 'male'),
-    'Pre_Assoc'
-].mean()
-print(f'Mean for male gender within statistically male professions: {male_gender_in_male_professions_mean}')
+    # Compute means
+    print("MEAN VALUES:")
+    female_gender_in_female_professions_mean = np.mean(female_gender_in_female_professions)
+    print(f'Mean for female gender within statistically female professions: {female_gender_in_female_professions_mean:.4f}')
 
-# Compute mean of female gender within statistically balanced professions
-female_gender_in_balanced_professions_mean = data.loc[
-    (data['Prof_Gender'] == 'balanced') & (data['Gender'] == 'female'),
-    'Pre_Assoc'
-].mean()
-print(f'Mean for female gender within statistically balanced professions: {female_gender_in_balanced_professions_mean}')
+    male_gender_in_female_professions_mean = np.mean(male_gender_in_female_professions)
+    print(f'Mean for male gender within statistically female professions: {male_gender_in_female_professions_mean:.4f}')
 
-# Compute mean of male gender within statistically balanced professions
-male_gender_in_balanced_professions_mean = data.loc[
-    (data['Prof_Gender'] == 'balanced') & (data['Gender'] == 'male'),
-    'Pre_Assoc'
-].mean()
-print(f'Mean for male gender within statistically balanced professions: {male_gender_in_balanced_professions_mean}')
+    female_gender_in_male_professions_mean = np.mean(female_gender_in_male_professions)
+    print(f'Mean for female gender within statistically male professions: {female_gender_in_male_professions_mean:.4f}')
 
+    male_gender_in_male_professions_mean = np.mean(male_gender_in_male_professions)
+    print(f'Mean for male gender within statistically male professions: {male_gender_in_male_professions_mean:.4f}')
 
-# Calculate the differences for F
-differences_F = [after - before for before, after in zip(male_gender_in_female_professions, female_gender_in_female_professions)]
+    female_gender_in_balanced_professions_mean = np.mean(female_gender_in_balanced_professions)
+    print(f'Mean for female gender within statistically balanced professions: {female_gender_in_balanced_professions_mean:.4f}')
 
-# Perform the Wilcoxon signed-rank test for F
-stat_F, p_value_F = wilcoxon(male_gender_in_female_professions, female_gender_in_female_professions, alternative='two-sided')
+    male_gender_in_balanced_professions_mean = np.mean(male_gender_in_balanced_professions)
+    print(f'Mean for male gender within statistically balanced professions: {male_gender_in_balanced_professions_mean:.4f}')
 
-# Output the results
-print(f"Wilcoxon test statistic for F: {stat_F}")
-print(f"P-value: {p_value_F}")
+    # Compute standard deviations
+    print("\nSTANDARD DEVIATIONS:")
+    sd_female_female = np.std(female_gender_in_female_professions)
+    print(f"SD for Female Professions - Female Person Words: {sd_female_female:.4f}")
+    
+    sd_female_male = np.std(male_gender_in_female_professions)
+    print(f"SD for Female Professions - Male Person Words: {sd_female_male:.4f}")
+    
+    sd_male_female = np.std(female_gender_in_male_professions)
+    print(f"SD for Male Professions - Female Person Words: {sd_male_female:.4f}")
+    
+    sd_male_male = np.std(male_gender_in_male_professions)
+    print(f"SD for Male Professions - Male Person Words: {sd_male_male:.4f}")
+    
+    sd_balanced_female = np.std(female_gender_in_balanced_professions)
+    print(f"SD for Balanced Professions - Female Person Words: {sd_balanced_female:.4f}")
+    
+    sd_balanced_male = np.std(male_gender_in_balanced_professions)
+    print(f"SD for Balanced Professions - Male Person Words: {sd_balanced_male:.4f}")
 
-# Interpret the results
-alpha = 0.05  # significance level
-if p_value_F < alpha:
-    print("Reject the null hypothesis: There is a significant difference.")
-else:
-    print("Fail to reject the null hypothesis: No significant difference.")
+    # Perform Wilcoxon tests
+    print("\nWILCOXON TESTS:")
+    
+    # For female professions
+    stat_F, p_value_F = wilcoxon(male_gender_in_female_professions, female_gender_in_female_professions, alternative='two-sided')
+    print(f"Female Professions - Wilcoxon test statistic: {stat_F}")
+    print(f"Female Professions - P-value: {p_value_F:.6f}")
+    if p_value_F < 0.05:
+        print("Female Professions - Reject null hypothesis: There is a significant difference.\n")
+    else:
+        print("Female Professions - Fail to reject null hypothesis: No significant difference.\n")
 
+    # For male professions
+    stat_M, p_value_M = wilcoxon(male_gender_in_male_professions, female_gender_in_male_professions, alternative='two-sided')
+    print(f"Male Professions - Wilcoxon test statistic: {stat_M}")
+    print(f"Male Professions - P-value: {p_value_M:.6f}")
+    if p_value_M < 0.05:
+        print("Male Professions - Reject null hypothesis: There is a significant difference.\n")
+    else:
+        print("Male Professions - Fail to reject null hypothesis: No significant difference.\n")
 
-# Calculate the differences for M
-differences_M = [after - before for before, after in zip(male_gender_in_male_professions, female_gender_in_male_professions)]
+    # For balanced professions
+    stat_B, p_value_B = wilcoxon(male_gender_in_balanced_professions, female_gender_in_balanced_professions, alternative='two-sided')
+    print(f"Balanced Professions - Wilcoxon test statistic: {stat_B}")
+    print(f"Balanced Professions - P-value: {p_value_B:.6f}")
+    if p_value_B < 0.05:
+        print("Balanced Professions - Reject null hypothesis: There is a significant difference.\n")
+    else:
+        print("Balanced Professions - Fail to reject null hypothesis: No significant difference.\n")
 
-# Perform the Wilcoxon signed-rank test for F
-stat_M, p_value_M = wilcoxon(male_gender_in_male_professions, female_gender_in_male_professions, alternative='two-sided')
+# Analyze each model separately
+for model in models:
+    pre_assoc_column = f'{model}_Pre_Assoc_Avg'
+    if pre_assoc_column in data.columns:
+        analyze_model(data, model, pre_assoc_column)
+    else:
+        print(f"\nWarning: {pre_assoc_column} not found in the data!")
 
-# Output the results
-print(f"Wilcoxon test statistic for M: {stat_M}")
-print(f"P-value: {p_value_M}")
+print("\nAnalysis complete for all models.")
 
-# Interpret the results
-alpha = 0.05  # significance level
-if p_value_M < alpha:
-    print("Reject the null hypothesis: There is a significant difference.")
-else:
-    print("Fail to reject the null hypothesis: No significant difference.")
-
-
-# Calculate the differences for F
-differences_B = [after - before for before, after in zip(male_gender_in_balanced_professions, female_gender_in_balanced_professions)]
-
-# Perform the Wilcoxon signed-rank test for F
-stat_B, p_value_B = wilcoxon(male_gender_in_balanced_professions, female_gender_in_balanced_professions, alternative='two-sided')
-
-# Output the results
-print(f"Wilcoxon test statistic for B: {stat_B}")
-print(f"P-value: {p_value_B}")
-
-# Interpret the results
-alpha = 0.05  # significance level
-if p_value_B < alpha:
-    print("Reject the null hypothesis: There is a significant difference.")
-else:
-    print("Fail to reject the null hypothesis: No significant difference.")
-
-
-# Compute effect size
-
-def compute_cohens_w(wilcoxon_statistic, N):
-    """
-    Computes the effect size for the Wilcoxon Signed-Rank Test using Cohen's W.
-
-    Parameters:
-        wilcoxon_statistic (float): The Wilcoxon signed-rank test statistic (Z-value).
-        N (int): Sample size.
-
-    Returns:
-        float: The computed Cohen's W effect size.
-    """
-    # Step 1: Compute expected W (E(W))
-    E_W = (N * (N + 1)) / 4
-
-    # Step 2: Compute the standard error of W (SE(W))
-    SE_W = math.sqrt((N * (N + 1) * (2 * N + 1)) / 24)
-
-    # Step 3: Compute the Z-score
-    Z_value = (wilcoxon_statistic - E_W) / SE_W
-
-    # Step 4: Compute Cohen's W effect size
-    cohens_w = Z_value / math.sqrt(N)
-
-    return cohens_w
-
-
-# Number of samples (N)
-N = 1800 
-
-
-# Example usage with the provided results
-results = {
-    "female": {"wilcoxon_statistic": stat_F, "n": N},
-    "male": {"wilcoxon_statistic": stat_M, "n": N},
-    "balanced": {"wilcoxon_statistic": stat_B, "n": N}
-}
-
-# Compute Cohen's W for each group and display results
-for group, values in results.items():
-    wilcoxon_statistic = values["wilcoxon_statistic"]
-    N = values["n"]
-
-    effect_size = compute_cohens_w(wilcoxon_statistic, N)
-    print(f"{group.capitalize()} group - Cohen's W effect size: {effect_size}")
-
-# Function to compute standard deviation
-# SD = root(1/N*sum(xi-u)^2)
-def compute_standard_deviation(data):
-    return np.std(data)
-
-# Compute SD for each group
-sd_balanced_female = compute_standard_deviation(female_gender_in_balanced_professions)
-sd_balanced_male = compute_standard_deviation(male_gender_in_balanced_professions)
-sd_female_female = compute_standard_deviation(female_gender_in_female_professions)
-sd_female_male = compute_standard_deviation(male_gender_in_female_professions)
-sd_male_female = compute_standard_deviation(female_gender_in_male_professions)
-sd_male_male = compute_standard_deviation(male_gender_in_male_professions)
-
-# Print results
-print(f"Standard Deviation for Balanced Professions - Female Person Words: {sd_balanced_female:.2f}") 
-print(f"Standard Deviation for Balanced Professions - Male Person Words: {sd_balanced_male:.2f}")
-print(f"Standard Deviation for Female Professions - Female Person Words: {sd_female_female:.2f}")
-print(f"Standard Deviation for Female Professions - Male Person Words: {sd_female_male:.2f}")
-print(f"Standard Deviation for Male Professions - Female Person Words: {sd_male_female:.2f}")
-print(f"Standard Deviation for Male Professions - Male Person Words: {sd_male_male:.2f}")
-
-
-
-
+# Restore original stdout
+sys.stdout.close()
+sys.stdout = original_stdout
+print(f"Analysis complete! Results written to: {output_file_path}")
