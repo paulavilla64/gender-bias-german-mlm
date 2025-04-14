@@ -39,7 +39,7 @@ def set_seed(seed):
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
 
-set_seed(42) 
+set_seed(1980) 
 
 print('-- Prepare evaluation data --')
 
@@ -57,38 +57,6 @@ data = pd.read_csv('../BEC-Pro/BEC-Pro_EN.tsv', sep='\t')
 # For English, the tokenizer and model are loaded with the standard pre-trained uncased BERTBASE model.
 
 print('-- Import BERT model --')
-
-# Load the BERT tokenizer and dbmdz model
-# model_name_dbmdz = "bert-base-german-dbmdz-cased"
-# tokenizer = AutoTokenizer.from_pretrained(model_name_dbmdz)
-# model = AutoModelForMaskedLM.from_pretrained(model_name_dbmdz,
-#                                             output_attentions=False,
-#                                             output_hidden_states=False)
-
-# Load tokenizer and google bert model
-# model_name_google_bert = "google-bert/bert-base-german-cased"
-# tokenizer = AutoTokenizer.from_pretrained(model_name_google_bert)
-# model = AutoModelForMaskedLM.from_pretrained(model_name_google_bert, 
-#                                              output_attentions=False,
-#                                              output_hidden_states=False)
-# Load tokenizer and deepset bert model
-# model_name_deepset_bert = "deepset/gbert-base"
-# tokenizer = AutoTokenizer.from_pretrained(model_name_deepset_bert)
-# model = AutoModelForMaskedLM.from_pretrained(model_name_deepset_bert,
-#                                              output_attentions=False,
-#                                              output_hidden_states=False)
-
-# model_name_distilbert = "distilbert/distilbert-base-german-cased"
-# tokenizer = AutoTokenizer.from_pretrained(model_name_distilbert)
-# model = AutoModelForMaskedLM.from_pretrained(model_name_distilbert,
-#                                              output_attentions=False,
-#                                              output_hidden_states=False)
-
-# model_name_gelectra = "deepset/gelectra-base"
-# tokenizer = AutoTokenizer.from_pretrained(model_name_gelectra)
-# model = AutoModelForMaskedLM.from_pretrained(model_name_gelectra,
-#                                              output_attentions=False,
-#                                              output_hidden_states=False)
 
 model_name_bert = "bert-base-uncased"
 tokenizer = BertTokenizer.from_pretrained(model_name_bert)
@@ -118,10 +86,21 @@ pre_associations = model_evaluation(data, tokenizer, model, device)
 # Add the associations to dataframe
 data = data.assign(Pre_Assoc=pre_associations)
 
-def fine_tune(model, train_dataloader, epochs, tokenizer, device):
-    model_dir = '../models/bert_checkpoints'
+# Create directory for model checkpoints
+model_dir = '../models/bert_checkpoints/random_seed_1980'
+os.makedirs(model_dir, exist_ok=True)
 
-    os.makedirs(model_dir, exist_ok=True)
+# Save the original model as epoch 0 (baseline)
+baseline_checkpoint_path = os.path.join(model_dir, 'finetuned_bert_1980_epoch_0.pt')
+torch.save({
+    'epoch': 0,
+    'model_state_dict': model.state_dict(),
+    # No optimizer or scheduler states for baseline
+}, baseline_checkpoint_path)
+print(f"Baseline model (epoch 0) saved at {baseline_checkpoint_path}")
+
+def fine_tune(model, train_dataloader, epochs, tokenizer, device):
+    model_dir = '../models/bert_checkpoints/random_seed_1980'
 
     model.to(device)
 
@@ -219,7 +198,7 @@ def fine_tune(model, train_dataloader, epochs, tokenizer, device):
         print(f"[Epoch {epoch_i + 1}] Training epoch took: {format_time(time.time() - t0)}")
 
         # Save model after each epoch - save everything needed to resume training
-        epoch_checkpoint_path = os.path.join(model_dir, f'finetuned_bert_epoch_{epoch_i+1}.pt')
+        epoch_checkpoint_path = os.path.join(model_dir, f'finetuned_bert_1980_epoch_{epoch_i+1}.pt')
         torch.save({
             'epoch': epoch_i+1,
             'model_state_dict': model.state_dict(),
@@ -272,7 +251,7 @@ epochs = 3
 model = fine_tune(model, train_dataloader, epochs, tokenizer, device)
 
 # Save the final model state
-torch.save(model.state_dict(), '../models/finetuned_bert_final.pt')
+torch.save(model.state_dict(), '../models/finetuned_bert_1980_final.pt')
 print("Final model saved")
 
 print('-- Calculate associations after fine-tuning --')
@@ -284,6 +263,6 @@ post_associations = model_evaluation(
 data = data.assign(Post_Assoc=post_associations)
 
 # Save the results
-output_file = "../data/output_csv_files/english/results_padding_EN_with_model_save_epochs.csv"
+output_file = "../data/output_csv_files/english/results_EN_bert_1980.csv"
 data.to_csv(output_file, sep='\t', index=False)
 print(f"Results saved to {output_file}")

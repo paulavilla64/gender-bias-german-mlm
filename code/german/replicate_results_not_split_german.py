@@ -1,10 +1,3 @@
-# Schlachtplan:
-
-# 1. Read in tsv file for Bec-Pro: BEC-Pro_EN.tsv
-# 2. Output should be the same tsv-file "results_EN.csv" but with an additional column "Pre_Assoc"
-# 3. Include pre-processing steps
-# 4. Measure association bias and put it in the column "Pre_Assoc"
-
 import pandas as pd
 import math
 import random
@@ -25,7 +18,7 @@ print(f"Current CUDA device: {torch.cuda.current_device()}")
 print(f"CUDA device name: {torch.cuda.get_device_name(torch.cuda.current_device())}")
 
 
-gpu_id = "4" 
+gpu_id = "5" 
 
 # check if GPU is available
 if torch.cuda.is_available():
@@ -47,12 +40,18 @@ def set_seed(seed):
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
 
-set_seed(42)  # Put this at the beginning of both scripts
+seed = 42
+
+typ = "star"
+
+set_seed(seed)  
+
+model_name = "deepset_bert"
 
 print('-- Prepare evaluation data --')
 
 # Read a TSV file
-data = pd.read_csv('../BEC-Pro/modified_file_DE_gender_neutral.csv', sep='\t')
+data = pd.read_csv('../BEC-Pro/modified_file_DE_zero_difference.tsv', sep='\t')
 
 # Take only the first 50 rows of data
 # data = data.head(50)
@@ -64,27 +63,27 @@ data = pd.read_csv('../BEC-Pro/modified_file_DE_gender_neutral.csv', sep='\t')
 # The model used for bias evaluation and fine-tuning is a pre-trained BERTBASE model with a language modelling head on top.
 # For English, the tokenizer and model are loaded with the standard pre-trained uncased BERTBASE model.
 
-print('-- Import DBMDZ model --')
+print(f'-- Import {model_name} model --')
 
 # Load the BERT tokenizer and dbmdz model
-model_name_dbmdz = "bert-base-german-dbmdz-cased"
-tokenizer = AutoTokenizer.from_pretrained(model_name_dbmdz)
-model = AutoModelForMaskedLM.from_pretrained(model_name_dbmdz,
-                                            output_attentions=False,
-                                            output_hidden_states=False)
+# model_name_dbmdz = "bert-base-german-dbmdz-cased"
+# tokenizer = AutoTokenizer.from_pretrained(model_name_dbmdz)
+# model = AutoModelForMaskedLM.from_pretrained(model_name_dbmdz,
+#                                             output_attentions=False,
+#                                             output_hidden_states=False)
 
-# Load tokenizer and google bert model
+#Load tokenizer and google bert model
 # model_name_google_bert = "google-bert/bert-base-german-cased"
 # tokenizer = AutoTokenizer.from_pretrained(model_name_google_bert)
 # model = AutoModelForMaskedLM.from_pretrained(model_name_google_bert, 
 #                                              output_attentions=False,
 #                                              output_hidden_states=False)
 # Load tokenizer and deepset bert model
-# model_name_deepset_bert = "deepset/gbert-base"
-# tokenizer = AutoTokenizer.from_pretrained(model_name_deepset_bert)
-# model = AutoModelForMaskedLM.from_pretrained(model_name_deepset_bert,
-#                                              output_attentions=False,
-#                                              output_hidden_states=False)
+model_name_deepset_bert = "deepset/gbert-base"
+tokenizer = AutoTokenizer.from_pretrained(model_name_deepset_bert)
+model = AutoModelForMaskedLM.from_pretrained(model_name_deepset_bert,
+                                             output_attentions=False,
+                                             output_hidden_states=False)
 
 # model_name_distilbert = "distilbert/distilbert-base-german-cased"
 # tokenizer = AutoTokenizer.from_pretrained(model_name_distilbert)
@@ -98,17 +97,11 @@ model = AutoModelForMaskedLM.from_pretrained(model_name_dbmdz,
 #                                              output_attentions=False,
 #                                              output_hidden_states=False)
 
-# model_name_bert = "bert-base-uncased"
-# tokenizer = BertTokenizer.from_pretrained(model_name_bert)
-# model = BertForMaskedLM.from_pretrained(model_name_bert,
-#                                             output_attentions=False,
-#                                             output_hidden_states=False)
-
-print("loading dbmdz")
+print(f"loading {model_name}")
 
 # Verify model and tokenizer
 print(f"Tokenizer: {tokenizer}")
-print(f"Model loaded: {model_name_dbmdz}")
+print(f"Model loaded: {model_name}")
 
 
 # PRE-PROCESSING
@@ -126,8 +119,21 @@ pre_associations = model_evaluation(data, tokenizer, model, device)
 # Add the associations to dataframe
 data = data.assign(Pre_Assoc=pre_associations)
 
+# Create directory for model checkpoints
+model_dir = f'../models/Lou/{model_name}_{typ}_checkpoints/random_seed_{seed}'
+os.makedirs(model_dir, exist_ok=True)
+
+# Save the original model as epoch 0 (baseline)
+baseline_checkpoint_path = os.path.join(model_dir, f'finetuned_{model_name}_{typ}_{seed}_epoch_0.pt')
+torch.save({
+    'epoch': 0,
+    'model_state_dict': model.state_dict(),
+    # No optimizer or scheduler states for baseline
+}, baseline_checkpoint_path)
+print(f"Baseline model (epoch 0) saved at {baseline_checkpoint_path}")
+
 def fine_tune(model, train_dataloader, epochs, tokenizer, device):
-    model_dir = '../models/dbmdz_checkpoints'
+    model_dir = f'../models/Lou/{model_name}_{typ}_checkpoints/random_seed_{seed}'
 
     os.makedirs(model_dir, exist_ok=True)
     
@@ -233,7 +239,7 @@ def fine_tune(model, train_dataloader, epochs, tokenizer, device):
         print(f"[Epoch {epoch_i + 1}] Training epoch took: {format_time(time.time() - t0)}")
         
         # Save model after each epoch - save everything needed to resume training
-        epoch_checkpoint_path = os.path.join(model_dir, f'finetuned_dbmdz_epoch_{epoch_i+1}.pt')
+        epoch_checkpoint_path = os.path.join(model_dir, f'finetuned_{model_name}_{typ}_{seed}_epoch_{epoch_i+1}.pt')
         torch.save({
             'epoch': epoch_i+1,
             'model_state_dict': model.state_dict(),
@@ -253,10 +259,22 @@ def fine_tune(model, train_dataloader, epochs, tokenizer, device):
 print('-- Import fine-tuning data --')
 
 # Fine-tune
-tune_corpus = pd.read_csv('../Gap/gap_flipped_translated.tsv', sep='\t')
+tune_corpus = pd.read_csv('../Lou/neutral_genderstern_texts.tsv', sep='\t')
 tune_data = []
-for text in tune_corpus.Text_German:
+for text in tune_corpus.GenderStern_Text:
     tune_data += sent_tokenize(text)
+
+# # Initialize an empty list for your tuning data
+# tune_data = []
+
+# # Assuming you want to process both 'GenderStern_Text' and another column (e.g., 'Original_Text')
+# for neutral_text, genderstern_text in zip(tune_corpus.Neutral_Text, tune_corpus.GenderStern_Text):
+#     # Process the first column
+#     tune_data += sent_tokenize(neutral_text)
+    
+#     # Process the second column
+#     tune_data += sent_tokenize(genderstern_text)
+
 
 # make able to handle
 # tune_data = tune_data[:50]
@@ -289,7 +307,7 @@ epochs = 3
 model = fine_tune(model, train_dataloader, epochs, tokenizer, device)
 
 # Save the model state
-torch.save(model.state_dict(), '../models/finetuned_dbmdz_final.pt')
+torch.save(model.state_dict(), f'../models/Lou/finetuned_{model_name}_{typ}_{seed}_final.pt')
 print("Final model saved")
 
 print('-- Calculate associations after fine-tuning --')
@@ -301,6 +319,6 @@ post_associations = model_evaluation(
 data = data.assign(Post_Assoc=post_associations)
 
 # Save the results
-output_file = "../data/output_csv_files/german/results_DE_gender_neutral_with_model_save_epochs.csv"
+output_file = f"../data/output_csv_files/german/Lou/results_Lou_DE_zero_difference_{typ}_{model_name}_{seed}.csv"
 data.to_csv(output_file, sep='\t', index=False)
 print(f"Results saved to {output_file}")
