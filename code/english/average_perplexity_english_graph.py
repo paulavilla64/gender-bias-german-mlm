@@ -60,6 +60,14 @@ baseline_perplexities = [
 ]
 avg_baseline = np.mean(baseline_perplexities)
 
+final_perplexities = [
+    seed_42_data[seed_42_data['epoch'] == 'final']['perplexity'].values[0],
+    seed_116_data[seed_116_data['epoch'] == 'final']['perplexity'].values[0],
+    seed_387_data[seed_387_data['epoch'] == 'final']['perplexity'].values[0],
+    seed_1980_data[seed_1980_data['epoch'] == 'final']['perplexity'].values[0]
+]
+avg_final = np.mean(final_perplexities)
+
 # Create the figure and plot the data
 plt.figure(figsize=(12, 8))
 
@@ -71,6 +79,9 @@ plt.plot(seed_1980['epoch'], seed_1980['perplexity'], marker='d', linewidth=2, l
 
 # Add baseline perplexity reference line
 plt.axhline(y=avg_baseline, color='r', linestyle='--', alpha=0.7, label=f'Avg. Baseline Perplexity: {avg_baseline:.2f}')
+
+plt.axhline(y=avg_final, color='green', linestyle='-.', alpha=0.7, label=f'Avg. Final Perplexity: {avg_final:.2f}')
+
 
 # Mark baseline perplexities
 plt.scatter([0, 0, 0, 0], baseline_perplexities, color='black', s=100, alpha=0.6)
