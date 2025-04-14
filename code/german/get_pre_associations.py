@@ -34,7 +34,9 @@ def set_all_seeds(seed):
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
 
-seed = 116
+seed = 42
+
+typ = "neutral"
 
 set_all_seeds(seed)
 
@@ -49,32 +51,26 @@ models_config = [
     {
         "name": "dbmdz",
         "model_id": "bert-base-german-dbmdz-cased",
-        "checkpoint_dir": f"../models/dbmdz_checkpoints/random_seed_{seed}",
-        "checkpoint_file": f"finetuned_dbmdz_{seed}_epoch_0.pt"
+        "checkpoint_dir": f"../models/Lou/dbmdz_{typ}_checkpoints/random_seed_{seed}",
+        "checkpoint_file": f"finetuned_dbmdz_{typ}_{seed}_epoch_0.pt"
     },
     {
         "name": "google_bert",
         "model_id": "google-bert/bert-base-german-cased",
-        "checkpoint_dir": f"../models/google_bert_checkpoints/random_seed_{seed}",
-        "checkpoint_file": f"finetuned_google_bert_{seed}_epoch_0.pt"
+        "checkpoint_dir": f"../models/Lou/google_bert_{typ}_checkpoints/random_seed_{seed}",
+        "checkpoint_file": f"finetuned_google_bert_{typ}_{seed}_epoch_0.pt"
     },
     {
         "name": "deepset_bert",
         "model_id": "deepset/gbert-base",
-        "checkpoint_dir": f"../models/deepset_bert_checkpoints/random_seed_{seed}",
-        "checkpoint_file": f"finetuned_deepset_bert_{seed}_epoch_0.pt"
+        "checkpoint_dir": f"../models/Lou/deepset_bert_{typ}_checkpoints/random_seed_{seed}",
+        "checkpoint_file": f"finetuned_deepset_bert_{typ}_{seed}_epoch_0.pt"
     },
     {
         "name": "distilbert",
         "model_id": "distilbert/distilbert-base-german-cased",
-        "checkpoint_dir": f"../models/distilbert_checkpoints/random_seed_{seed}",
-        "checkpoint_file": f"finetuned_distilbert_{seed}_epoch_0.pt"
-    },
-    {
-        "name": "gelectra",
-        "model_id": "deepset/gelectra-base",
-        "checkpoint_dir": f"../models/gelectra_checkpoints/random_seed_{seed}",
-        "checkpoint_file": f"finetuned_gelectra_{seed}_epoch_0.pt"
+        "checkpoint_dir": f"../models/Lou/distilbert_{typ}_checkpoints/random_seed_{seed}",
+        "checkpoint_file": f"finetuned_distilbert_{typ}_{seed}_epoch_0.pt"
     }
 ]
 
@@ -102,13 +98,13 @@ for model_config in models_config:
         print(f"Model moved to {device}")
 
         # Calculate pre-association scores with base model
-        print(f'-- Calculating pre-association scores for {model_name} --')
-        pre_associations = model_evaluation(data, tokenizer, model, device)
+        # print(f'-- Calculating pre-association scores for {model_name} --')
+        # hf_associations = model_evaluation(data, tokenizer, model, device)
 
         # Add the pre-association scores to dataframe
-        column_name = f"{model_name}_Pre_Assoc"
-        data[column_name] = pre_associations
-        print(f"Added pre-association scores to {len(data)} rows in column '{column_name}'")
+        # column_name_hf = f"{model_name}_HF_Assoc"
+        # data[column_name_hf] = hf_associations
+        # print(f"Added pre-association scores from Huggingface to {len(data)} rows in column '{column_name_hf}'")
 
         # Check for checkpoint
         checkpoint_path = os.path.join(checkpoint_dir, checkpoint_file)
@@ -122,40 +118,40 @@ for model_config in models_config:
             print("Checkpoint loaded successfully")
 
             # Calculate associations with checkpoint model
-            print(f'-- Calculating checkpoint associations for {model_name} --')
-            checkpoint_associations = model_evaluation(data, tokenizer, model, device)
+            print(f'-- Calculating pre associations for {model_name} --')
+            pre_associations = model_evaluation(data, tokenizer, model, device)
             
             # Add checkpoint associations to dataframe
-            checkpoint_column = f"{model_name}_Checkpoint_Assoc"
-            data[checkpoint_column] = checkpoint_associations
-            print(f"Added checkpoint association scores to column '{checkpoint_column}'")
+            pre_column = f"Pre_Assoc_{model_name}"
+            data[pre_column] = pre_associations
+            print(f"Added pre association scores to column '{pre_column}'")
         else:
             print(f"Checkpoint not found: {checkpoint_path}")
             
         # Print summary statistics
-        print(f"\nSummary of {model_name} association scores:")
-        print(f"Pre-association scores - Mean: {data[column_name].mean():.4f}, Std: {data[column_name].std():.4f}")
+        #print(f"\nSummary of {model_name} HF association scores:")
+        #print(f"Pre-association scores - Mean: {data[column_name_hf].mean():.4f}, Std: {data[column_name_hf].std():.4f}")
         
     except Exception as e:
         print(f"Error processing {model_name}: {e}")
         continue
 
 # Create output directory if it doesn't exist
-output_dir = "../data/output_csv_files/german"
+output_dir = "../data/output_csv_files/german/Lou"
 os.makedirs(output_dir, exist_ok=True)
 
 # Save results
-results_file = os.path.join(output_dir, f"pre_assoc_all_models_DE_zero_difference_{seed}.csv")
+results_file = os.path.join(output_dir, f"pre_assoc_all_models_DE_zero_difference_{typ}_{seed}.csv")
 data.to_csv(results_file, index=False)
 print(f"\nResults saved to {results_file}")
 
 print("\nFinal summary of all models:")
 for model_config in models_config:
     model_name = model_config["name"]
-    pre_assoc_col = f"{model_name}_Pre_Assoc"
-    checkpoint_col = f"{model_name}_Checkpoint_Assoc"
+    #hf_assoc_col = f"{model_name}_HF_Assoc"
+    pre_col = f"Pre_Assoc_{model_name}"
     
-    if pre_assoc_col in data.columns:
-        print(f"{model_name} pre-association - Mean: {data[pre_assoc_col].mean():.4f}, Std: {data[pre_assoc_col].std():.4f}")
-    if checkpoint_col in data.columns:
-        print(f"{model_name} checkpoint association - Mean: {data[checkpoint_col].mean():.4f}, Std: {data[checkpoint_col].std():.4f}")
+    # if hf_assoc_col in data.columns:
+    #     print(f"{model_name} pre-association from HF - Mean: {data[hf_assoc_col].mean():.4f}, Std: {data[hf_assoc_col].std():.4f}")
+    if pre_col in data.columns:
+        print(f"{model_name} checkpoint association - Mean: {data[pre_col].mean():.4f}, Std: {data[pre_col].std():.4f}")

@@ -12,20 +12,24 @@ nltk.download('punkt')
 
 df = pd.read_csv("../BEC-Pro/BEC-Pro_EN.tsv", sep='\t')
 
+
 def save_unique_professions(tsv_path, output_txt_path):
     # Read the TSV file
-    df = pd.read_csv(tsv_path, delimiter='\t', keep_default_na=False)  # Ensure NaNs don't cause issues
-    
+    # Ensure NaNs don't cause issues
+    df = pd.read_csv(tsv_path, delimiter='\t', keep_default_na=False)
+
     # Convert 'Profession' column to a list while preserving order
     seen = set()
-    unique_professions = [prof for prof in df['Profession'] if prof not in seen and not seen.add(prof)]
-    
+    unique_professions = [prof for prof in df['Profession']
+                          if prof not in seen and not seen.add(prof)]
+
     # Write to a text file
     with open(output_txt_path, 'w', encoding='utf-8') as f:
         for profession in unique_professions:
             f.write(profession + '\n')
 
-    print(f"Saved {len(unique_professions)} unique professions to {output_txt_path}")
+    print(
+        f"Saved {len(unique_professions)} unique professions to {output_txt_path}")
 
 # Example usage
 # save_unique_professions("../BEC-Pro/BEC-Pro_EN.tsv", "../BEC-Pro/Professions/tokenized_professions_EN.txt")
@@ -34,30 +38,37 @@ def save_unique_professions(tsv_path, output_txt_path):
 # for any MASK except the first one, there should be BERUF or [PROF]
 
 # Function to replace all [MASK]s with "Beruf" or [Prof] (for Sent_AM)
+
+
 def replace_all_masks(sentence):
     return sentence.replace("[MASK]", "[PROF]")
 
 # Function to replace all MASKs except the first one with "Beruf" or [PROF] (for Sent_TAM)
+
+
 def replace_masks_except_first(sentence):
     # Find all [MASK] occurrences
     mask_positions = [m.start() for m in re.finditer(r"\[MASK\]", sentence)]
-    
+
     # If there are more than one MASK, replace all but the first
     if len(mask_positions) > 1:
         first_mask_pos = mask_positions[0]
-        modified_sentence = sentence[:first_mask_pos + 6]  # Keep the first [MASK]
-        modified_sentence += sentence[first_mask_pos + 6:].replace("[MASK]", "[PROF]")
+        # Keep the first [MASK]
+        modified_sentence = sentence[:first_mask_pos + 6]
+        modified_sentence += sentence[first_mask_pos +
+                                      6:].replace("[MASK]", "[PROF]")
         return modified_sentence
     return sentence
 
 # Apply the function to the relevant columns
-#df["Sent_AM"] = df["Sent_AM"].apply(replace_all_masks)
-#df["Sent_TAM"] = df["Sent_TAM"].apply(replace_masks_except_first)
+# df["Sent_AM"] = df["Sent_AM"].apply(replace_all_masks)
+# df["Sent_TAM"] = df["Sent_TAM"].apply(replace_masks_except_first)
 
 # Save the modified CSV
-#df.to_csv("../BEC-Pro/modified_file_DE_PROF.csv", sep='\t', index=False)
+# df.to_csv("../BEC-Pro/modified_file_DE_PROF.csv", sep='\t', index=False)
 
 # then I also have to modify the padding with MASKS for maximum sentence length
+
 
 def get_file_encoding(file_path):
     """Detect the encoding of a file."""
@@ -65,10 +76,11 @@ def get_file_encoding(file_path):
         result = chardet.detect(file.read())
     return result['encoding']
 
+
 def compare_text_files(file1, file2):
     """
     Compare two text files and check if they are completely identical.
-    
+
     Returns:
         - True if files are the same.
         - False if they differ.
@@ -86,12 +98,12 @@ def compare_text_files(file1, file2):
     return True  # Files are identical
 
 # # Example usage
-file1 = "../Gap/gap_flipped.tsv"
-file2 = "../Gap/gap_flipped_adapted.tsv"
-if compare_text_files(file1, file2):
-   print("Files are identical.")
-else:
-   print("Files are different.")
+# file1 = "../Gap/gap_flipped.tsv"
+# file2 = "../Gap/gap_flipped_adapted.tsv"
+# if compare_text_files(file1, file2):
+#    print("Files are identical.")
+# else:
+#    print("Files are different.")
 
 
 def detect_encoding(file_path):
@@ -103,30 +115,30 @@ def detect_encoding(file_path):
 def add_token_counts_to_file(input_file, output_file):
     with open(input_file, 'r', encoding=input_encoding, errors='replace') as f:
         lines = f.readlines()
-    
+
     with open(output_file, 'w', encoding='utf-8') as f:
         for line in lines:
             if not line.strip():
                 continue  # Skip empty lines
-            
+
             profession, tokens = line.split(':')
             tokens = eval(tokens.strip())  # Convert string list to actual list
             token_count = len(tokens)
-            
+
             f.write(f"{token_count} {profession}: {tokens}\n")
 
 
-# input_file = "../BEC-Pro/Professions/tokenized_professions_EN.txt"  
+# input_file = "../BEC-Pro/Professions/tokenized_professions_EN.txt"
 # input_encoding = detect_encoding(input_file)
-# output_file = "tokenized_professions_EN.txt" 
+# output_file = "tokenized_professions_EN.txt"
 # add_token_counts_to_file(input_file, output_file)
 
 def update_sent_am(tsv_file, professions_file, output_file):
     df = pd.read_csv(tsv_file, sep='\t', encoding='utf-8')
-    
+
     with open(professions_file, 'r', encoding='utf-8') as f:
         lines = f.readlines()
-    
+
     token_counts_1 = {}
     token_counts_2 = {}
     token_counts_3 = {}
@@ -138,7 +150,7 @@ def update_sent_am(tsv_file, professions_file, output_file):
     professions_list_3 = []
     professions_list_1_female = []
     professions_list_2_female = []
-    professions_list_3_female= []
+    professions_list_3_female = []
 
     for line in lines[:20]:  # Only process the first 20 lines
         parts = line.split(' ', 1)
@@ -149,7 +161,7 @@ def update_sent_am(tsv_file, professions_file, output_file):
         profession = profession.split(':')[0].strip()
         token_counts_1[profession] = count
         professions_list_1.append(profession)
-    
+
     for line in lines[20:40]:  # Next 20 professions
         parts = line.split(' ', 1)
         if len(parts) < 2:
@@ -159,7 +171,7 @@ def update_sent_am(tsv_file, professions_file, output_file):
         profession = profession.split(':')[0].strip()
         token_counts_2[profession] = count
         professions_list_2.append(profession)
-    
+
     for line in lines[40:60]:  # Next 20 professions
         parts = line.split(' ', 1)
         if len(parts) < 2:
@@ -169,7 +181,7 @@ def update_sent_am(tsv_file, professions_file, output_file):
         profession = profession.split(':')[0].strip()
         token_counts_3[profession] = count
         professions_list_3.append(profession)
-    
+
     for line in lines[60:80]:  # Next 20 professions
         parts = line.split(' ', 1)
         if len(parts) < 2:
@@ -179,7 +191,7 @@ def update_sent_am(tsv_file, professions_file, output_file):
         profession = profession.split(':')[0].strip()
         token_counts_1_female[profession] = count
         professions_list_1_female.append(profession)
-    
+
     for line in lines[80:100]:  # Next 20 professions
         parts = line.split(' ', 1)
         if len(parts) < 2:
@@ -189,7 +201,7 @@ def update_sent_am(tsv_file, professions_file, output_file):
         profession = profession.split(':')[0].strip()
         token_counts_2_female[profession] = count
         professions_list_2_female.append(profession)
-    
+
     for line in lines[100:120]:  # Next 20 professions
         parts = line.split(' ', 1)
         if len(parts) < 2:
@@ -199,69 +211,104 @@ def update_sent_am(tsv_file, professions_file, output_file):
         profession = profession.split(':')[0].strip()
         token_counts_3_female[profession] = count
         professions_list_3_female.append(profession)
-    
+
     # fix: for compounds, it should not just replace one MASK, but all MASKs
     def replace_mask(row, index, professions_list, token_counts):
         profession_index = index % 20  # Cycle through the first 20 professions
         profession = professions_list[profession_index]
-        token_count = token_counts.get(profession, 1)  # Default to 1 if not found
+        token_count = token_counts.get(
+            profession, 1)  # Default to 1 if not found
 
         # Step 1: Ensure only ONE [MASK] remains
-        mask_placeholder = "[TEMP_MASK]"  # Temporary marker to preserve first occurrence
-        new_sentence = row['Sent_AM'].replace("[MASK]", mask_placeholder, 1)  # Keep first MASK
-        new_sentence = re.sub(r'\[MASK\]', '', new_sentence).strip()  # Remove all other MASKs
+        # Temporary marker to preserve first occurrence
+        mask_placeholder = "[TEMP_MASK]"
+        new_sentence = row['Sent_AM'].replace(
+            "[MASK]", mask_placeholder, 1)  # Keep first MASK
+        # Remove all other MASKs
+        new_sentence = re.sub(r'\[MASK\]', '', new_sentence).strip()
 
         # Step 2: Expand the preserved [MASK] to the correct count
-        new_sentence = new_sentence.replace(mask_placeholder, ' '.join(['[MASK]'] * token_count), 1)
+        new_sentence = new_sentence.replace(
+            mask_placeholder, ' '.join(['[MASK]'] * token_count), 1)
 
         return new_sentence
-    
+
     # male professions for templates
-    df.loc[:179, 'Sent_AM'] = [replace_mask(row, idx, professions_list_1, token_counts_1) for idx, row in df.loc[:179].iterrows()]
-    df.loc[360:539, 'Sent_AM'] = [replace_mask(row, idx, professions_list_1, token_counts_1) for idx, row in df.loc[360:539].iterrows()]
-    df.loc[720:899, 'Sent_AM'] = [replace_mask(row, idx, professions_list_1, token_counts_1) for idx, row in df.loc[720:899].iterrows()]
-    df.loc[1080:1259, 'Sent_AM'] = [replace_mask(row, idx, professions_list_1, token_counts_1) for idx, row in df.loc[1080:1259].iterrows()]
-    df.loc[1440:1619, 'Sent_AM'] = [replace_mask(row, idx, professions_list_1, token_counts_1) for idx, row in df.loc[1440:1619].iterrows()]
+    df.loc[:179, 'Sent_AM'] = [replace_mask(
+        row, idx, professions_list_1, token_counts_1) for idx, row in df.loc[:179].iterrows()]
+    df.loc[360:539, 'Sent_AM'] = [replace_mask(
+        row, idx, professions_list_1, token_counts_1) for idx, row in df.loc[360:539].iterrows()]
+    df.loc[720:899, 'Sent_AM'] = [replace_mask(
+        row, idx, professions_list_1, token_counts_1) for idx, row in df.loc[720:899].iterrows()]
+    df.loc[1080:1259, 'Sent_AM'] = [replace_mask(
+        row, idx, professions_list_1, token_counts_1) for idx, row in df.loc[1080:1259].iterrows()]
+    df.loc[1440:1619, 'Sent_AM'] = [replace_mask(
+        row, idx, professions_list_1, token_counts_1) for idx, row in df.loc[1440:1619].iterrows()]
 
-    df.loc[1800:1979, 'Sent_AM'] = [replace_mask(row, idx, professions_list_2, token_counts_2) for idx, row in df.loc[1800:1979].iterrows()]
-    df.loc[2160:2339, 'Sent_AM'] = [replace_mask(row, idx, professions_list_2, token_counts_2) for idx, row in df.loc[2160:2339].iterrows()]
-    df.loc[2520:2699, 'Sent_AM'] = [replace_mask(row, idx, professions_list_2, token_counts_2) for idx, row in df.loc[2520:2699].iterrows()]
-    df.loc[2880:3059, 'Sent_AM'] = [replace_mask(row, idx, professions_list_2, token_counts_2) for idx, row in df.loc[2880:3059].iterrows()]
-    df.loc[3240:3419, 'Sent_AM'] = [replace_mask(row, idx, professions_list_2, token_counts_2) for idx, row in df.loc[3240:3419].iterrows()]
+    df.loc[1800:1979, 'Sent_AM'] = [replace_mask(
+        row, idx, professions_list_2, token_counts_2) for idx, row in df.loc[1800:1979].iterrows()]
+    df.loc[2160:2339, 'Sent_AM'] = [replace_mask(
+        row, idx, professions_list_2, token_counts_2) for idx, row in df.loc[2160:2339].iterrows()]
+    df.loc[2520:2699, 'Sent_AM'] = [replace_mask(
+        row, idx, professions_list_2, token_counts_2) for idx, row in df.loc[2520:2699].iterrows()]
+    df.loc[2880:3059, 'Sent_AM'] = [replace_mask(
+        row, idx, professions_list_2, token_counts_2) for idx, row in df.loc[2880:3059].iterrows()]
+    df.loc[3240:3419, 'Sent_AM'] = [replace_mask(
+        row, idx, professions_list_2, token_counts_2) for idx, row in df.loc[3240:3419].iterrows()]
 
-    df.loc[3600:3779, 'Sent_AM'] = [replace_mask(row, idx, professions_list_3, token_counts_3) for idx, row in df.loc[3600:3779].iterrows()]
-    df.loc[3960:4139, 'Sent_AM'] = [replace_mask(row, idx, professions_list_3, token_counts_3) for idx, row in df.loc[3960:4139].iterrows()]
-    df.loc[4320:4499, 'Sent_AM'] = [replace_mask(row, idx, professions_list_3, token_counts_3) for idx, row in df.loc[4320:4499].iterrows()]
-    df.loc[4680:4859, 'Sent_AM'] = [replace_mask(row, idx, professions_list_3, token_counts_3) for idx, row in df.loc[4680:4859].iterrows()]
-    df.loc[5040:5219, 'Sent_AM'] = [replace_mask(row, idx, professions_list_3, token_counts_3) for idx, row in df.loc[5040:5219].iterrows()]
+    df.loc[3600:3779, 'Sent_AM'] = [replace_mask(
+        row, idx, professions_list_3, token_counts_3) for idx, row in df.loc[3600:3779].iterrows()]
+    df.loc[3960:4139, 'Sent_AM'] = [replace_mask(
+        row, idx, professions_list_3, token_counts_3) for idx, row in df.loc[3960:4139].iterrows()]
+    df.loc[4320:4499, 'Sent_AM'] = [replace_mask(
+        row, idx, professions_list_3, token_counts_3) for idx, row in df.loc[4320:4499].iterrows()]
+    df.loc[4680:4859, 'Sent_AM'] = [replace_mask(
+        row, idx, professions_list_3, token_counts_3) for idx, row in df.loc[4680:4859].iterrows()]
+    df.loc[5040:5219, 'Sent_AM'] = [replace_mask(
+        row, idx, professions_list_3, token_counts_3) for idx, row in df.loc[5040:5219].iterrows()]
 
     # female professions for templates
-    df.loc[180:359, 'Sent_AM'] = [replace_mask(row, idx, professions_list_1_female, token_counts_1_female) for idx, row in df.loc[180:359].iterrows()]
-    df.loc[540:719, 'Sent_AM'] = [replace_mask(row, idx, professions_list_1_female, token_counts_1_female) for idx, row in df.loc[540:719].iterrows()]
-    df.loc[900:1079, 'Sent_AM'] = [replace_mask(row, idx, professions_list_1_female, token_counts_1_female) for idx, row in df.loc[900:1079].iterrows()]
-    df.loc[1260:1439, 'Sent_AM'] = [replace_mask(row, idx, professions_list_1_female, token_counts_1_female) for idx, row in df.loc[1260:1439].iterrows()]
-    df.loc[1620:1799, 'Sent_AM'] = [replace_mask(row, idx, professions_list_1_female, token_counts_1_female) for idx, row in df.loc[1620:1779].iterrows()]
+    df.loc[180:359, 'Sent_AM'] = [replace_mask(
+        row, idx, professions_list_1_female, token_counts_1_female) for idx, row in df.loc[180:359].iterrows()]
+    df.loc[540:719, 'Sent_AM'] = [replace_mask(
+        row, idx, professions_list_1_female, token_counts_1_female) for idx, row in df.loc[540:719].iterrows()]
+    df.loc[900:1079, 'Sent_AM'] = [replace_mask(
+        row, idx, professions_list_1_female, token_counts_1_female) for idx, row in df.loc[900:1079].iterrows()]
+    df.loc[1260:1439, 'Sent_AM'] = [replace_mask(
+        row, idx, professions_list_1_female, token_counts_1_female) for idx, row in df.loc[1260:1439].iterrows()]
+    df.loc[1620:1799, 'Sent_AM'] = [replace_mask(
+        row, idx, professions_list_1_female, token_counts_1_female) for idx, row in df.loc[1620:1779].iterrows()]
 
-    df.loc[1980:2159, 'Sent_AM'] = [replace_mask(row, idx, professions_list_2_female, token_counts_2_female) for idx, row in df.loc[1980:2159].iterrows()]
-    df.loc[2340:2519, 'Sent_AM'] = [replace_mask(row, idx, professions_list_2_female, token_counts_2_female) for idx, row in df.loc[2340:2519].iterrows()]
-    df.loc[2700:2879, 'Sent_AM'] = [replace_mask(row, idx, professions_list_2_female, token_counts_2_female) for idx, row in df.loc[2700:2879].iterrows()]
-    df.loc[3060:3239, 'Sent_AM'] = [replace_mask(row, idx, professions_list_2_female, token_counts_2_female) for idx, row in df.loc[3060:3239].iterrows()]
-    df.loc[3420:3599, 'Sent_AM'] = [replace_mask(row, idx, professions_list_2_female, token_counts_2_female) for idx, row in df.loc[3420:3599].iterrows()]
+    df.loc[1980:2159, 'Sent_AM'] = [replace_mask(
+        row, idx, professions_list_2_female, token_counts_2_female) for idx, row in df.loc[1980:2159].iterrows()]
+    df.loc[2340:2519, 'Sent_AM'] = [replace_mask(
+        row, idx, professions_list_2_female, token_counts_2_female) for idx, row in df.loc[2340:2519].iterrows()]
+    df.loc[2700:2879, 'Sent_AM'] = [replace_mask(
+        row, idx, professions_list_2_female, token_counts_2_female) for idx, row in df.loc[2700:2879].iterrows()]
+    df.loc[3060:3239, 'Sent_AM'] = [replace_mask(
+        row, idx, professions_list_2_female, token_counts_2_female) for idx, row in df.loc[3060:3239].iterrows()]
+    df.loc[3420:3599, 'Sent_AM'] = [replace_mask(
+        row, idx, professions_list_2_female, token_counts_2_female) for idx, row in df.loc[3420:3599].iterrows()]
 
-    df.loc[3780:3959, 'Sent_AM'] = [replace_mask(row, idx, professions_list_3_female, token_counts_3_female) for idx, row in df.loc[3780:3959].iterrows()]
-    df.loc[4140:4319, 'Sent_AM'] = [replace_mask(row, idx, professions_list_3_female, token_counts_3_female) for idx, row in df.loc[4140:4319].iterrows()]
-    df.loc[4500:4679, 'Sent_AM'] = [replace_mask(row, idx, professions_list_3_female, token_counts_3_female) for idx, row in df.loc[4500:4679].iterrows()]
-    df.loc[4860:5039, 'Sent_AM'] = [replace_mask(row, idx, professions_list_3_female, token_counts_3_female) for idx, row in df.loc[4860:5039].iterrows()]
-    df.loc[5220:5399, 'Sent_AM'] = [replace_mask(row, idx, professions_list_3_female, token_counts_3_female) for idx, row in df.loc[5220:5399].iterrows()]
-    
+    df.loc[3780:3959, 'Sent_AM'] = [replace_mask(
+        row, idx, professions_list_3_female, token_counts_3_female) for idx, row in df.loc[3780:3959].iterrows()]
+    df.loc[4140:4319, 'Sent_AM'] = [replace_mask(
+        row, idx, professions_list_3_female, token_counts_3_female) for idx, row in df.loc[4140:4319].iterrows()]
+    df.loc[4500:4679, 'Sent_AM'] = [replace_mask(
+        row, idx, professions_list_3_female, token_counts_3_female) for idx, row in df.loc[4500:4679].iterrows()]
+    df.loc[4860:5039, 'Sent_AM'] = [replace_mask(
+        row, idx, professions_list_3_female, token_counts_3_female) for idx, row in df.loc[4860:5039].iterrows()]
+    df.loc[5220:5399, 'Sent_AM'] = [replace_mask(
+        row, idx, professions_list_3_female, token_counts_3_female) for idx, row in df.loc[5220:5399].iterrows()]
+
     df.to_csv(output_file, sep='\t', index=False, encoding='utf-8')
 
 # Example usage:
-# output_file = "output_tokenized_professions_DE.txt"  
-# ts_file = "../BEC-Pro/BEC-Pro_DE.tsv"  
-# updated_file = "updated_data_fixed_compounds.tsv"  
+# output_file = "output_tokenized_professions_DE.txt"
+# ts_file = "../BEC-Pro/BEC-Pro_DE.tsv"
+# updated_file = "updated_data_fixed_compounds.tsv"
 
-#update_sent_am(ts_file, output_file, updated_file)
+# update_sent_am(ts_file, output_file, updated_file)
 
 # now adapt sent_TAM
 # all MASKs, starting from the second MASK, should be replaced with the amount of MASKs from sent_am
@@ -270,32 +317,36 @@ def update_sent_am(tsv_file, professions_file, output_file):
 def modify_sent_tam(row):
     # Get the count of [MASK] tokens in Sent_AM
     sent_am_mask_count = row["Sent_AM"].count("[MASK]")
-    
+
     # Step 1: Preserve the first [MASK] and replace the second one with a temporary placeholder
     mask_placeholder = "[TEMP_MASK]"
     new_sentence = row["Sent_TAM"]
-    
+
     # Find the positions of all [MASK] occurrences in the sentence
-    mask_positions = [m.start() for m in re.finditer(r'\[MASK\]', new_sentence)]
-    
+    mask_positions = [m.start()
+                      for m in re.finditer(r'\[MASK\]', new_sentence)]
+
     if len(mask_positions) > 1:
         # Replace the second [MASK] with the placeholder, leaving the first [MASK] untouched
         second_mask_position = mask_positions[1]
-        new_sentence = new_sentence[:second_mask_position] + mask_placeholder + new_sentence[second_mask_position+6:]
-    
+        new_sentence = new_sentence[:second_mask_position] + \
+            mask_placeholder + new_sentence[second_mask_position+6:]
+
     # Step 2: Remove all other [MASK] occurrences (except the first one)
     # Now we only remove [MASK] tokens that come after the first one
     mask_count = 0
+
     def remove_extra_masks(match):
         nonlocal mask_count
         mask_count += 1
         return '' if mask_count > 1 else match.group(0)
 
     new_sentence = re.sub(r'\[MASK\]', remove_extra_masks, new_sentence)
-    
+
     # Step 3: Replace the placeholder with the correct number of [MASK] tokens
-    new_sentence = new_sentence.replace(mask_placeholder, ' '.join(['[MASK]'] * sent_am_mask_count), 1)
-    
+    new_sentence = new_sentence.replace(
+        mask_placeholder, ' '.join(['[MASK]'] * sent_am_mask_count), 1)
+
     return new_sentence
 
 # Load the TSV file
@@ -312,31 +363,32 @@ def modify_sent_tam(row):
 def compare_profession_numbers(file_path):
     with open(file_path, 'r', encoding='utf-8') as f:
         lines = f.readlines()
-    
+
     # Split into male and female professions
     male_professions = lines[:60]
     female_professions = lines[60:120]
-    
+
     difference_count = 0
-    
+
     for male_line, female_line in zip(male_professions, female_professions):
         male_number, male_profession = male_line.split(' ', 1)
         female_number, female_profession = female_line.split(' ', 1)
-        
+
         male_number, female_number = int(male_number), int(female_number)
         difference = male_number - female_number
-        
+
         if difference != 0:
             difference_count += 1
-        
-        print(f"{male_profession.strip()} vs {female_profession.strip()} -> Difference: {difference}")
-    
+
+        print(
+            f"{male_profession.strip()} vs {female_profession.strip()} -> Difference: {difference}")
+
     print(f"Total professions with a non-zero difference: {difference_count}")
 
 
 # Example usage:
-#file_path = "../BEC-Pro/tokenized_professions_DE.txt"  # Replace with actual file path
-#compare_profession_numbers(file_path)
+# file_path = "../BEC-Pro/tokenized_professions_DE.txt"  # Replace with actual file path
+# compare_profession_numbers(file_path)
 
 def replace_professions(csv_file, professions_file, output_file):
     encoding = detect_encoding(professions_file)
@@ -353,16 +405,18 @@ def replace_professions(csv_file, professions_file, output_file):
     # Load the CSV file
     df = pd.read_csv(csv_file, sep='\t', encoding='utf-8')
 
-     # Replace professions in specified line ranges
+    # Replace professions in specified line ranges
     for i in range(1800):  # First 1800 rows
-        df.at[i, 'Profession'] = professions_1[i % 20]  # Cycle through 20 professions
+        df.at[i, 'Profession'] = professions_1[i %
+                                               20]  # Cycle through 20 professions
 
     for i in range(1800, 3600):  # Rows 1800-3600
-        df.at[i, 'Profession'] = professions_2[(i - 1800) % 20]  # Cycle through professions_2
+        # Cycle through professions_2
+        df.at[i, 'Profession'] = professions_2[(i - 1800) % 20]
 
     for i in range(3600, 5400):  # Rows 3600-5400
-        df.at[i, 'Profession'] = professions_3[(i - 3600) % 20]  # Cycle through professions_3
-
+        # Cycle through professions_3
+        df.at[i, 'Profession'] = professions_3[(i - 3600) % 20]
 
     # Save the modified CSV
     df.to_csv(output_file, sep='\t', index=False, encoding='utf-8')
@@ -374,6 +428,7 @@ def replace_professions(csv_file, professions_file, output_file):
 
 # replace_professions(csv_file, professions_file, output_file)
 
+
 def fill_templates(csv_file, output_file):
     # Load the CSV file
     df = pd.read_csv(csv_file, sep='\t', encoding='utf-8')
@@ -383,9 +438,10 @@ def fill_templates(csv_file, output_file):
         template = row['Template']
         person = row['Person']
         profession = row['Profession']
-        
+
         # Replace placeholders
-        sentence = template.replace("<person subject>", person).replace("<profession>", profession)
+        sentence = template.replace("<person subject>", person).replace(
+            "<profession>", profession)
         return sentence
 
     # Apply the function to update the 'Sentence' column
@@ -398,7 +454,7 @@ def fill_templates(csv_file, output_file):
 # csv_file = "updated_data.csv"  # Your input CSV file
 # output_file = "final_data.csv"  # Output CSV file
 
-#fill_templates(csv_file, output_file)
+# fill_templates(csv_file, output_file)
 
 
 def modify_sentences(csv_file, output_file):
@@ -408,8 +464,10 @@ def modify_sentences(csv_file, output_file):
     # Define word mappings
     dieser_words = {"Mann"}
     diese_words = {"Frau"}
-    mein_words = {"Bruder", "Sohn", "Ehemann", "Freund", "Vater", "Onkel", "Papa"}
-    meine_words = {"Schwester", "Tochter", "Frau", "Freundin", "Mutter", "Tante", "Mama"}
+    mein_words = {"Bruder", "Sohn", "Ehemann",
+                  "Freund", "Vater", "Onkel", "Papa"}
+    meine_words = {"Schwester", "Tochter", "Frau",
+                   "Freundin", "Mutter", "Tante", "Mama"}
 
     # Function to modify sentences
     def modify_sentence(sentence):
@@ -434,6 +492,7 @@ def modify_sentences(csv_file, output_file):
     # Save the modified CSV
     df.to_csv(output_file, sep='\t', index=False, encoding='utf-8')
 
+
 def modify_sent_tm(csv_file, output_file):
     # Load the CSV file
     df = pd.read_csv(csv_file, sep='\t', encoding='utf-8')
@@ -445,7 +504,8 @@ def modify_sent_tm(csv_file, output_file):
         return re.sub(r'\b' + re.escape(person_word) + r'\b', '[MASK]', sentence)
 
     # Modify the Sent_TM column
-    df['Sent_TM'] = df.apply(lambda row: mask_person(row['Sentence'], row['Person']), axis=1)
+    df['Sent_TM'] = df.apply(lambda row: mask_person(
+        row['Sentence'], row['Person']), axis=1)
 
     # Save the modified CSV
     df.to_csv(output_file, sep='\t', index=False, encoding='utf-8')
@@ -455,7 +515,7 @@ def modify_sent_tm(csv_file, output_file):
 # csv_file = "final_data_test.csv"  # Your input CSV file
 # output_file = "final_data_test_1.csv"  # Output CSV file
 
-#modify_sent_tm(csv_file, output_file)
+# modify_sent_tm(csv_file, output_file)
 
 def add_word_counts_to_professions(input_file, output_file):
     # Detect encoding
@@ -469,7 +529,8 @@ def add_word_counts_to_professions(input_file, output_file):
     with open(output_file, 'w', encoding='utf-8') as f:
         for line in lines:
             profession = line.strip()
-            word_count = len(profession.split())  # Count words in profession name
+            # Count words in profession name
+            word_count = len(profession.split())
             f.write(f"{word_count} {profession}\n")
 
 # Example usage
@@ -484,7 +545,8 @@ def update_mask_count(csv_file, output_file):
     df = pd.read_csv(csv_file, sep='\t', encoding='utf-8')
 
     # Define professions with specific MASK token counts
-    professions_2_mask = {"Dentalhygiene Fachkraft", "Naturheil Kraft", "Sachbearbeitende Person"}
+    professions_2_mask = {"Dentalhygiene Fachkraft",
+                          "Naturheil Kraft", "Sachbearbeitende Person"}
     professions_3_mask = {
         "Fachkraft für Heizungstechnik", "Fachkraft für Kfz-Mechanik", "Einsatzkraft der Feuerwehr",
         "Fachkraft für Medizintechnik", "Fachkraft im Haarsalon", "Person am Empfang",
@@ -494,7 +556,8 @@ def update_mask_count(csv_file, output_file):
         "Mechanik Fachkraft für Busse", "Fachkraft für Holz-und Bautenschutzarbeiten",
         "Fachkraft in der Eisenbahn", "Servicekraft an der Bar"
     }
-    professions_6_mask = {"Fachkraft für Kurier-, Express- und Postdienstleistungen"}
+    professions_6_mask = {
+        "Fachkraft für Kurier-, Express- und Postdienstleistungen"}
 
     all_target_professions = professions_2_mask | professions_3_mask | professions_4_mask | professions_6_mask
 
@@ -512,12 +575,14 @@ def update_mask_count(csv_file, output_file):
         elif profession in professions_6_mask:
             mask_count = 6
         else:
-            return row['Sent_AM']  # Keep unchanged if profession is not in the list
+            # Keep unchanged if profession is not in the list
+            return row['Sent_AM']
 
         # Step 1: Only replace multiple [MASK] tokens if the profession is in the list
         sentence_with_single_mask = row['Sent_AM']
         if profession in all_target_professions:
-            sentence_with_single_mask = re.sub(r'\[MASK\]+', '[MASK]', row['Sent_AM'])
+            sentence_with_single_mask = re.sub(
+                r'\[MASK\]+', '[MASK]', row['Sent_AM'])
 
         # Step 2: Multiply the single [MASK] by the required count
         return sentence_with_single_mask.replace('[MASK]', ' '.join(['[MASK]'] * mask_count), 1)
@@ -532,7 +597,8 @@ def update_mask_count(csv_file, output_file):
 # csv_file = "final_data_test_1.csv"  # Replace with actual input file
 # output_file = "final_data_test_2.csv"  # Replace with desired output file
 
-#update_mask_count(csv_file, output_file)
+# update_mask_count(csv_file, output_file)
+
 
 def update_sent_tam(csv_file, output_file):
     # Load the CSV file
@@ -549,14 +615,20 @@ def update_sent_tam(csv_file, output_file):
             return sent_tam  # No change needed if Sent_AM has no MASKs
 
         # Step 1: Ensure only the first TWO [MASK] remain
-        mask_placeholders = ["[FIRST_MASK]", "[SECOND_MASK]"]  # Temporary markers
-        new_sentence = sent_tam.replace("[MASK]", mask_placeholders[0], 1)  # Keep first MASK
-        new_sentence = new_sentence.replace("[MASK]", mask_placeholders[1], 1)  # Keep second MASK
-        new_sentence = re.sub(r'\[MASK\]', '', new_sentence).strip()  # Remove all other MASKs
+        mask_placeholders = ["[FIRST_MASK]",
+                             "[SECOND_MASK]"]  # Temporary markers
+        new_sentence = sent_tam.replace(
+            "[MASK]", mask_placeholders[0], 1)  # Keep first MASK
+        new_sentence = new_sentence.replace(
+            "[MASK]", mask_placeholders[1], 1)  # Keep second MASK
+        # Remove all other MASKs
+        new_sentence = re.sub(r'\[MASK\]', '', new_sentence).strip()
 
         # Step 2: Expand the second [MASK] to the correct count
-        new_sentence = new_sentence.replace(mask_placeholders[0], "[MASK]", 1)  # Restore first MASK
-        new_sentence = new_sentence.replace(mask_placeholders[1], ' '.join(['[MASK]'] * mask_count_am), 1)  # Expand second MASK
+        new_sentence = new_sentence.replace(
+            mask_placeholders[0], "[MASK]", 1)  # Restore first MASK
+        new_sentence = new_sentence.replace(mask_placeholders[1], ' '.join(
+            ['[MASK]'] * mask_count_am), 1)  # Expand second MASK
 
         return new_sentence
 
@@ -574,13 +646,12 @@ def update_sent_tam(csv_file, output_file):
 # update_sent_tam(csv_file, output_file)
 
 
-
 def update_sent_am_EN(tsv_file, professions_file, output_file):
     df = pd.read_csv(tsv_file, sep='\t', encoding='utf-8')
-    
+
     with open(professions_file, 'r', encoding='utf-8') as f:
         lines = f.readlines()
-    
+
     token_counts_1 = {}
     token_counts_2 = {}
     token_counts_3 = {}
@@ -592,7 +663,7 @@ def update_sent_am_EN(tsv_file, professions_file, output_file):
     professions_list_3 = []
     professions_list_1_female = []
     professions_list_2_female = []
-    professions_list_3_female= []
+    professions_list_3_female = []
 
     for line in lines[:20]:  # Only process the first 20 lines
         parts = line.split(' ', 1)
@@ -603,7 +674,7 @@ def update_sent_am_EN(tsv_file, professions_file, output_file):
         profession = profession.split(':')[0].strip()
         token_counts_1[profession] = count
         professions_list_1.append(profession)
-    
+
     for line in lines[20:40]:  # Next 20 professions
         parts = line.split(' ', 1)
         if len(parts) < 2:
@@ -613,7 +684,7 @@ def update_sent_am_EN(tsv_file, professions_file, output_file):
         profession = profession.split(':')[0].strip()
         token_counts_2[profession] = count
         professions_list_2.append(profession)
-    
+
     for line in lines[40:60]:  # Next 20 professions
         parts = line.split(' ', 1)
         if len(parts) < 2:
@@ -623,53 +694,60 @@ def update_sent_am_EN(tsv_file, professions_file, output_file):
         profession = profession.split(':')[0].strip()
         token_counts_3[profession] = count
         professions_list_3.append(profession)
-    
+
     # fix: for compounds, it should not just replace one MASK, but all MASKs
     def replace_mask(row, index, professions_list, token_counts):
         profession_index = index % 20  # Cycle through the first 20 professions
         profession = professions_list[profession_index]
-        token_count = token_counts.get(profession, 1)  # Default to 1 if not found
+        token_count = token_counts.get(
+            profession, 1)  # Default to 1 if not found
 
         # Step 1: Ensure only ONE [MASK] remains
-        mask_placeholder = "[TEMP_MASK]"  # Temporary marker to preserve first occurrence
-        new_sentence = row['Sent_AM'].replace("[MASK]", mask_placeholder, 1)  # Keep first MASK
-        new_sentence = re.sub(r'\[MASK\]', '', new_sentence).strip()  # Remove all other MASKs
+        # Temporary marker to preserve first occurrence
+        mask_placeholder = "[TEMP_MASK]"
+        new_sentence = row['Sent_AM'].replace(
+            "[MASK]", mask_placeholder, 1)  # Keep first MASK
+        # Remove all other MASKs
+        new_sentence = re.sub(r'\[MASK\]', '', new_sentence).strip()
 
         # Step 2: Expand the preserved [MASK] to the correct count
-        new_sentence = new_sentence.replace(mask_placeholder, ' '.join(['[MASK]'] * token_count), 1)
+        new_sentence = new_sentence.replace(
+            mask_placeholder, ' '.join(['[MASK]'] * token_count), 1)
 
         return new_sentence
-    
+
     # male professions for templates
     # df.loc[:1799, 'Sent_AM'] = [replace_mask(row, idx, professions_list_1, token_counts_1) for idx, row in df.loc[:1799].iterrows()]
 
     # df.loc[1800:3599, 'Sent_AM'] = [replace_mask(row, idx, professions_list_2, token_counts_2) for idx, row in df.loc[1800:3599].iterrows()]
-    
+
     # df.loc[3600:5399, 'Sent_AM'] = [replace_mask(row, idx, professions_list_3, token_counts_3) for idx, row in df.loc[3600:5399].iterrows()]
 
-    
     # df.to_csv(output_file, sep='\t', index=False, encoding='utf-8')
 
 # Example usage:
-# output_file = "../BEC-Pro/Professions/tokenized_professions_DE_gender_neutral.txt"  
-# ts_file = "../BEC-Pro/modified_input/modified_file_DE_gender_neutral.csv"  
-# updated_file = "../BEC-Pro/modified_file_DE_gender_neutral_tokenized.tsv"  
+# output_file = "../BEC-Pro/Professions/tokenized_professions_DE_gender_neutral.txt"
+# ts_file = "../BEC-Pro/modified_input/modified_file_DE_gender_neutral.csv"
+# updated_file = "../BEC-Pro/modified_file_DE_gender_neutral_tokenized.tsv"
 
 # update_sent_am_EN(ts_file, output_file, updated_file)
 
 
 # Read CSV file
-df = pd.read_csv("../BEC-Pro/BEC-Pro_DE.tsv", delimiter="\t")  
+df = pd.read_csv("../BEC-Pro/BEC-Pro_DE.tsv", delimiter="\t")
 
 # Function to keep only the first [MASK]
+
+
 def process_sent_tam(sent_tam):
     parts = sent_tam.split("[MASK]")
     if len(parts) > 1:
-        return "[MASK]" + parts[1]  # Keep only the first MASK and the text after it
+        # Keep only the first MASK and the text after it
+        return "[MASK]" + parts[1]
     return sent_tam  # Return unchanged if there's only one or no MASK
 
 # Apply function to create new column
-#df["Sent_TM_prior"] = df["Sent_TAM"].apply(process_sent_tam)
+# df["Sent_TM_prior"] = df["Sent_TAM"].apply(process_sent_tam)
 
 # df.loc[1080:1439, "Sent_TM_prior"] += ", hatte einen guten Arbeitstag."
 # df.loc[2880:3239, "Sent_TM_prior"] += ", hatte einen guten Arbeitstag."
@@ -701,9 +779,10 @@ def count_text_column_characters(file_path):
     return total_chars
 
 # Example usage
-# file_path = "../data/gap_flipped.csv"  
+# file_path = "../data/gap_flipped.csv"
 # total_characters = count_text_column_characters(file_path)
 # print(f"Total number of characters in the 'Text' column: {total_characters}")
+
 
 def extract_text_and_id(input_file, output_file):
     # Load the CSV file
@@ -713,7 +792,8 @@ def extract_text_and_id(input_file, output_file):
     required_columns = ["ID", "Text"]
     for col in required_columns:
         if col not in df.columns:
-            raise ValueError(f"The CSV file does not contain the '{col}' column.")
+            raise ValueError(
+                f"The CSV file does not contain the '{col}' column.")
 
     # Select only the "ID" and "Text" columns
     df_filtered = df[["ID", "Text"]]
@@ -727,6 +807,7 @@ def extract_text_and_id(input_file, output_file):
 # input_file = "../data/gap_flipped.csv"   # Replace with your actual file path
 # output_file = "../data/gap_flipped_structured.csv"   # Name of the new file
 # extract_text_and_id(input_file, output_file)
+
 
 def transfer_text_to_new_csv(input_csv, output_csv):
     """
@@ -752,7 +833,8 @@ def transfer_text_to_new_csv(input_csv, output_csv):
         # Ensure lengths match, or trim/expand if needed
         min_length = min(len(df_output), len(extracted_text))
         df_output = df_output.iloc[:min_length]  # Trim output if it's longer
-        extracted_text = extracted_text.iloc[:min_length]  # Trim input if longer
+        # Trim input if longer
+        extracted_text = extracted_text.iloc[:min_length]
 
         # Add the new column
         df_output["Text_German"] = extracted_text.values
@@ -768,6 +850,7 @@ def transfer_text_to_new_csv(input_csv, output_csv):
 # Example usage:
 # transfer_text_to_new_csv("../Gap/gap_flipped_structured_translated.csv", "../Gap/gap_flipped.tsv")
 
+
 def extract_fields_to_tsv(jsonl_files, output_tsv):
     """
     Extracts text from 'Neutral' and 'GenderStern' fields in multiple JSONL files,
@@ -778,8 +861,9 @@ def extract_fields_to_tsv(jsonl_files, output_tsv):
         output_tsv (str): Path for the output TSV file.
     """
     with open(output_tsv, 'w', newline='', encoding='utf-8') as tsv_file:
-        writer = csv.writer(tsv_file, delimiter='\t', quoting=csv.QUOTE_MINIMAL)
-        
+        writer = csv.writer(tsv_file, delimiter='\t',
+                            quoting=csv.QUOTE_MINIMAL)
+
         # Write header
         writer.writerow(["ID", "Neutral Text", "GenderStern Text"])
 
@@ -792,25 +876,32 @@ def extract_fields_to_tsv(jsonl_files, output_tsv):
 
                     # Extract and split 'Neutral' field
                     neutral_texts = data.get("Neutral", "").strip().split("\n")
-                    neutral_texts = [text.strip() for text in neutral_texts if text.strip()]
+                    neutral_texts = [text.strip()
+                                     for text in neutral_texts if text.strip()]
 
                     # Extract and split 'GenderStern' field
-                    genderstern_texts = data.get("GenderStern", "").strip().split("\n")
-                    genderstern_texts = [text.strip() for text in genderstern_texts if text.strip()]
+                    genderstern_texts = data.get(
+                        "GenderStern", "").strip().split("\n")
+                    genderstern_texts = [
+                        text.strip() for text in genderstern_texts if text.strip()]
 
                     # Ensure we write rows even if one column is empty
                     max_lines = max(len(neutral_texts), len(genderstern_texts))
                     for i in range(max_lines):
-                        neutral_line = neutral_texts[i] if i < len(neutral_texts) else ""
-                        genderstern_line = genderstern_texts[i] if i < len(genderstern_texts) else ""
-                        writer.writerow([line_id, neutral_line, genderstern_line])
+                        neutral_line = neutral_texts[i] if i < len(
+                            neutral_texts) else ""
+                        genderstern_line = genderstern_texts[i] if i < len(
+                            genderstern_texts) else ""
+                        writer.writerow(
+                            [line_id, neutral_line, genderstern_line])
                         line_id += 1  # Increment ID
 
-    print(f"✅ Extracted 'Neutral' and 'GenderStern' fields from {len(jsonl_files)} files into {output_tsv} with IDs.")
+    print(
+        f"✅ Extracted 'Neutral' and 'GenderStern' fields from {len(jsonl_files)} files into {output_tsv} with IDs.")
 
 # Example usage
-#jsonl_files = glob.glob("../Lou/*.jsonl")  # Collect all JSONL files in the directory
-#extract_fields_to_tsv(jsonl_files, "neutral_genderstern_texts.tsv")
+# jsonl_files = glob.glob("../Lou/*.jsonl")  # Collect all JSONL files in the directory
+# extract_fields_to_tsv(jsonl_files, "neutral_genderstern_texts.tsv")
 
 
 def count_sentences_in_column(file_path, column_name):
@@ -825,18 +916,339 @@ def count_sentences_in_column(file_path, column_name):
     - int, total count of sentences
     """
     # Read the TSV file
-    df = pd.read_csv(file_path, delimiter='\t', dtype=str)  # Read as string to avoid NaNs
+    # Read as string to avoid NaNs
+    df = pd.read_csv(file_path, delimiter='\t', dtype=str)
 
     # Check if the column exists
     if column_name not in df.columns:
         raise ValueError(f"Column '{column_name}' not found in the file.")
 
     # Count sentences
-    total_sentences = sum(len(sent_tokenize(str(text))) for text in df[column_name].dropna())
+    total_sentences = sum(len(sent_tokenize(str(text)))
+                          for text in df[column_name].dropna())
 
     return total_sentences
 
 # Example usage
-#print(count_sentences_in_column("../Gap/gap_flipped.tsv", "Text"))
+# print(count_sentences_in_column("../Gap/gap_flipped.tsv", "Text"))
 
 
+# Extract the german professions with 0 token difference and store in a list
+
+
+def filter_professions_with_zero_difference(input_file, output_file):
+    """
+    Reads a TSV file and removes all rows where the profession does not appear in 
+    the list of professions with zero difference.
+
+    Args:
+        input_file (str): Path to the input TSV file
+        output_file (str): Path to save the filtered TSV file
+    """
+    # Lists of professions with zero difference
+    male_professions_with_0_difference = [
+        "Mechaniker für mobile Geräte",
+        "Busmechaniker",
+        "Kfz-Servicetechniker",
+        "Heizungsmechaniker",
+        "Holzfäller",
+        "Dachedecker",
+        "Bergbaumaschinentechniker",
+        "Elektriker",
+        "Kfz-Mechaniker",
+        "Schaffner",
+        "Klempner",
+        "Feuerwehrmann",
+        "Dentalhygieniker",
+        "Logopäde",
+        "Medizintechniker",
+        "Rechtsanwaltsgehilfe",
+        "Fakturist",
+        "Phlebologe",
+        "Rezeptionist",
+        "Haushälter",
+        "Leiter religiöser Aktivitäten",
+        "Verkehrslotse",
+        "Bademeister",
+        "Herbergsverwalter",
+        "Versicherungskaufmann",
+        "Versicherungsvermittler",
+        "medizinischer Wissenschaftler",
+        "Statistiker",
+        "Fahrdienstleiter",
+        "Postsortierer"
+    ]
+
+    female_professions_with_0_difference = [
+        "Mechanikerin für mobile Geräte",
+        "Busmechanikerin",
+        "Kfz-Servicetechnikerin",
+        "Heizungsmechanikerin",
+        "Holzfällerin",
+        "Dachdeckerin",
+        "Bergbaumaschinentechnikerin",
+        "Elektrikerin",
+        "Kfz-Mechanikerin",
+        "Schaffnerin",
+        "Klempnerin",
+        "Feuerwehrfrau",
+        "Dentalhygienikerin",
+        "Logopädin",
+        "Medizintechnikerin",
+        "Rechtsanwaltsgehilfin",
+        "Fakturistin",
+        "Phlebologin",
+        "Rezeptionistin",
+        "Haushälterin",
+        "Leiterin religiöser Aktivitäten",
+        "Verkehrslotsin",
+        "Bademeisterin",
+        "Herbergsverwalterin",
+        "Versicherungskauffrau",
+        "Versicherungsvermittlerin",
+        "medizinische Wissenschaftlerin",
+        "Statistikerin",
+        "Fahrdienstleiterin",
+        "Postsortiererin"
+    ]
+
+    # Combine both lists to make filtering easier
+    all_professions_with_0_difference = male_professions_with_0_difference + \
+        female_professions_with_0_difference
+
+    # Read the TSV file
+    try:
+        df = pd.read_csv(input_file, sep='\t')
+
+        # Filter rows where the profession is in either of the lists
+        filtered_df = df[df['Profession'].isin(
+            all_professions_with_0_difference)]
+
+        # Save the filtered dataframe to a new TSV file
+        filtered_df.to_csv(output_file, sep='\t', index=False)
+
+        print(f"Original file had {len(df)} rows.")
+        print(f"Filtered file has {len(filtered_df)} rows.")
+        print(f"Removed {len(df) - len(filtered_df)} rows.")
+        print(f"Filtered file saved to {output_file}")
+
+    except Exception as e:
+        print(f"Error: {e}")
+
+# Example usage
+# if __name__ == "__main__":
+#     # Replace these with your actual file paths
+#     input_file_path = "../BEC-Pro/BEC-Pro_DE.tsv"
+#     output_file_path = "../BEC-Pro/modified_input/modified_file_DE_zero_difference.tsv"
+
+#     filter_professions_with_zero_difference(input_file_path, output_file_path)
+
+
+
+def merge_association_scores(pre_file_path, post_file_path, output_file_path):
+    """
+    Reads two CSV files and adds post-association columns to the pre-association file.
+    
+    Parameters:
+    -----------
+    pre_file_path : str
+        Path to the CSV file containing pre-association scores
+    post_file_path : str
+        Path to the CSV file containing post-association scores
+    output_file_path : str
+        Path where the merged CSV file will be saved
+    
+    Returns:
+    --------
+    pandas.DataFrame
+        The merged dataframe that was saved to the output file
+    """
+    # Read the CSV files
+    pre_df = pd.read_csv(pre_file_path)
+    post_df = pd.read_csv(post_file_path)
+    
+    # Define the model names
+    models = ['dbmdz', 'google_bert', 'deepset_bert', 'distilbert', 'gelectra']
+    
+    # Create a merged dataframe, starting with the pre-association data
+    merged_df = pre_df.copy()
+    
+    # Merge the dataframes on the 'Unnamed: 0' column
+    merged_df = pd.merge(
+        merged_df, 
+        post_df[['Unnamed: 0'] + [f"{model}_Post_Assoc" for model in models if f"{model}_Post_Assoc" in post_df.columns]],
+        on='Unnamed: 0',
+        how='left'
+    )
+    
+    # Save the merged dataframe to a new CSV file
+    merged_df.to_csv(output_file_path, index=False)
+    print(f"Merged data saved to {output_file_path}")
+    
+    return merged_df
+
+# Example usage:
+# merged_data = merge_association_scores('pre_association.csv', 'post_association.csv', 'merged_association.csv')
+# Example usage:
+# merged_data = merge_association_scores('../data/output_csv_files/german/pre_assoc_all_models_DE_zero_difference_42.csv',
+#                                        '../data/output_csv_files/german/post_assoc_all_models_DE_zero_difference_42.csv', '../data/output_csv_files/german/post_assoc_all_models_DE_zero_difference_42_merged.csv')
+
+def remove_pre_assoc_columns(input_csv, output_csv):
+    """
+    Removes all columns with names ending in '_Pre_Assoc' from a CSV file.
+    
+    Parameters:
+    -----------
+    input_csv : str
+        Path to the input CSV file
+    output_csv : str
+        Path where the modified CSV file will be saved
+    
+    Returns:
+    --------
+    pandas.DataFrame
+        The modified dataframe that was saved to the output file
+    """
+    # Read the CSV file
+    df = pd.read_csv(input_csv)
+    
+    # Get list of columns containing '_Pre_Assoc'
+    pre_assoc_columns = [col for col in df.columns if col.endswith('_Pre_Assoc')]
+    
+    # Print columns that will be removed
+    print(f"Removing {len(pre_assoc_columns)} columns: {pre_assoc_columns}")
+    
+    # Remove the columns
+    df_modified = df.drop(columns=pre_assoc_columns)
+    
+    # Save the modified dataframe to a new CSV file
+    df_modified.to_csv(output_csv, index=False)
+    print(f"Modified data saved to {output_csv}")
+    
+    return df_modified
+
+# Example of how to use this function:
+# remove_pre_assoc_columns('../data/output_csv_files/german/post_assoc_all_models_DE_zero_difference_1980.csv', '../data/output_csv_files/german/post_assoc_all_models_DE_zero_difference_1980.csv')
+
+
+import pandas as pd
+import numpy as np
+
+model_name = "dbmdz"
+
+typ = "neutral"
+
+def average_post_associations(seed_files, output_file):
+    """
+    Read CSV files from different random seeds and compute average Post_Assoc.
+    
+    Parameters:
+    seed_files (list): List of file paths for CSV files from different seeds
+    output_file (str): Path for the output CSV file
+    
+    Returns:
+    pandas.DataFrame: Averaged DataFrame
+    """
+    # Read all CSV files
+    dataframes = [pd.read_csv(file) for file in seed_files]
+    
+    # Compute average of Post_Assoc
+    post_assoc_avgs = []
+    for i in range(len(dataframes[0])):
+        # Collect Post_Assoc values for this row across all seeds
+        row_values = [df.loc[i, 'Post_Assoc'] for df in dataframes]
+        post_assoc_avgs.append(np.mean(row_values))
+    
+    # Take the first dataframe as base and add the averaged column
+    merged_df = dataframes[0].copy()
+    merged_df['Post_Assoc_Avg'] = post_assoc_avgs
+    
+    # Drop the original Post_Assoc column
+    merged_df = merged_df.drop(columns=['Post_Assoc'])
+    
+    # Save to output file
+    merged_df.to_csv(output_file, index=False)
+    
+    return merged_df
+
+
+# Example usage
+seed_files = [
+    f'../{model_name}/results_Lou_DE_gender_neutral_{typ}_{model_name}_42.csv',
+    f'../{model_name}/results_Lou_DE_gender_neutral_{typ}_{model_name}_116.csv',
+    f'../{model_name}/results_Lou_DE_gender_neutral_{typ}_{model_name}_387.csv',
+    f'../{model_name}/results_Lou_DE_gender_neutral_{typ}_{model_name}_1980.csv'
+]
+
+output_file = f'../{model_name}/results_Lou_DE_gender_neutral_{typ}_{model_name}_avg.csv'
+
+# # Call the function
+# result_df = average_post_associations(seed_files, output_file)
+
+# print("Averaged CSV created successfully!")
+
+import pandas as pd
+import numpy as np
+
+def average_post_associations_all_models(seed_files, output_file):
+    """
+    Read CSV files from different random seeds and compute average Pre_Assoc and Post_Assoc
+    for each model, creating columns with _Avg suffix.
+    
+    Parameters:
+    seed_files (list): List of file paths for CSV files from different seeds
+    output_file (str): Path for the output CSV file
+    
+    Returns:
+    pandas.DataFrame: Averaged DataFrame
+    """
+    # Read all CSV files
+    dataframes = [pd.read_csv(file) for file in seed_files]
+    
+    # Identify all model names from the column headers
+    first_df = dataframes[0]
+    model_names = [col.split('_Pre_Assoc')[0] for col in first_df.columns if '_Pre_Assoc' in col]
+    
+    # Create a base DataFrame from the first seed file (excluding model-specific columns)
+    non_model_cols = [col for col in first_df.columns if not any(f"{model}_" in col for model in model_names)]
+    merged_df = first_df[non_model_cols].copy()
+    
+    # For each model, compute average Pre_Assoc and Post_Assoc across all seeds
+    for model in model_names:
+        pre_assoc_avgs = []
+        post_assoc_avgs = []
+        
+        # For each row in the dataset
+        for i in range(len(first_df)):
+            # Collect Pre_Assoc and Post_Assoc values for this row across all seeds
+            pre_values = [df.loc[i, f'{model}_Pre_Assoc'] for df in dataframes]
+            post_values = [df.loc[i, f'{model}_Post_Assoc'] for df in dataframes]
+            
+            # Calculate averages
+            pre_assoc_avgs.append(np.mean(pre_values))
+            post_assoc_avgs.append(np.mean(post_values))
+        
+        # Add averaged columns to merged DataFrame with _Avg suffix
+        merged_df[f'{model}_Pre_Assoc_Avg'] = pre_assoc_avgs
+        merged_df[f'{model}_Post_Assoc_Avg'] = post_assoc_avgs
+    
+    # Save to output file
+    merged_df.to_csv(output_file, index=False)
+    
+    print(f"Averaged CSV file created successfully at: {output_file}")
+    
+    return merged_df
+
+
+# Example usage
+seed_files = [
+    '../data/output_csv_files/german/gender_neutral/post_assoc_all_models_DE_gender_neutral_42.csv',
+    '../data/output_csv_files/german/gender_neutral/post_assoc_all_models_DE_gender_neutral_116.csv',
+    '../data/output_csv_files/german/gender_neutral/post_assoc_all_models_DE_gender_neutral_387.csv',
+    '../data/output_csv_files/german/gender_neutral/post_assoc_all_models_DE_gender_neutral_1980.csv'
+]
+
+#output_file = '../data/output_csv_files/german/gender_neutral/pre_post_assoc_all_models_DE_gender_neutral_avg.csv'
+
+# Call the function
+#result_df = average_post_associations_all_models(seed_files, output_file)
