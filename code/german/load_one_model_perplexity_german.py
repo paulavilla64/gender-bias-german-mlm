@@ -51,10 +51,10 @@ seed = 42
 set_all_seeds(seed)
 
 # Load the model and tokenizer
-model_name = "google-bert/bert-base-german-cased"
+model_name = "bert-base-german-dbmdz-cased"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 
-name = "google_bert"
+name = "dbmdz"
 
 # Function to compute perplexity
 def compute_perplexity(model, val_dataloader, device, description=""):
