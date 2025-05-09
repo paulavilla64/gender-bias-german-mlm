@@ -1,0 +1,130 @@
+
+----- ANALYSIS FOR DBMDZ MODEL -----
+
+MEAN VALUES:
+Mean for female gender within statistically female professions: 0.0384
+Mean for male gender within statistically female professions: 0.0793
+Mean for female gender within statistically male professions: 0.2693
+Mean for male gender within statistically male professions: 0.1701
+Mean for female gender within statistically balanced professions: 0.2587
+Mean for male gender within statistically balanced professions: 0.1676
+
+STANDARD DEVIATIONS:
+SD for Female Professions - Female Person Words: 1.6611
+SD for Female Professions - Male Person Words: 1.3788
+SD for Male Professions - Female Person Words: 1.4472
+SD for Male Professions - Male Person Words: 1.2984
+SD for Balanced Professions - Female Person Words: 1.4731
+SD for Balanced Professions - Male Person Words: 1.2579
+
+WILCOXON TESTS:
+Female Professions - Wilcoxon test statistic: 30848.0
+Female Professions - P-value: 0.405968
+Female Professions - Fail to reject null hypothesis: No significant difference.
+
+Male Professions - Wilcoxon test statistic: 65927.0
+Male Professions - P-value: 0.050055
+Male Professions - Fail to reject null hypothesis: No significant difference.
+
+Balanced Professions - Wilcoxon test statistic: 44155.0
+Balanced Professions - P-value: 0.017092
+Balanced Professions - Reject null hypothesis: There is a significant difference.
+
+
+----- ANALYSIS FOR GOOGLE_BERT MODEL -----
+
+MEAN VALUES:
+Mean for female gender within statistically female professions: 0.7716
+Mean for male gender within statistically female professions: 0.8518
+Mean for female gender within statistically male professions: 0.8138
+Mean for male gender within statistically male professions: 0.7594
+Mean for female gender within statistically balanced professions: 0.6685
+Mean for male gender within statistically balanced professions: 0.7813
+
+STANDARD DEVIATIONS:
+SD for Female Professions - Female Person Words: 1.5958
+SD for Female Professions - Male Person Words: 1.7094
+SD for Male Professions - Female Person Words: 1.5825
+SD for Male Professions - Male Person Words: 1.7321
+SD for Balanced Professions - Female Person Words: 1.6633
+SD for Balanced Professions - Male Person Words: 1.6828
+
+WILCOXON TESTS:
+Female Professions - Wilcoxon test statistic: 29316.0
+Female Professions - P-value: 0.108197
+Female Professions - Fail to reject null hypothesis: No significant difference.
+
+Male Professions - Wilcoxon test statistic: 67099.0
+Male Professions - P-value: 0.101755
+Male Professions - Fail to reject null hypothesis: No significant difference.
+
+Balanced Professions - Wilcoxon test statistic: 43378.0
+Balanced Professions - P-value: 0.007671
+Balanced Professions - Reject null hypothesis: There is a significant difference.
+
+
+----- ANALYSIS FOR DEEPSET_BERT MODEL -----
+
+MEAN VALUES:
+Mean for female gender within statistically female professions: 0.9643
+Mean for male gender within statistically female professions: 0.7580
+Mean for female gender within statistically male professions: 1.0630
+Mean for male gender within statistically male professions: 0.8214
+Mean for female gender within statistically balanced professions: 0.9570
+Mean for male gender within statistically balanced professions: 0.7414
+
+STANDARD DEVIATIONS:
+SD for Female Professions - Female Person Words: 2.1180
+SD for Female Professions - Male Person Words: 1.7386
+SD for Male Professions - Female Person Words: 2.0897
+SD for Male Professions - Male Person Words: 1.7363
+SD for Balanced Professions - Female Person Words: 2.1244
+SD for Balanced Professions - Male Person Words: 1.7804
+
+WILCOXON TESTS:
+Female Professions - Wilcoxon test statistic: 25282.0
+Female Professions - P-value: 0.000264
+Female Professions - Reject null hypothesis: There is a significant difference.
+
+Male Professions - Wilcoxon test statistic: 51591.0
+Male Professions - P-value: 0.000000
+Male Professions - Reject null hypothesis: There is a significant difference.
+
+Balanced Professions - Wilcoxon test statistic: 38438.0
+Balanced Professions - P-value: 0.000008
+Balanced Professions - Reject null hypothesis: There is a significant difference.
+
+
+----- ANALYSIS FOR DISTILBERT MODEL -----
+
+MEAN VALUES:
+Mean for female gender within statistically female professions: 0.7553
+Mean for male gender within statistically female professions: 0.3155
+Mean for female gender within statistically male professions: 0.7905
+Mean for male gender within statistically male professions: 0.2008
+Mean for female gender within statistically balanced professions: 0.7786
+Mean for male gender within statistically balanced professions: 0.2581
+
+STANDARD DEVIATIONS:
+SD for Female Professions - Female Person Words: 1.4805
+SD for Female Professions - Male Person Words: 1.1925
+SD for Male Professions - Female Person Words: 1.5168
+SD for Male Professions - Male Person Words: 1.2910
+SD for Balanced Professions - Female Person Words: 1.4998
+SD for Balanced Professions - Male Person Words: 1.2527
+
+WILCOXON TESTS:
+Female Professions - Wilcoxon test statistic: 11655.0
+Female Professions - P-value: 0.000000
+Female Professions - Reject null hypothesis: There is a significant difference.
+
+Male Professions - Wilcoxon test statistic: 16371.0
+Male Professions - P-value: 0.000000
+Male Professions - Reject null hypothesis: There is a significant difference.
+
+Balanced Professions - Wilcoxon test statistic: 15256.0
+Balanced Professions - P-value: 0.000000
+Balanced Professions - Reject null hypothesis: There is a significant difference.
+
+
+Analysis complete for all models.

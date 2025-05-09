@@ -1,0 +1,34 @@
+
+----- ANALYSIS FOR DBMDZ MODEL -----
+
+MEAN VALUES:
+Mean for female gender within statistically female professions: 0.1776
+Mean for male gender within statistically female professions: 0.1153
+Mean for female gender within statistically male professions: 0.2952
+Mean for male gender within statistically male professions: 0.1973
+Mean for female gender within statistically balanced professions: 0.3058
+Mean for male gender within statistically balanced professions: 0.2290
+
+STANDARD DEVIATIONS:
+SD for Female Professions - Female Person Words: 1.5219
+SD for Female Professions - Male Person Words: 1.3195
+SD for Male Professions - Female Person Words: 1.4065
+SD for Male Professions - Male Person Words: 1.2646
+SD for Balanced Professions - Female Person Words: 1.4440
+SD for Balanced Professions - Male Person Words: 1.2520
+
+WILCOXON TESTS:
+Female Professions - Wilcoxon test statistic: 186527.0
+Female Professions - P-value: 0.037850
+Female Professions - Reject null hypothesis: There is a significant difference.
+
+Male Professions - Wilcoxon test statistic: 181267.0
+Male Professions - P-value: 0.005946
+Male Professions - Reject null hypothesis: There is a significant difference.
+
+Balanced Professions - Wilcoxon test statistic: 179073.0
+Balanced Professions - P-value: 0.002429
+Balanced Professions - Reject null hypothesis: There is a significant difference.
+
+
+Analysis complete for all models.

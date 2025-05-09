@@ -1,0 +1,245 @@
+
+
+==================================================
+Model: dbmdz
+==================================================
+PRE-ASSOCIATION STATISTICS
+-------------------------
+Mean for female gender within statistically female professions: 0.1775716902543254
+Mean for male gender within statistically female professions: 0.11528531326752534
+Mean for female gender within statistically male professions: 0.2952246270724624
+Mean for male gender within statistically male professions: 0.19728783846518844
+Mean for female gender within statistically balanced professions: 0.3057834653535859
+Mean for male gender within statistically balanced professions: 0.22900408659680876
+
+POST-ASSOCIATION STATISTICS
+--------------------------
+Mean for female gender within statistically female professions: 0.10187462730704472
+Mean for male gender within statistically female professions: -0.15038851370844125
+Mean for female gender within statistically male professions: 0.10792026824780944
+Mean for male gender within statistically male professions: -0.2771156551943137
+Mean for female gender within statistically balanced professions: 0.1664200623325618
+Mean for male gender within statistically balanced professions: -0.1362606839943776
+
+STATISTICAL TESTS
+----------------
+Overall Wilcoxon test statistic: 5194751.0
+P-value: 4.4875475026132115e-74
+Reject the null hypothesis: There is a significant difference.
+
+Wilcoxon test statistic for female professions (F): 643736.0
+P-value: 1.5121622297537168e-13
+Reject the null hypothesis: There is a significant difference.
+
+Wilcoxon test statistic for male professions (M): 512459.0
+P-value: 1.3373769815491771e-41
+Reject the null hypothesis: There is a significant difference.
+
+Wilcoxon test statistic for balanced professions (B): 575913.0
+P-value: 2.0618787290125924e-26
+Reject the null hypothesis: There is a significant difference.
+
+EFFECT SIZES
+-----------
+All group - Cohen's W effect size: -0.24903372439621466
+Female group - Cohen's W effect size: -0.17817089861681004
+Male group - Cohen's W effect size: -0.3184695001602855
+Balanced group - Cohen's W effect size: -0.2506548223238047
+
+
+==================================================
+Model: google_bert
+==================================================
+PRE-ASSOCIATION STATISTICS
+-------------------------
+Mean for female gender within statistically female professions: 0.7946890661439384
+Mean for male gender within statistically female professions: 0.8458207746519837
+Mean for female gender within statistically male professions: 0.7543216011054018
+Mean for male gender within statistically male professions: 0.729625377810588
+Mean for female gender within statistically balanced professions: 0.6851492290620652
+Mean for male gender within statistically balanced professions: 0.800758709266236
+
+POST-ASSOCIATION STATISTICS
+--------------------------
+Mean for female gender within statistically female professions: 0.2572651301612384
+Mean for male gender within statistically female professions: 0.03811274306140354
+Mean for female gender within statistically male professions: 0.2107306287515774
+Mean for male gender within statistically male professions: -0.1575103818274062
+Mean for female gender within statistically balanced professions: 0.28430823051827353
+Mean for male gender within statistically balanced professions: 0.05277741158923583
+
+STATISTICAL TESTS
+----------------
+Overall Wilcoxon test statistic: 2466268.0
+P-value: 0.0
+Reject the null hypothesis: There is a significant difference.
+
+Wilcoxon test statistic for female professions (F): 252833.0
+P-value: 5.92167425937208e-140
+Reject the null hypothesis: There is a significant difference.
+
+Wilcoxon test statistic for male professions (M): 243648.0
+P-value: 1.170303852466141e-145
+Reject the null hypothesis: There is a significant difference.
+
+Wilcoxon test statistic for balanced professions (B): 329688.0
+P-value: 2.3857215705062496e-105
+Reject the null hypothesis: There is a significant difference.
+
+EFFECT SIZES
+-----------
+All group - Cohen's W effect size: -0.5731225384430386
+Female group - Cohen's W effect size: -0.5959374855981487
+Male group - Cohen's W effect size: -0.6057536960171621
+Balanced group - Cohen's W effect size: -0.513800865918968
+
+
+==================================================
+Model: deepset_bert
+==================================================
+PRE-ASSOCIATION STATISTICS
+-------------------------
+Mean for female gender within statistically female professions: 0.993748330960149
+Mean for male gender within statistically female professions: 0.7605296497869675
+Mean for female gender within statistically male professions: 1.0482596079211315
+Mean for male gender within statistically male professions: 0.8028818772329471
+Mean for female gender within statistically balanced professions: 0.9531037926878252
+Mean for male gender within statistically balanced professions: 0.7140383746177268
+
+POST-ASSOCIATION STATISTICS
+--------------------------
+Mean for female gender within statistically female professions: 0.03873021029162253
+Mean for male gender within statistically female professions: -0.013774318698952218
+Mean for female gender within statistically male professions: -0.01169003042771786
+Mean for male gender within statistically male professions: -0.061591110169043665
+Mean for female gender within statistically balanced professions: 0.03716824523430533
+Mean for male gender within statistically balanced professions: -0.0041381816442397695
+
+STATISTICAL TESTS
+----------------
+Overall Wilcoxon test statistic: 3083473.0
+P-value: 2.9933497337214367e-294
+Reject the null hypothesis: There is a significant difference.
+
+Wilcoxon test statistic for female professions (F): 348120.0
+P-value: 1.6591254909326106e-96
+Reject the null hypothesis: There is a significant difference.
+
+Wilcoxon test statistic for male professions (M): 290231.0
+P-value: 5.1441259182585646e-123
+Reject the null hypothesis: There is a significant difference.
+
+Wilcoxon test statistic for balanced professions (B): 391757.0
+P-value: 2.295861186971471e-80
+Reject the null hypothesis: There is a significant difference.
+
+EFFECT SIZES
+-----------
+All group - Cohen's W effect size: -0.4998110182782547
+Female group - Cohen's W effect size: -0.4941021843247105
+Male group - Cohen's W effect size: -0.5559694249285502
+Balanced group - Cohen's W effect size: -0.4474663678789306
+
+
+==================================================
+Model: distilbert
+==================================================
+PRE-ASSOCIATION STATISTICS
+-------------------------
+Mean for female gender within statistically female professions: 0.7858505619174796
+Mean for male gender within statistically female professions: 0.33841415286441195
+Mean for female gender within statistically male professions: 0.7991821963144652
+Mean for male gender within statistically male professions: 0.2103387697353251
+Mean for female gender within statistically balanced professions: 0.7932343357684821
+Mean for male gender within statistically balanced professions: 0.30424977936162806
+
+POST-ASSOCIATION STATISTICS
+--------------------------
+Mean for female gender within statistically female professions: -0.18615864698220505
+Mean for male gender within statistically female professions: -0.2225767626872863
+Mean for female gender within statistically male professions: -0.1966627619260701
+Mean for male gender within statistically male professions: -0.2730210155538812
+Mean for female gender within statistically balanced professions: -0.1340154800399038
+Mean for male gender within statistically balanced professions: -0.20533281081408744
+
+STATISTICAL TESTS
+----------------
+Overall Wilcoxon test statistic: 1638088.0
+P-value: 0.0
+Reject the null hypothesis: There is a significant difference.
+
+Wilcoxon test statistic for female professions (F): 161011.0
+P-value: 1.523818446463528e-189
+Reject the null hypothesis: There is a significant difference.
+
+Wilcoxon test statistic for male professions (M): 182247.0
+P-value: 1.849088882447571e-178
+Reject the null hypothesis: There is a significant difference.
+
+Wilcoxon test statistic for balanced professions (B): 203361.0
+P-value: 8.425805091863724e-167
+Reject the null hypothesis: There is a significant difference.
+
+EFFECT SIZES
+-----------
+All group - Cohen's W effect size: -0.6714936384342419
+Female group - Cohen's W effect size: -0.6940696655757914
+Male group - Cohen's W effect size: -0.6713742878449075
+Balanced group - Cohen's W effect size: -0.6488092941827357
+
+
+==================================================
+SUMMARY OF MODELS
+==================================================
+
+Model: dbmdz
+  Overall Pre-association - Mean: 0.2200, Std: 1.3733
+  Overall Post-association - Mean: -0.0313, Std: 1.1469
+  Overall Change: -0.2513
+  Female person words:
+    Pre-association - Mean: 0.2595, Std: 1.4597
+    Post-association - Mean: 0.1254, Std: 1.2360
+    Change: -0.1341
+  Male person words:
+    Pre-association - Mean: 0.1805, Std: 1.2802
+    Post-association - Mean: -0.1879, Std: 1.0268
+    Change: -0.3684
+
+Model: google_bert
+  Overall Pre-association - Mean: 0.7684, Std: 1.6677
+  Overall Post-association - Mean: 0.1143, Std: 1.5770
+  Overall Change: -0.6541
+  Female person words:
+    Pre-association - Mean: 0.7447, Std: 1.6135
+    Post-association - Mean: 0.2508, Std: 1.5018
+    Change: -0.4940
+  Male person words:
+    Pre-association - Mean: 0.7921, Std: 1.7200
+    Post-association - Mean: -0.0222, Std: 1.6377
+    Change: -0.8143
+
+Model: deepset_bert
+  Overall Pre-association - Mean: 0.8788, Std: 1.9253
+  Overall Post-association - Mean: -0.0025, Std: 1.1669
+  Overall Change: -0.8813
+  Female person words:
+    Pre-association - Mean: 0.9984, Std: 2.1169
+    Post-association - Mean: 0.0214, Std: 1.1355
+    Change: -0.9770
+  Male person words:
+    Pre-association - Mean: 0.7591, Std: 1.7045
+    Post-association - Mean: -0.0265, Std: 1.1973
+    Change: -0.7857
+
+Model: distilbert
+  Overall Pre-association - Mean: 0.5385, Std: 1.4034
+  Overall Post-association - Mean: -0.2030, Std: 1.3486
+  Overall Change: -0.7415
+  Female person words:
+    Pre-association - Mean: 0.7928, Std: 1.5073
+    Post-association - Mean: -0.1723, Std: 1.5181
+    Change: -0.9650
+  Male person words:
+    Pre-association - Mean: 0.2843, Std: 1.2404
+    Post-association - Mean: -0.2336, Std: 1.1540
+    Change: -0.5180
