@@ -43,7 +43,7 @@ def set_all_seeds(seed):
     torch.backends.cudnn.benchmark = False
 
 seed = 42
-typ = "neutral"  # Add the typ variable definition
+typ = "neutral"
 
 set_all_seeds(seed)
 
@@ -52,10 +52,10 @@ def compute_perplexity(model, val_dataloader, device, description=""):
     print("")
     print(f"\nRunning {description} perplexity calculation...")
 
-    model.eval()  # Set model to evaluation mode
+    model.eval()  
     losses = []
     
-    with torch.no_grad():  # No gradients needed
+    with torch.no_grad():  
         for batch in val_dataloader:
             inputs, attn_masks, labels = batch
             inputs, attn_masks, labels = inputs.to(device), attn_masks.to(device), labels.to(device)
@@ -92,14 +92,14 @@ models_config = [
         "checkpoint_dir": f"../models/Lou/dbmdz_{typ}_checkpoints/random_seed_{seed}",
     },
     {
-        "name": "google_bert",
+        "name": "google-bert",
         "model_id": "google-bert/bert-base-german-cased",
-        "checkpoint_dir": f"../models/Lou/google_bert_{typ}_checkpoints/random_seed_{seed}",
+        "checkpoint_dir": f"../models/Lou/google-bert_{typ}_checkpoints/random_seed_{seed}",
     },
     {
-        "name": "deepset_bert",
+        "name": "deepset-bert",
         "model_id": "deepset/gbert-base",
-        "checkpoint_dir": f"../models/Lou/deepset_bert_{typ}_checkpoints/random_seed_{seed}",
+        "checkpoint_dir": f"../models/Lou/deepset-bert_{typ}_checkpoints/random_seed_{seed}",
     },
     {
         "name": "distilbert",
