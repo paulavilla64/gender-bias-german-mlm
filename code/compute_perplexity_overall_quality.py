@@ -25,7 +25,6 @@ print(f"CUDA device count: {torch.cuda.device_count()}")
 print(f"Current CUDA device: {torch.cuda.current_device()}")
 print(f"CUDA device name: {torch.cuda.get_device_name(torch.cuda.current_device())}")
 
-
 gpu_id = "4" 
 
 # check if GPU is available
@@ -60,10 +59,10 @@ def compute_perplexity(model, val_dataloader, device, description=""):
     print("")
     print(f"\nRunning {description} perplexity calculation...")
 
-    model.eval()  # Set model to evaluation mode
+    model.eval()  
     losses = []
     
-    with torch.no_grad():  # No gradients needed
+    with torch.no_grad():  
         for batch in val_dataloader:
             inputs, attn_masks, labels = batch
             inputs, attn_masks, labels = inputs.to(device), attn_masks.to(device), labels.to(device)
@@ -73,7 +72,7 @@ def compute_perplexity(model, val_dataloader, device, description=""):
             losses.append(loss.item())
 
     avg_loss = sum(losses) / len(losses)
-    perplexity = math.exp(avg_loss)  # Perplexity = exp(loss)
+    perplexity = math.exp(avg_loss)  
 
     print(f"{description} Loss: {avg_loss:.4f}, Perplexity: {perplexity:.2f}")
     
@@ -85,8 +84,6 @@ eval_corpus = pd.read_csv('../data/ag_news/ag_news_common_crawl.tsv', sep='\t')
 eval_data = []
 for text in eval_corpus.Sentence:
     eval_data += sent_tokenize(text)
-
-# eval_data = eval_data[:50]  # Same as in your original script
 
 # Get max length for padding
 max_len_eval = max([len(sent.split()) for sent in eval_data])
@@ -276,7 +273,7 @@ print(results_df[['checkpoint', 'epoch', 'validation_loss', 'perplexity']])
 # Calculate perplexity improvement for each checkpoint compared to baseline
 if len(results) > 1:
     print("\n=== PERPLEXITY IMPROVEMENT ===")
-    baseline_perplexity = results[0]['perplexity']  # First result is baseline
+    baseline_perplexity = results[0]['perplexity']  
     for i in range(1, len(results)):
         checkpoint = results[i]['checkpoint']
         perplexity = results[i]['perplexity']
