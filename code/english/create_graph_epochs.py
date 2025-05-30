@@ -3,9 +3,9 @@ import matplotlib.pyplot as plt
 
 
 # Load the datasets
-epoch_3_data = pd.read_csv("../data/epochs/replicated_results_epoch3.csv", sep='\t')
-epoch_2_data = pd.read_csv("../data/epochs/replicated_results_epoch2.csv", sep='\t')
-epoch_1_data = pd.read_csv("../data/epochs/replicated_results_epoch1.csv", sep='\t')
+epoch_3_data = pd.read_csv("../../data/epochs/replicated_results_epoch3.csv", sep='\t')
+epoch_2_data = pd.read_csv("../../data/epochs/replicated_results_epoch2.csv", sep='\t')
+epoch_1_data = pd.read_csv("../../data/epochs/replicated_results_epoch1.csv", sep='\t')
 
 
 # Filter for the "balanced" profession group
@@ -105,9 +105,9 @@ fig_bal, ax_bal = plt.subplots()
 # Plot the scores for B_male and B_female
 epochs = [0, 1, 2, 3]
 ax_bal.plot(epochs, balanced_male_means, marker='o',
-            color='blue', label='B_male')
+            color='blue', label='male')
 ax_bal.plot(epochs, balanced_female_means, marker='o',
-            color='pink', label='B_female')
+            color='orange', label='female')
 
 # Set custom x-axis ticks
 ax_bal.set_xticks([0, 1, 2, 3])  # Epochs as integers
@@ -117,7 +117,7 @@ ax_bal.set_xticklabels([0, 1, 2, 3], fontsize=10)  # Set labels as full numbers
 ax_bal.set_xlabel('Epochs', fontsize=12)
 ax_bal.set_ylabel('Mean Post Association Score', fontsize=12)
 ax_bal.set_title(
-    'Mean Post Association Scores for Balanced Professions', fontsize=14)
+    'Gender-balanced Professions (B)', fontsize=14)
 ax_bal.grid(True, linestyle='--', alpha=0.6)
 
 # Show the legend
@@ -127,7 +127,7 @@ ax_bal.legend()
 plt.tight_layout()
 
 # Save the plot
-plt.savefig("../data/plots/graph_training_vs_debiasing_balanced.png",
+plt.savefig("../../data/plots/epochs/graph_training_vs_debiasing_balanced.png",
             bbox_inches='tight')
 
 plt.show()
@@ -139,9 +139,9 @@ fig_fem, ax_fem = plt.subplots()
 # Plot the scores for F_male and F_female
 epochs = [0, 1, 2, 3]
 ax_fem.plot(epochs, female_male_means, marker='o',
-            color='blue', label='F_male')
+            color='blue', label='male')
 ax_fem.plot(epochs, female_female_means, marker='o',
-            color='pink', label='F_female')
+            color='orange', label='female')
 
 # Set custom x-axis ticks
 ax_fem.set_xticks([0, 1, 2, 3])  # Epochs as integers
@@ -151,7 +151,7 @@ ax_fem.set_xticklabels([0, 1, 2, 3], fontsize=10)  # Set labels as full numbers
 ax_fem.set_xlabel('Epochs', fontsize=12)
 ax_fem.set_ylabel('Mean Post Association Score', fontsize=12)
 ax_fem.set_title(
-    'Mean Post Association Scores for Female Professions', fontsize=14)
+    'Female-dominated Professions (F)', fontsize=14)
 ax_fem.grid(True, linestyle='--', alpha=0.6)
 
 # Show the legend
@@ -161,7 +161,7 @@ ax_fem.legend()
 plt.tight_layout()
 
 # Save the plot
-plt.savefig("../data/plots/graph_training_vs_debiasing_female.png",
+plt.savefig("../../data/plots/epochs/graph_training_vs_debiasing_female.png",
             bbox_inches='tight')
 
 plt.show()
@@ -171,9 +171,9 @@ fig_mal, ax_mal = plt.subplots()
 
 # Plot the scores for M_male and M_female
 epochs = [0, 1, 2, 3]
-ax_mal.plot(epochs, male_male_means, marker='o', color='blue', label='M_male')
+ax_mal.plot(epochs, male_male_means, marker='o', color='blue', label='male')
 ax_mal.plot(epochs, male_female_means, marker='o',
-            color='pink', label='M_female')
+            color='orange', label='female')
 
 # Set custom x-axis ticks
 ax_mal.set_xticks([0, 1, 2, 3])  # Epochs as integers
@@ -183,7 +183,7 @@ ax_mal.set_xticklabels([0, 1, 2, 3], fontsize=10)  # Set labels as full numbers
 ax_mal.set_xlabel('Epochs', fontsize=12)
 ax_mal.set_ylabel('Mean Post Association Score', fontsize=12)
 ax_mal.set_title(
-    'Mean Post Association Scores for Male Professions', fontsize=14)
+    'Male-dominated Professions (M)', fontsize=14)
 ax_mal.grid(True, linestyle='--', alpha=0.6)
 
 # Show the legend
@@ -193,7 +193,7 @@ ax_mal.legend()
 plt.tight_layout()
 
 # Save the plot
-plt.savefig("../data/plots/graph_training_vs_debiasing_male.png",
+plt.savefig("../../data/plots/epochs/graph_training_vs_debiasing_male.png",
             bbox_inches='tight')
 
 plt.show()
