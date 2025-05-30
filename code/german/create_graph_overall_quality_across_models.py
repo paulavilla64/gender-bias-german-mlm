@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 
-typ = "neutral"
+typ = "both"
 
 def plot_model_perplexity_comparison_from_csv(csv_files, output_file=f"{typ}_models_perplexity_comparison_lou.png"):
     """
@@ -36,10 +36,10 @@ def plot_model_perplexity_comparison_from_csv(csv_files, output_file=f"{typ}_mod
 
             # Assign color and marker based on model name
             color_marker_map = {
-                'dbmdz-bert': {'color': 'blue', 'marker': 'o'}
-                # 'google-bert': {'color': 'orange', 'marker': 's'},
-                # 'deepset-bert': {'color': 'green', 'marker': '^'},
-                # 'distilbert': {'color': 'red', 'marker': 'D'},
+                'dbmdz-bert': {'color': 'blue', 'marker': 'o'},
+                'google-bert': {'color': 'orange', 'marker': 's'},
+                'g-bert': {'color': 'green', 'marker': '^'},
+                'distilbert': {'color': 'red', 'marker': 'D'},
             }
 
             # Default color/marker if model not in map
@@ -82,7 +82,7 @@ def plot_model_perplexity_comparison_from_csv(csv_files, output_file=f"{typ}_mod
     ax.set_xlabel('Epoch', fontsize=12)
     ax.set_ylabel('Perplexity', fontsize=12)
     ax.set_title(
-        'Perplexity Comparison across epochs for dbmdz-bert, fine-tuned on Lou - neutral', fontsize=14)
+        'Perplexity Comparison across Models and Epochs, fine-tuned on Lou', fontsize=14)
 
     # Models to exclude from standard plot (will be in log plot only)
     # exclude_from_standard = []
@@ -190,7 +190,7 @@ def plot_model_perplexity_comparison_from_csv(csv_files, output_file=f"{typ}_mod
 
     if min_ppl_values:
         min_ppl_overall = min(min_ppl_values)
-        max_display_ppl = 9.5  # Limit the upper y-range to 30 for better visibility
+        max_display_ppl = 30  # Limit the upper y-range to 30 for better visibility
         ax.set_ylim(min_ppl_overall - 0.5, max_display_ppl)
 
     # Set x-ticks to integers
@@ -247,12 +247,12 @@ def plot_model_perplexity_comparison_from_csv(csv_files, output_file=f"{typ}_mod
 if __name__ == "__main__":
     # Define paths to CSV files for each model
     csv_files = {
-        'dbmdz-bert': f'perplexity/dbmdz/results_DE_dbmdz_{typ}_perplexity_avg.csv'
-        # 'google-bert': f'perplexity/google-bert/results_DE_google-bert_{typ}_perplexity_avg.csv',
-        # 'deepset-bert': f'perplexity/deepset-bert/results_DE_deepset-bert_{typ}_perplexity_avg.csv',
-        # 'distilbert': f'perplexity/distilbert/results_DE_distilbert_{typ}_perplexity_avg.csv',
+        'dbmdz-bert': f'perplexity/dbmdz/results_DE_dbmdz_{typ}_perplexity_avg.csv',
+        'google-bert': f'perplexity/google-bert/results_DE_google-bert_{typ}_perplexity_avg.csv',
+        'g-bert': f'perplexity/deepset-bert/results_DE_deepset-bert_{typ}_perplexity_avg.csv',
+        'distilbert': f'perplexity/distilbert/results_DE_distilbert_{typ}_perplexity_avg.csv',
     }
 
     # Create the plot
-    plot_model_perplexity_comparison_from_csv(csv_files, f"{typ}_dbmdz_perplexity_comparison_lou.png")
+    plot_model_perplexity_comparison_from_csv(csv_files, f"{typ}_models_perplexity_comparison_lou.png")
 
