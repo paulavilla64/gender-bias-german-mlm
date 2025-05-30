@@ -6,7 +6,7 @@ from collections import defaultdict
 
 # Keep original specific model and type setup
 model_name = "dbmdz"
-typ = "neutral"
+#typ = "neutral"
 
 def extract_seed(filename):
     """Extract the random seed from the checkpoint filename."""
@@ -60,7 +60,15 @@ def average_perplexity_files(input_files, output_file):
         model_pattern = re.search(r'finetuned_(\w+)_', data_list[0]['checkpoint'])
         model_name = model_pattern.group(1) if model_pattern else "model"
         
-        avg_checkpoint = f"finetuned_{model_name}_{typ}_avg_epoch_{int(epoch)}.pt"
+        #avg_checkpoint = f"finetuned_{model_name}_avg_epoch_{int(epoch)}.pt"
+
+        # In your average_perplexity_files function, around line 63
+        if epoch != 'final':  # Skip the 'final' case
+            avg_checkpoint = f"finetuned_{model_name}_avg_epoch_{int(epoch)}.pt"
+            # Continue with the rest of your processing for this checkpoint
+        else:
+            # Skip processing for 'final' checkpoint
+            continue  # This will skip to the next iteration in your loop
         
         results.append({
             'checkpoint': avg_checkpoint,
@@ -85,14 +93,14 @@ def average_perplexity_files(input_files, output_file):
 if __name__ == "__main__":
     # List of input files with perplexity data for different seeds
     input_files = [
-        f"perplexity/{model_name}/results_DE_{model_name}_{typ}_42_perplexity.csv",
-        f"perplexity/{model_name}/results_DE_{model_name}_{typ}_116_perplexity.csv",
-        f"perplexity/{model_name}/results_DE_{model_name}_{typ}_387_perplexity.csv",
-        f"perplexity/{model_name}/results_DE_{model_name}_{typ}_1980_perplexity.csv"
+        f"perplexity/{model_name}/results_DE_{model_name}_42_perplexity.csv",
+        f"perplexity/{model_name}/results_DE_{model_name}_116_perplexity.csv",
+        f"perplexity/{model_name}/results_DE_{model_name}_387_perplexity.csv",
+        f"perplexity/{model_name}/results_DE_{model_name}_1980_perplexity.csv"
     ]
     
     # Output file path
-    output_file = f"perplexity/{model_name}/results_DE_{model_name}_{typ}_perplexity_avg.csv"
+    output_file = f"perplexity/{model_name}/results_DE_{model_name}_perplexity_avg.csv"
     
     # Run the averaging function
     averaged_df = average_perplexity_files(input_files, output_file)
