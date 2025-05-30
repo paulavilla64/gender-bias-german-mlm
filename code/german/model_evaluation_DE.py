@@ -4,13 +4,13 @@ import torch.nn.functional as F
 
 device = torch.device("cpu")
 
-tokenizer = AutoTokenizer.from_pretrained("dbmdz/bert-base-german-cased")
-model = AutoModelForMaskedLM.from_pretrained("dbmdz/bert-base-german-cased")
+tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-german-cased")
+model = AutoModelForMaskedLM.from_pretrained("google-bert/bert-base-german-cased")
 print("loading german bert")
 
-text = "Er ist Kindergärtner"
+text = "Ein Arzt arbeitet im Krankenhaus."
 
-text_mask = "Mein [MASK] ist Kindergärtner."
+text_mask = "Ein [MASK] arbeitet im Krankenhaus."
 
 inputs = tokenizer(text_mask, return_tensors="pt")
 
@@ -26,7 +26,7 @@ mask_token_indices = (inputs.input_ids ==
 
 
 # Get the token ID for the original word "he"
-original_token_id = tokenizer.convert_tokens_to_ids("Bruder")
+original_token_id = tokenizer.convert_tokens_to_ids("Arzt")
 
 # Loop over each [MASK] token and predict its top tokens with probabilities
 # Loop over each [MASK] token and get probabilities for all tokens
@@ -52,7 +52,7 @@ for idx in mask_token_indices[:1]:
 
 #print(f"Probability of the original token 'Bruder': {original_token_prob:.4f}")
 
-sentence = "Er ist Mechaniker für mobile Geräte"
+sentence = "Haushälterin"
 tokens = tokenizer.tokenize(sentence)
 
 print(tokens)

@@ -46,12 +46,12 @@ typ = "star"
 
 set_seed(seed)  
 
-model_name = "deepset_bert"
+model_name = "dbmdz"
 
 print('-- Prepare evaluation data --')
 
 # Read a TSV file
-data = pd.read_csv('../BEC-Pro/modified_file_DE_zero_difference.tsv', sep='\t')
+data = pd.read_csv('../BEC-Pro/modified_file_DE_gender_neutral_one_MASK.tsv', sep='\t')
 
 # Take only the first 50 rows of data
 # data = data.head(50)
@@ -66,11 +66,11 @@ data = pd.read_csv('../BEC-Pro/modified_file_DE_zero_difference.tsv', sep='\t')
 print(f'-- Import {model_name} model --')
 
 # Load the BERT tokenizer and dbmdz model
-# model_name_dbmdz = "bert-base-german-dbmdz-cased"
-# tokenizer = AutoTokenizer.from_pretrained(model_name_dbmdz)
-# model = AutoModelForMaskedLM.from_pretrained(model_name_dbmdz,
-#                                             output_attentions=False,
-#                                             output_hidden_states=False)
+model_name_dbmdz = "bert-base-german-dbmdz-cased"
+tokenizer = AutoTokenizer.from_pretrained(model_name_dbmdz)
+model = AutoModelForMaskedLM.from_pretrained(model_name_dbmdz,
+                                            output_attentions=False,
+                                            output_hidden_states=False)
 
 #Load tokenizer and google bert model
 # model_name_google_bert = "google-bert/bert-base-german-cased"
@@ -79,11 +79,11 @@ print(f'-- Import {model_name} model --')
 #                                              output_attentions=False,
 #                                              output_hidden_states=False)
 # Load tokenizer and deepset bert model
-model_name_deepset_bert = "deepset/gbert-base"
-tokenizer = AutoTokenizer.from_pretrained(model_name_deepset_bert)
-model = AutoModelForMaskedLM.from_pretrained(model_name_deepset_bert,
-                                             output_attentions=False,
-                                             output_hidden_states=False)
+# model_name_deepset_bert = "deepset/gbert-base"
+# tokenizer = AutoTokenizer.from_pretrained(model_name_deepset_bert)
+# model = AutoModelForMaskedLM.from_pretrained(model_name_deepset_bert,
+#                                              output_attentions=False,
+#                                              output_hidden_states=False)
 
 # model_name_distilbert = "distilbert/distilbert-base-german-cased"
 # tokenizer = AutoTokenizer.from_pretrained(model_name_distilbert)
@@ -319,6 +319,6 @@ post_associations = model_evaluation(
 data = data.assign(Post_Assoc=post_associations)
 
 # Save the results
-output_file = f"../data/output_csv_files/german/Lou/results_Lou_DE_zero_difference_{typ}_{model_name}_{seed}.csv"
+output_file = f"../data/output_csv_files/german/Lou/results_Lou_DE_gender_neutral_{typ}_{model_name}_{seed}.csv"
 data.to_csv(output_file, sep='\t', index=False)
 print(f"Results saved to {output_file}")
