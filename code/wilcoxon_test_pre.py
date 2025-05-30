@@ -3,11 +3,12 @@ from scipy.stats import wilcoxon
 import numpy as np
 import sys
 import os
+import math
 
-# typ = "star"
+typ = "both"
 
 # Define output file path
-output_file_path = f'../../data/statistics/german/gender_neutral/statistics_DE_pre_all_models_gender_neutral_avg.txt'
+output_file_path = f'../../data/statistics/german/regular/Lou/statistics_DE_pre_all_models_regular_{typ}_avg_one_mask.txt'
 
 # Create directory if it doesn't exist
 os.makedirs(os.path.dirname(output_file_path), exist_ok=True)
@@ -17,14 +18,44 @@ original_stdout = sys.stdout
 sys.stdout = open(output_file_path, 'w')
 
 # Read the CSV file
-data = pd.read_csv('../../data/output_csv_files/german/gender_neutral/pre_post_assoc_all_models_DE_gender_neutral_avg.csv')
+data = pd.read_csv(f'../../data/output_csv_files/german/Lou/regular/results_Lou_{typ}_DE_regular_avg_one_mask.csv', sep="\t")
 
-# List of models to analyze
-models = ['dbmdz', 'google_bert', 'deepset_bert', 'distilbert']
+# Print available columns for debugging
+print("Available columns in the dataset:")
+print(data.columns.tolist())
+print("\n")
+
+# Dictionary mapping model names to their corresponding column names
+models = {
+    "dbmdz": "Pre_Assoc_dbmdz_Avg",
+    "google-bert": "Pre_Assoc_google-bert_Avg",
+    "deepset-bert": "Pre_Assoc_deepset-bert_Avg",
+    "distilbert": "Pre_Assoc_distilbert_Avg"
+}
+
+# Function to compute Cohen's W effect size
+def compute_cohens_w(wilcoxon_statistic, N):
+    """
+    Computes the effect size for the Wilcoxon Signed-Rank Test using Cohen's W.
+    """
+    # Step 1: Compute expected W (E(W))
+    E_W = (N * (N + 1)) / 4
+
+    # Step 2: Compute the standard error of W (SE(W))
+    SE_W = math.sqrt((N * (N + 1) * (2 * N + 1)) / 24)
+
+    # Step 3: Compute the Z-score
+    Z_value = (wilcoxon_statistic - E_W) / SE_W
+
+    # Step 4: Compute Cohen's W effect size
+    cohens_w = Z_value / math.sqrt(N)
+
+    return cohens_w
 
 # Function to perform analysis for a specific model and pre-association column
 def analyze_model(data, model_name, pre_assoc_column):
     print(f"\n----- ANALYSIS FOR {model_name.upper()} MODEL -----\n")
+    print(f"Using column: {pre_assoc_column}")
     
     # Extract data for female gender within statistically female professions
     female_gender_in_female_professions = data.loc[
@@ -62,8 +93,17 @@ def analyze_model(data, model_name, pre_assoc_column):
         pre_assoc_column
     ].tolist()
 
+    # Print sample counts
+    print("SAMPLE COUNTS:")
+    print(f"Female gender in female professions: {len(female_gender_in_female_professions)}")
+    print(f"Male gender in female professions: {len(male_gender_in_female_professions)}")
+    print(f"Female gender in male professions: {len(female_gender_in_male_professions)}")
+    print(f"Male gender in male professions: {len(male_gender_in_male_professions)}")
+    print(f"Female gender in balanced professions: {len(female_gender_in_balanced_professions)}")
+    print(f"Male gender in balanced professions: {len(male_gender_in_balanced_professions)}")
+
     # Compute means
-    print("MEAN VALUES:")
+    print("\nMEAN VALUES:")
     female_gender_in_female_professions_mean = np.mean(female_gender_in_female_professions)
     print(f'Mean for female gender within statistically female professions: {female_gender_in_female_professions_mean:.4f}')
 
@@ -104,11 +144,16 @@ def analyze_model(data, model_name, pre_assoc_column):
 
     # Perform Wilcoxon tests
     print("\nWILCOXON TESTS:")
-    
+        
     # For female professions
     stat_F, p_value_F = wilcoxon(male_gender_in_female_professions, female_gender_in_female_professions, alternative='two-sided')
+    # Calculate effect size (r) for female professions
+    n_F = len(male_gender_in_female_professions)  # number of pairs
+    r_F = stat_F / (n_F * (n_F + 1) / 2)  # divide by max possible sum
+    r_F = abs(r_F - 0.5) * 2  # transform to -1 to 1 scale
     print(f"Female Professions - Wilcoxon test statistic: {stat_F}")
-    print(f"Female Professions - P-value: {p_value_F:.6f}")
+    print(f"Female Professions - P-value: {p_value_F:.2e}")  # Scientific notation to handle small values
+    print(f"Female Professions - Effect size (r): {r_F:.2f}")
     if p_value_F < 0.05:
         print("Female Professions - Reject null hypothesis: There is a significant difference.\n")
     else:
@@ -116,8 +161,13 @@ def analyze_model(data, model_name, pre_assoc_column):
 
     # For male professions
     stat_M, p_value_M = wilcoxon(male_gender_in_male_professions, female_gender_in_male_professions, alternative='two-sided')
+    # Calculate effect size (r) for male professions
+    n_M = len(male_gender_in_male_professions)
+    r_M = stat_M / (n_M * (n_M + 1) / 2)
+    r_M = abs(r_M - 0.5) * 2
     print(f"Male Professions - Wilcoxon test statistic: {stat_M}")
-    print(f"Male Professions - P-value: {p_value_M:.6f}")
+    print(f"Male Professions - P-value: {p_value_M:.2e}")
+    print(f"Male Professions - Effect size (r): {r_M:.2f}")
     if p_value_M < 0.05:
         print("Male Professions - Reject null hypothesis: There is a significant difference.\n")
     else:
@@ -125,20 +175,25 @@ def analyze_model(data, model_name, pre_assoc_column):
 
     # For balanced professions
     stat_B, p_value_B = wilcoxon(male_gender_in_balanced_professions, female_gender_in_balanced_professions, alternative='two-sided')
+    # Calculate effect size (r) for balanced professions
+    n_B = len(male_gender_in_balanced_professions)
+    r_B = stat_B / (n_B * (n_B + 1) / 2)
+    r_B = abs(r_B - 0.5) * 2
     print(f"Balanced Professions - Wilcoxon test statistic: {stat_B}")
-    print(f"Balanced Professions - P-value: {p_value_B:.6f}")
+    print(f"Balanced Professions - P-value: {p_value_B:.2e}")
+    print(f"Balanced Professions - Effect size (r): {r_B:.2f}")
     if p_value_B < 0.05:
         print("Balanced Professions - Reject null hypothesis: There is a significant difference.\n")
     else:
         print("Balanced Professions - Fail to reject null hypothesis: No significant difference.\n")
 
 # Analyze each model separately
-for model in models:
-    pre_assoc_column = f'{model}_Pre_Assoc_Avg'
+for model_name, pre_assoc_column in models.items():
     if pre_assoc_column in data.columns:
-        analyze_model(data, model, pre_assoc_column)
+        analyze_model(data, model_name, pre_assoc_column)
     else:
         print(f"\nWarning: {pre_assoc_column} not found in the data!")
+        print(f"Available columns: {[col for col in data.columns if 'Pre_Assoc' in col]}")
 
 print("\nAnalysis complete for all models.")
 
