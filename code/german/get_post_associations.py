@@ -4,57 +4,57 @@ import os
 import numpy as np
 import torch
 from transformers import AutoModelForMaskedLM, AutoTokenizer
+from transformers import BertTokenizer, BertForMaskedLM
 
 from bias_utils.utils import model_evaluation
 
 print(f"Torch version: {torch.__version__}")
 print(f"CUDA available: {torch.cuda.is_available()}")
-print(f"CUDA device count: {torch.cuda.device_count()}")
-print(f"Current CUDA device: {torch.cuda.current_device()}")
-print(
-    f"CUDA device name: {torch.cuda.get_device_name(torch.cuda.current_device())}")
 
-
-gpu_id = "4"
-
-# check if GPU is available
+# Only try to access CUDA devices if CUDA is available
 if torch.cuda.is_available():
-    device = torch.device(f"cuda:{gpu_id}")
-    print('We will use the GPU:', torch.cuda.get_device_name(0))
+    print(f"CUDA device count: {torch.cuda.device_count()}")
+    print(f"Current CUDA device: {torch.cuda.current_device()}")
+    print(f"CUDA device name: {torch.cuda.get_device_name(torch.cuda.current_device())}")
+    
+    gpu_id = 4  # Note: should be an integer, not a string
+    
+    # Check if the requested GPU ID is valid
+    if gpu_id < torch.cuda.device_count():
+        device = torch.device(f"cuda:{gpu_id}")
+        print(f'Using GPU {gpu_id}: {torch.cuda.get_device_name(gpu_id)}')
+    else:
+        print(f'GPU {gpu_id} not available, using device 0 instead.')
+        device = torch.device('cuda:0')
+        print(f'Using GPU 0: {torch.cuda.get_device_name(0)}')
 else:
     print('No GPU available, using the CPU instead.')
     device = torch.device('cpu')
 
-# Set fixed seeds everywhere
-
-
-def set_seed(seed):
+# Set all seeds for reproducibility
+def set_all_seeds(seed):
     random.seed(seed)
-    os.environ['PYTHONHASHSEED'] = str(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
-    torch.cuda.manual_seed(seed)
-    torch.cuda.manual_seed_all(seed)
-    # For deterministic operations
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(seed)
+    os.environ['PYTHONHASHSEED'] = str(seed)
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
 
-
 seed = 42
-
+set_all_seeds(seed)
 typ = "neutral"
-
-set_seed(seed)
 
 print('-- Prepare evaluation data --')
 
 # Read a TSV file for model evaluation
-data = pd.read_csv('../BEC-Pro/modified_file_DE_zero_difference.tsv', sep='\t')
+data = pd.read_csv(f'../BEC-Pro/BEC-Pro_DE_one_MASK.tsv', sep='\t')
 
 # Path to the CSV file with pre-association scores
-pre_assoc_file = f"../data/output_csv_files/german/Lou/pre_assoc_all_models_DE_zero_difference_{typ}_{seed}.csv"
+pre_assoc_file = f"../data/output_csv_files/german/Lou/pre_assocs/one_mask/pre_assoc_all_neutral_DE_regular_one_mask_42.csv"
 print(f'-- Loading pre-association scores from {pre_assoc_file} --')
-pre_assoc_data = pd.read_csv(pre_assoc_file)
+pre_assoc_data = pd.read_csv(pre_assoc_file, sep="\t")
 
 print('-- Load models --')
 # Load your models based on configs
@@ -66,16 +66,16 @@ models_config = [
         "checkpoint_file": f"finetuned_dbmdz_{typ}_{seed}_epoch_3.pt"
     },
     {
-        "name": "google_bert",
+        "name": "google-bert",
         "model_id": "google-bert/bert-base-german-cased",
-        "checkpoint_dir": f"../models/Lou/google_bert_{typ}_checkpoints/random_seed_{seed}",
-        "checkpoint_file": f"finetuned_google_bert_{typ}_{seed}_epoch_3.pt"
+        "checkpoint_dir": f"../models/Lou/google-bert_{typ}_checkpoints/random_seed_{seed}",
+        "checkpoint_file": f"finetuned_google-bert_{typ}_{seed}_epoch_3.pt"
     },
     {
-        "name": "deepset_bert",
+        "name": "deepset-bert",
         "model_id": "deepset/gbert-base",
-        "checkpoint_dir": f"../models/Lou/deepset_bert_{typ}_checkpoints/random_seed_{seed}",
-        "checkpoint_file": f"finetuned_deepset_bert_{typ}_{seed}_epoch_3.pt"
+        "checkpoint_dir": f"../models/Lou/deepset-bert_{typ}_checkpoints/random_seed_{seed}",
+        "checkpoint_file": f"finetuned_deepset-bert_{typ}_{seed}_epoch_3.pt"
     },
     {
         "name": "distilbert",
@@ -83,6 +83,11 @@ models_config = [
         "checkpoint_dir": f"../models/Lou/distilbert_{typ}_checkpoints/random_seed_{seed}",
         "checkpoint_file": f"finetuned_distilbert_{typ}_{seed}_epoch_3.pt"
     }
+    # {   "name": "bert",
+    #     "model_id": "bert-base-uncased",
+    #     "checkpoint_dir": f"../models/bert_checkpoints/random_seed_{seed}",
+    #     "checkpoint_file": f"finetuned_bert_{seed}_epoch_3.pt"
+    # }
 ]
 
 # Create a dictionary to store post-association scores
@@ -143,16 +148,6 @@ for model_config in models_config:
         print(f"Error processing {model_name}: {e}")
         continue
 
-# Create output directory if it doesn't exist
-output_dir = "../data/output_csv_files/german/Lou"
-os.makedirs(output_dir, exist_ok=True)
-
-# Save post-association results
-post_results_file = os.path.join(
-    output_dir, f"post_assoc_all_models_DE_zero_difference_{typ}_{seed}.csv")
-data.to_csv(post_results_file, index=False)
-print(f"\nPost-association results saved to {post_results_file}")
-
 # Now merge the post-association scores with the pre-association data
 print("\n-- Merging pre and post association scores --")
 
@@ -192,10 +187,14 @@ for model_config in models_config:
         added_columns.append(post_assoc_column)
         print(f"Added column: {post_assoc_column}")
 
+# Create output directory if it doesn't exist
+output_dir = "../data/output_csv_files/german/Lou/post_assocs/one_mask/"
+os.makedirs(output_dir, exist_ok=True)
+
 # Save the merged dataframe to a new CSV file
 merged_file = os.path.join(
-    output_dir, f"post_assoc_all_models_DE_zero_difference_{typ}_{seed}.csv")
-merged_df.to_csv(merged_file, index=False)
+    output_dir, f"post_assoc_all_{typ}_DE_regular_one_mask_{seed}.csv")
+merged_df.to_csv(merged_file, index=False, sep="\t")
 print(f"\nMerged data saved to {merged_file}")
 
 # Print summary of added columns
