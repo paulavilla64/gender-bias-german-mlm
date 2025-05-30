@@ -1,115 +1,103 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.lines import Line2D
 
-# Load the CSV file
-original_data = pd.read_csv("../data/results_EN.csv", sep='\t')
+# Load the CSV files
+original_data = pd.read_csv("../data/output_csv_files/english/results_EN.csv", sep='\t')
+random_seed_116 = pd.read_csv("../data/random_seeds/replicated_randomized1.csv", sep='\t')
+random_seed_387 = pd.read_csv("../data/random_seeds/replicated_randomized2.csv", sep='\t')
+random_seed_1980 = pd.read_csv("../data/random_seeds/replicated_randomized3.csv", sep='\t')
 
-# Calculate the mean association score for each gender category
+# Gender categories
 gender_categories = ['female', 'male', 'balanced']
 
-gender_means = {
-    category: original_data[original_data['Prof_Gender'] == category]['Post_Assoc'].mean() for category in gender_categories
+# Create a mapping from category names to positions
+category_positions = {category: i for i, category in enumerate(gender_categories)}
+
+# Calculate the mean post-association scores for each random seed
+random_seeds_post = {
+    '42': {category: original_data[original_data['Prof_Gender'] == category]['Post_Assoc'].mean() for category in gender_categories},
+    '116': {category: random_seed_116[random_seed_116['Prof_Gender'] == category]['Post_Assoc'].mean() for category in gender_categories},
+    '387': {category: random_seed_387[random_seed_387['Prof_Gender'] == category]['Post_Assoc'].mean() for category in gender_categories},
+    '1980': {category: random_seed_1980[random_seed_1980['Prof_Gender'] == category]['Post_Assoc'].mean() for category in gender_categories}
 }
 
-
-# Load the second CSV file
-random_seed_116 = pd.read_csv("../data/replicated_randomized1.csv", sep='\t')
-
-# Calculate the mean association score for each gender category in the second dataset
-random_seed_116_means = {
-    category: random_seed_116[random_seed_116['Prof_Gender'] == category]['Post_Assoc'].mean() for category in gender_categories
-}
-
-
-# Load the third CSV file
-random_seed_387 = pd.read_csv("../data/replicated_randomized2.csv", sep='\t')
-
-# Calculate the mean association score for each gender category in the second dataset
-random_seed_387_means = {
-    category: random_seed_387[random_seed_387['Prof_Gender'] == category]['Post_Assoc'].mean() for category in gender_categories
-}
-
-
-# Load the fourth CSV file
-random_seed_1980 = pd.read_csv("../data/replicated_randomized3.csv", sep='\t')
-
-# Calculate the mean association score for each gender category in the second dataset
-random_seed_1980_means = {
-    category: random_seed_1980[random_seed_1980['Prof_Gender'] == category]['Post_Assoc'].mean() for category in gender_categories
-}
-
-
-
-gender_means_pre = {
+# Calculate pre-association scores (these should be the same across seeds)
+pre_assoc_means = {
     category: original_data[original_data['Prof_Gender'] == category]['Pre_Assoc'].mean() for category in gender_categories
 }
 
+# Calculate average and standard deviation of post-associations across all seeds
+avg_post_assoc = {}
+std_post_assoc = {}
 
-# Calculate the mean association score for each gender category in the second dataset
-random_seed_116_means_pre = {
-    category: random_seed_116[random_seed_116['Prof_Gender'] == category]['Pre_Assoc'].mean() for category in gender_categories
-}
-
-
-# Calculate the mean association score for each gender category in the second dataset
-random_seed_387_means_pre = {
-    category: random_seed_387[random_seed_387['Prof_Gender'] == category]['Pre_Assoc'].mean() for category in gender_categories
-}
-
-# Calculate the mean association score for each gender category in the second dataset
-random_seed_1980_means_pre = {
-    category: random_seed_1980[random_seed_1980['Prof_Gender'] == category]['Pre_Assoc'].mean() for category in gender_categories
-}
-
+for category in gender_categories:
+    values = [random_seeds_post[seed][category] for seed in random_seeds_post.keys()]
+    avg_post_assoc[category] = np.mean(values)
+    std_post_assoc[category] = np.std(values)
 
 # Create the plot
-fig, ax = plt.subplots()
+fig, ax = plt.subplots(figsize=(10, 6))
 
-# Plot the mean association scores for random seed = 42
-x_labels = list(gender_means.keys())
-y_values = list(gender_means.values())
-ax.scatter(x_labels, y_values, s=200, color='blue',
-           label='Random seed 1', edgecolors='black', alpha=0.7)
+# Plot individual post-association scores for each random seed
+colors = {'42': 'blue', '116': 'red', '387': 'purple', '1980': 'brown'}
+for seed, color in colors.items():
+    y_values = [random_seeds_post[seed][category] for category in gender_categories]
+    ax.scatter(gender_categories, y_values, s=200, color=color,
+               label=f'Random seed {seed}', alpha=0.7)
 
-# Plot the mean association scores for the second dataset with red crosses
-random_seed_116_y_values = [random_seed_116_means[category]
-                            for category in gender_categories]
-ax.scatter(x_labels, random_seed_116_y_values, s=200, color='red',
-            label='Random seed 2', alpha=0.7)
+# Plot pre-association scores
+pre_y_values = [pre_assoc_means[category] for category in gender_categories]
+ax.scatter(gender_categories, pre_y_values, s=200, color='green',
+           marker='^', label='Their score (Pre)', alpha=0.7)
 
-# Plot the mean association scores for the third dataset with purple crosses
-random_seed_387_y_values = [random_seed_387_means[category]
-                            for category in gender_categories]
-ax.scatter(x_labels, random_seed_387_y_values, s=200, color='purple',
-         label='Random seed 3', alpha=0.7)
+# Plot "their score" (original paper)
+their_score_y_values = [0.11, 0.17, 0.135]
+ax.scatter(gender_categories, their_score_y_values, s=200, color='green',
+           marker='x', label='Their score (Post)', alpha=0.7)
 
-# Plot the mean association scores for the fourth dataset with brown crosses
-random_seed_1980_y_values = [random_seed_1980_means[category]
-                             for category in gender_categories]
-ax.scatter(x_labels, random_seed_1980_y_values, s=200, color='brown',
-            label='Random seed 4', alpha=0.7)
+# Plot average post-association line
+avg_values = [avg_post_assoc[category] for category in gender_categories]
+std_values = [std_post_assoc[category] for category in gender_categories]
 
-# PRE
+# Plot the average line
+ax.plot(gender_categories, avg_values, 'k-', linewidth=1.5, label='Average across seeds')
 
-# Plot the mean association scores for the second dataset with red crosses
-random_seed_116_y_values_pre = [random_seed_116_means_pre[category]
-                                for category in gender_categories]
-ax.scatter(x_labels, random_seed_116_y_values_pre, s=200, color='green',
-               marker='^', label='Random seed 1 (Pre)', alpha=0.7)
+# Set the x-tick positions and labels
+ax.set_xticks(range(len(gender_categories)))
+ax.set_xticklabels(gender_categories)
 
-# # Plot the mean association scores for the third dataset with purple crosses
-# random_seed_387_y_values_pre = [random_seed_387_means_pre[category]
-#                                 for category in gender_categories]
-# ax.scatter(x_labels, random_seed_387_y_values_pre, s=200, color='purple',
-#                marker='^', label='Random seed = 387', alpha=0.7)
+# Add custom SD range with T-shaped whiskers - MUCH MORE PROMINENT
+for i, category in enumerate(gender_categories):
+    # Vertical line - much thicker and fully opaque
+    ax.vlines(x=i, ymin=avg_values[i] - std_values[i], ymax=avg_values[i] + std_values[i], 
+              colors='grey', linestyles='-', linewidth=1.0, alpha=1.0)
+    
+    # Top horizontal whisker - much thicker and fully opaque
+    ax.hlines(y=avg_values[i] + std_values[i], xmin=i - 0.15, xmax=i + 0.15, 
+              colors='grey', linestyles='-', linewidth=1.0, alpha=1.0)
+    
+    # Bottom horizontal whisker - much thicker and fully opaque
+    ax.hlines(y=avg_values[i] - std_values[i], xmin=i - 0.15, xmax=i + 0.15, 
+              colors='grey', linestyles='-', linewidth=1.0, alpha=1.0)
 
-# # Plot the mean association scores for the fourth dataset with green crosses
-# random_seed_1980_y_values_pre = [random_seed_1980_means_pre[category]
-#                              for category in gender_categories]
-# ax.scatter(x_labels, random_seed_1980_y_values_pre, s=200, color='green',
-#            marker='x', label='Random seed = 1980', alpha=0.7)
+# Define text positions customized for each SD annotation to avoid overlap
+text_offsets = {
+    'female': (5, 25),        # Move first SD much more up
+    'male': (5, 10),          # Default position
+    'balanced': (15, -20)     # Move third SD more down AND to the right
+}
 
-
+# Add SD text annotations with customized positions
+for i, category in enumerate(gender_categories):
+    offset_x, offset_y = text_offsets[category]
+    ax.annotate(f'SD: {std_values[i]:.3f}', 
+                xy=(category, avg_values[i]), 
+                xytext=(offset_x, offset_y), 
+                textcoords='offset points',
+                fontsize=8,
+                color='dimgrey')
 
 # Add labels and title
 ax.set_xlabel('Gender Categories', fontsize=12)
@@ -117,30 +105,25 @@ ax.set_ylabel('Mean Association Score', fontsize=12)
 ax.set_title('Mean Post Association Scores by Gender Categories', fontsize=14)
 ax.grid(True, linestyle='--', alpha=0.6)
 
-# Add green circles at specified positions
-green_circle_y_values = [0.11, 0.17, 0.135]
-ax.scatter(
-    x_labels,  # x-axis positions are the gender categories
-    green_circle_y_values, 
-    s=200, 
-    color='green', 
-    marker='x', 
-    label='Random seed 1 (Their score)', 
-    alpha=0.7
-)
+# Define the desired order of legend items
+desired_order = [
+    'Their score (Pre)',
+    'Their score (Post)',
+    'Random seed 42',
+    'Random seed 116',
+    'Random seed 387',
+    'Random seed 1980',
+    'Average across seeds',
+    'Standard deviation'
+]
 
 # Collect all the handles and labels from the existing legend
 handles, labels = ax.get_legend_handles_labels()
 
-# Define the desired order of legend items
-desired_order = [
-    'Random seed 1 (Pre)',
-    'Random seed 1 (Their score)',
-    'Random seed 1',
-    'Random seed 2',
-    'Random seed 3',
-    'Random seed 4'
-]
+# Add a custom legend entry for standard deviation - MUCH MORE PROMINENT
+sd_handle = Line2D([0], [0], color='grey', linewidth=1.0, linestyle='-', alpha=0.85)
+handles.append(sd_handle)
+labels.append('Standard deviation')
 
 # Create a mapping of labels to handles
 label_to_handle = dict(zip(labels, handles))
@@ -161,15 +144,8 @@ ax.legend(
 # Adjust layout to make room for the legend
 plt.tight_layout(rect=[0, 0, 0.85, 1])  # Adjust the right boundary
 
-# Display the plot
-plt.tight_layout()
-
 # Save plot
-plt.savefig("../data/plots/graph_training_vs_randomness.png",
-            bbox_inches='tight')
+plt.savefig("../data/plots/english/graph_training_vs_randomness_with_avg.png",
+            bbox_inches='tight', dpi=300)
 
 plt.show()
-
-
-
-
