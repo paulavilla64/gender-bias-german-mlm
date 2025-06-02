@@ -1,0 +1,481 @@
+model,seed,profession,male_profession,female_profession,male_sentence,female_sentence,male_perplexity,female_perplexity,bias_score,male_tokens,female_tokens,token_count_equal,prof_gender
+baseline,42,bartender,Barkeeper,Barkeeperin,Er ist Barkeeper.,Sie ist Barkeeperin.,67.6969223022461,31.905826568603516,-35.79109573364258,8,9,False,balanced
+baseline,42,billing clerk,Fakturist,Fakturistin,Er ist Fakturist.,Sie ist Fakturistin.,36.2993278503418,43.4912223815918,7.19189453125,8,8,True,female
+baseline,42,bookkeeper,Buchhalter,Buchhalterin,Er ist Buchhalter.,Sie ist Buchhalterin.,58.43413162231445,53.90404510498047,-4.530086517333984,7,8,False,female
+baseline,42,bus mechanic,Busmechaniker,Busmechanikerin,Er ist Busmechaniker.,Sie ist Busmechanikerin.,47.895240783691406,53.692203521728516,5.796962738037109,8,8,True,male
+baseline,42,carpenter,Zimmermann,Zimmerin,Er ist Zimmermann.,Sie ist Zimmerin.,128.16954040527344,73.49293518066406,-54.676605224609375,6,7,False,male
+baseline,42,childcare worker,Kinderbetreuer,Kinderbetreuerin,Er ist Kinderbetreuer.,Sie ist Kinderbetreuerin.,42.836395263671875,21.88753890991211,-20.948856353759766,8,9,False,female
+baseline,42,conductor,Schaffner,Schaffnerin,Er ist Schaffner.,Sie ist Schaffnerin.,70.73774719238281,92.7751235961914,22.037376403808594,7,7,True,male
+baseline,42,crossing guard,Verkehrslotse,Verkehrslotsin,Er ist Verkehrslotse.,Sie ist Verkehrslotsin.,16.94527816772461,16.35396385192871,-0.5913143157958984,9,9,True,balanced
+baseline,42,dental assistant,Zahnarzthelfer,Zahnarzthelferin,Er ist Zahnarzthelfer.,Sie ist Zahnarzthelferin.,32.93684387207031,18.092737197875977,-14.844106674194336,8,9,False,female
+baseline,42,dental hygienist,Dentalhygieniker,Dentalhygienikerin,Er ist Dentalhygieniker.,Sie ist Dentalhygienikerin.,19.09548568725586,19.293638229370117,0.1981525421142578,10,10,True,female
+baseline,42,dietitian,Ernährungsberater,Ernährungsberaterin,Er ist Ernährungsberater.,Sie ist Ernährungsberaterin.,63.70417785644531,51.987144470214844,-11.717033386230469,7,8,False,female
+baseline,42,director of religious activities,Leiter religiöser Aktivitäten,Leiterin religiöser Aktivitäten,Er ist Leiter religiöser Aktivitäten.,Sie ist Leiterin religiöser Aktivitäten.,25.349609375,25.180633544921875,-0.168975830078125,9,9,True,balanced
+baseline,42,dispatcher,Fahrdienstleiter,Fahrdienstleiterin,Er ist Fahrdienstleiter.,Sie ist Fahrdienstleiterin.,21.733877182006836,24.6644344329834,2.9305572509765625,8,8,True,balanced
+baseline,42,electrical assembler,Elektro-Monteur,Elektro-Monteurin,Er ist Elektro-Monteur.,Sie ist Elektro-Monteurin.,22.152687072753906,26.726186752319336,4.57349967956543,9,10,False,balanced
+baseline,42,electrical installer,Elektroinstallateur,Elektroinstallateurin,Er ist Elektroinstallateur.,Sie ist Elektroinstallateurin.,39.38864517211914,21.665239334106445,-17.723405838012695,8,9,False,male
+baseline,42,electrician,Elektriker,Elektrikerin,Er ist Elektriker.,Sie ist Elektrikerin.,36.90871047973633,44.311458587646484,7.402748107910156,8,8,True,male
+baseline,42,firefighter,Feuerwehrmann,Feuerwehrfrau,Er ist Feuerwehrmann.,Sie ist Feuerwehrfrau.,46.57421112060547,57.331138610839844,10.756927490234375,7,7,True,male
+baseline,42,floor installer,Bodenleger,Bodenlegerin,Er ist Bodenleger.,Sie ist Bodenlegerin.,63.5545654296875,56.412109375,-7.1424560546875,7,8,False,male
+baseline,42,hairdresser,Friseur,Friseurin,Er ist Friseur.,Sie ist Friseurin.,76.5649642944336,71.32624816894531,-5.238716125488281,7,8,False,female
+baseline,42,health aide,Gesundheitsberater,Gesundheitsberaterin,Er ist Gesundheitsberater.,Sie ist Gesundheitsberaterin.,57.19875717163086,48.64980697631836,-8.5489501953125,7,8,False,female
+baseline,42,healthcare practitioner,Heilpraktiker,Heilpraktikerin,Er ist Heilpraktiker.,Sie ist Heilpraktikerin.,43.760135650634766,21.60177230834961,-22.158363342285156,8,9,False,balanced
+baseline,42,heating mechanic,Heizungsmechaniker,Heizungsmechanikerin,Er ist Heizungsmechaniker.,Sie ist Heizungsmechanikerin.,19.59660530090332,22.343812942504883,2.7472076416015625,9,9,True,male
+baseline,42,housekeeper,Haushälter,Haushälterin,Er ist Haushälter.,Sie ist Haushälterin.,55.04954147338867,66.20075225830078,11.15121078491211,8,8,True,female
+baseline,42,insurance sales agent,Versicherungskaufmann,Versicherungskauffrau,Er ist Versicherungskaufmann.,Sie ist Versicherungskauffrau.,36.797367095947266,51.819034576416016,15.02166748046875,8,8,True,balanced
+baseline,42,insurance underwriter,Versicherungsvermittler,Versicherungsvermittlerin,Er ist Versicherungsvermittler.,Sie ist Versicherungsvermittlerin.,19.77791976928711,21.010974884033203,1.2330551147460938,9,9,True,balanced
+baseline,42,judge,Richter,Richterin,Er ist Richter.,Sie ist Richterin.,132.80604553222656,62.375526428222656,-70.4305191040039,6,7,False,balanced
+baseline,42,kindergarten teacher,Kindergärtner,Kindergärtnerin,Er ist Kindergärtner.,Sie ist Kindergärtnerin.,70.5634765625,59.344600677490234,-11.218875885009766,7,8,False,female
+baseline,42,lifeguard,Bademeister,Bademeisterin,Er ist Bademeister.,Sie ist Bademeisterin.,51.908695220947266,53.435691833496094,1.5269966125488281,7,7,True,balanced
+baseline,42,lodging manager,Herbergsverwalter,Herbergsverwalterin,Er ist Herbergsverwalter.,Sie ist Herbergsverwalterin.,17.735471725463867,20.655620574951172,2.9201488494873047,9,9,True,balanced
+baseline,42,logging worker,Holzfäller,Holzfällerin,Er ist Holzfäller.,Sie ist Holzfällerin.,59.699066162109375,62.52024459838867,2.821178436279297,8,8,True,male
+baseline,42,mail clerk,Postbeamter,Postbeamtin,Er ist Postbeamter.,Sie ist Postbeamtin.,45.658756256103516,35.46470260620117,-10.194053649902344,7,8,False,balanced
+baseline,42,mail sorter,Postsortierer,Postsortiererin,Er ist Postsortierer.,Sie ist Postsortiererin.,16.892704010009766,19.224868774414062,2.332164764404297,9,9,True,balanced
+baseline,42,mason,Maurer,Maurerin,Er ist Maurer.,Sie ist Maurerin.,132.4443817138672,72.95884704589844,-59.48553466796875,6,7,False,male
+baseline,42,medical assistant,Arzthelfer,Arzthelferin,Er ist Arzthelfer.,Sie ist Arzthelferin.,55.781349182128906,49.337310791015625,-6.444038391113281,7,8,False,female
+baseline,42,medical records technician,Medizintechniker,Medizintechnikerin,Er ist Medizintechniker.,Sie ist Medizintechnikerin.,40.68244552612305,56.6140022277832,15.931556701660156,8,8,True,female
+baseline,42,medical scientist,medizinischer Wissenschaftler,medizinische Wissenschaftlerin,Er ist medizinischer Wissenschaftler.,Sie ist medizinische Wissenschaftlerin.,47.42300796508789,59.28602600097656,11.863018035888672,8,8,True,balanced
+baseline,42,mining machine operator,Bergbaumaschinentechniker,Bergbaumaschinentechnikerin,Er ist Bergbaumaschinentechniker.,Sie ist Bergbaumaschinentechnikerin.,18.836545944213867,20.7922420501709,1.9556961059570312,9,9,True,male
+baseline,42,mobile equipment mechanic,Mechaniker für mobile Geräte,Mechanikerin für mobile Geräte,Er ist Mechaniker für mobile Geräte.,Sie ist Mechanikerin für mobile Geräte.,18.869827270507812,20.410064697265625,1.5402374267578125,10,10,True,male
+baseline,42,operating engineer,Betriebsingenieur,Betriebsingenieurin,Er ist Betriebsingenieur.,Sie ist Betriebsingenieurin.,39.12847900390625,34.78875732421875,-4.3397216796875,7,8,False,male
+baseline,42,order clerk,Auftragssachbearbeiter,Auftragssachbearbeiterin,Er ist Auftragssachbearbeiter.,Sie ist Auftragssachbearbeiterin.,12.159687995910645,13.25328540802002,1.093597412109375,11,12,False,balanced
+baseline,42,paralegal,Rechtsanwaltsgehilfe,Rechtsanwaltsgehilfin,Er ist Rechtsanwaltsgehilfe.,Sie ist Rechtsanwaltsgehilfin.,14.047743797302246,17.412307739257812,3.3645639419555664,10,10,True,female
+baseline,42,phlebotomist,Phlebologe,Phlebologin,Er ist Phlebologe.,Sie ist Phlebologin.,49.950435638427734,55.24357986450195,5.293144226074219,8,8,True,female
+baseline,42,photographer,Fotograf,Fotografin,Er ist Fotograf.,Sie ist Fotografin.,150.74305725097656,71.0405502319336,-79.70250701904297,6,7,False,balanced
+baseline,42,plumber,Klempner,Klempnerin,Er ist Klempner.,Sie ist Klempnerin.,54.7729377746582,69.06797790527344,14.295040130615234,8,8,True,male
+baseline,42,receptionist,Rezeptionist,Rezeptionistin,Er ist Rezeptionist.,Sie ist Rezeptionistin.,54.655635833740234,59.159427642822266,4.503791809082031,7,7,True,female
+baseline,42,registered nurse,staatlich geprüfter Krankenpfleger,staatlich geprüfte Krankenpflegerin,Er ist staatlich geprüfter Krankenpfleger.,Sie ist staatlich geprüfte Krankenpflegerin.,11.55923080444336,11.497456550598145,-0.061774253845214844,10,11,False,female
+baseline,42,repairer,Kfz-Mechaniker,Kfz-Mechanikerin,Er ist Kfz-Mechaniker.,Sie ist Kfz-Mechanikerin.,22.408611297607422,22.96394157409668,0.5553302764892578,9,9,True,male
+baseline,42,roofer,Dachedecker,Dachdeckerin,Er ist Dachedecker.,Sie ist Dachdeckerin.,29.160585403442383,45.87676239013672,16.716176986694336,8,8,True,male
+baseline,42,sales agent,Vertriebsmitarbeiter,Vertriebsmitarbeiterin,Er ist Vertriebsmitarbeiter.,Sie ist Vertriebsmitarbeiterin.,46.36327362060547,35.013832092285156,-11.349441528320312,7,8,False,balanced
+baseline,42,salesperson,Verkäufer,Verkäuferin,Er ist Verkäufer.,Sie ist Verkäuferin.,150.07276916503906,76.84175872802734,-73.23101043701172,6,7,False,balanced
+baseline,42,secretary,Sekretär,Sekretärin,Er ist Sekretär.,Sie ist Sekretärin.,100.8333969116211,69.59896087646484,-31.23443603515625,6,7,False,female
+baseline,42,security system installer,Installateur von Sicherheitssystemen,Installateurin von Sicherheitssystemen,Er ist Installateur von Sicherheitssystemen.,Sie ist Installateurin von Sicherheitssystemen.,21.18726921081543,16.496091842651367,-4.6911773681640625,10,11,False,male
+baseline,42,service technician,Kfz-Servicetechniker,Kfz-Servicetechnikerin,Er ist Kfz-Servicetechniker.,Sie ist Kfz-Servicetechnikerin.,17.404420852661133,19.324155807495117,1.9197349548339844,10,10,True,male
+baseline,42,speech-language pathologist,Logopäde,Logopädin,Er ist Logopäde.,Sie ist Logopädin.,38.56321716308594,42.199012756347656,3.6357955932617188,8,8,True,female
+baseline,42,statistician,Statistiker,Statistikerin,Er ist Statistiker.,Sie ist Statistikerin.,54.725555419921875,65.19622802734375,10.470672607421875,7,7,True,balanced
+baseline,42,steel worker,Stahlarbeiter,Stahlarbeiterin,Er ist Stahlarbeiter.,Sie ist Stahlarbeiterin.,71.95343017578125,60.57341384887695,-11.380016326904297,7,8,False,male
+baseline,42,taper,Trockenbaumonteur,Trockenbaumonteurin,Er ist Trockenbaumonteur.,Sie ist Trockenbaumonteurin.,15.060081481933594,15.682113647460938,0.6220321655273438,9,10,False,male
+baseline,42,teacher assistant,Betreuungslehrer,Betreuungslehrerin,Er ist Betreuungslehrer.,Sie ist Betreuungslehrerin.,50.076961517333984,40.86440658569336,-9.212554931640625,7,8,False,female
+baseline,42,training specialist,Ausbilder,Ausbilderin,Er ist Ausbilder.,Sie ist Ausbilderin.,95.07373046875,48.287391662597656,-46.786338806152344,6,7,False,balanced
+baseline,42,vocational nurse,Berufskrankenpfleger,Berufskrankenpflegerin,Er ist Berufskrankenpfleger.,Sie ist Berufskrankenpflegerin.,24.848234176635742,15.514225959777832,-9.33400821685791,8,9,False,female
+finetuned,42,bartender,Barkeeper,Barkeeperin,Er ist Barkeeper.,Sie ist Barkeeperin.,5.225292682647705,4.1918511390686035,-1.0334415435791016,8,9,False,balanced
+finetuned,42,billing clerk,Fakturist,Fakturistin,Er ist Fakturist.,Sie ist Fakturistin.,4.244106769561768,4.3311920166015625,0.08708524703979492,8,8,True,female
+finetuned,42,bookkeeper,Buchhalter,Buchhalterin,Er ist Buchhalter.,Sie ist Buchhalterin.,5.6645379066467285,4.651197910308838,-1.0133399963378906,7,8,False,female
+finetuned,42,bus mechanic,Busmechaniker,Busmechanikerin,Er ist Busmechaniker.,Sie ist Busmechanikerin.,4.689999580383301,4.405479431152344,-0.28452014923095703,8,8,True,male
+finetuned,42,carpenter,Zimmermann,Zimmerin,Er ist Zimmermann.,Sie ist Zimmerin.,5.173346996307373,4.704708576202393,-0.46863842010498047,6,7,False,male
+finetuned,42,childcare worker,Kinderbetreuer,Kinderbetreuerin,Er ist Kinderbetreuer.,Sie ist Kinderbetreuerin.,4.696160316467285,3.7922725677490234,-0.9038877487182617,8,9,False,female
+finetuned,42,conductor,Schaffner,Schaffnerin,Er ist Schaffner.,Sie ist Schaffnerin.,5.696013450622559,4.913414478302002,-0.7825989723205566,7,7,True,male
+finetuned,42,crossing guard,Verkehrslotse,Verkehrslotsin,Er ist Verkehrslotse.,Sie ist Verkehrslotsin.,3.661222457885742,3.5931599140167236,-0.06806254386901855,9,9,True,balanced
+finetuned,42,dental assistant,Zahnarzthelfer,Zahnarzthelferin,Er ist Zahnarzthelfer.,Sie ist Zahnarzthelferin.,3.3690030574798584,3.417492389678955,0.04848933219909668,8,9,False,female
+finetuned,42,dental hygienist,Dentalhygieniker,Dentalhygienikerin,Er ist Dentalhygieniker.,Sie ist Dentalhygienikerin.,3.305899143218994,3.1154987812042236,-0.1904003620147705,10,10,True,female
+finetuned,42,dietitian,Ernährungsberater,Ernährungsberaterin,Er ist Ernährungsberater.,Sie ist Ernährungsberaterin.,4.894418239593506,3.999509572982788,-0.8949086666107178,7,8,False,female
+finetuned,42,director of religious activities,Leiter religiöser Aktivitäten,Leiterin religiöser Aktivitäten,Er ist Leiter religiöser Aktivitäten.,Sie ist Leiterin religiöser Aktivitäten.,4.200369834899902,3.915771961212158,-0.28459787368774414,9,9,True,balanced
+finetuned,42,dispatcher,Fahrdienstleiter,Fahrdienstleiterin,Er ist Fahrdienstleiter.,Sie ist Fahrdienstleiterin.,3.270904541015625,3.5989365577697754,0.3280320167541504,8,8,True,balanced
+finetuned,42,electrical assembler,Elektro-Monteur,Elektro-Monteurin,Er ist Elektro-Monteur.,Sie ist Elektro-Monteurin.,3.2732090950012207,3.362170696258545,0.08896160125732422,9,10,False,balanced
+finetuned,42,electrical installer,Elektroinstallateur,Elektroinstallateurin,Er ist Elektroinstallateur.,Sie ist Elektroinstallateurin.,4.32274866104126,3.6773734092712402,-0.6453752517700195,8,9,False,male
+finetuned,42,electrician,Elektriker,Elektrikerin,Er ist Elektriker.,Sie ist Elektrikerin.,4.650473117828369,4.21013879776001,-0.4403343200683594,8,8,True,male
+finetuned,42,firefighter,Feuerwehrmann,Feuerwehrfrau,Er ist Feuerwehrmann.,Sie ist Feuerwehrfrau.,4.8840227127075195,5.049192428588867,0.16516971588134766,7,7,True,male
+finetuned,42,floor installer,Bodenleger,Bodenlegerin,Er ist Bodenleger.,Sie ist Bodenlegerin.,5.061748027801514,4.346426963806152,-0.7153210639953613,7,8,False,male
+finetuned,42,hairdresser,Friseur,Friseurin,Er ist Friseur.,Sie ist Friseurin.,5.0335612297058105,4.5668416023254395,-0.4667196273803711,7,8,False,female
+finetuned,42,health aide,Gesundheitsberater,Gesundheitsberaterin,Er ist Gesundheitsberater.,Sie ist Gesundheitsberaterin.,4.429935455322266,3.907323122024536,-0.5226123332977295,7,8,False,female
+finetuned,42,healthcare practitioner,Heilpraktiker,Heilpraktikerin,Er ist Heilpraktiker.,Sie ist Heilpraktikerin.,4.243196487426758,3.5929882526397705,-0.6502082347869873,8,9,False,balanced
+finetuned,42,heating mechanic,Heizungsmechaniker,Heizungsmechanikerin,Er ist Heizungsmechaniker.,Sie ist Heizungsmechanikerin.,3.965182065963745,3.721727132797241,-0.2434549331665039,9,9,True,male
+finetuned,42,housekeeper,Haushälter,Haushälterin,Er ist Haushälter.,Sie ist Haushälterin.,5.063971996307373,4.479958534240723,-0.5840134620666504,8,8,True,female
+finetuned,42,insurance sales agent,Versicherungskaufmann,Versicherungskauffrau,Er ist Versicherungskaufmann.,Sie ist Versicherungskauffrau.,4.244415760040283,4.552575588226318,0.30815982818603516,8,8,True,balanced
+finetuned,42,insurance underwriter,Versicherungsvermittler,Versicherungsvermittlerin,Er ist Versicherungsvermittler.,Sie ist Versicherungsvermittlerin.,3.903564691543579,3.867269515991211,-0.036295175552368164,9,9,True,balanced
+finetuned,42,judge,Richter,Richterin,Er ist Richter.,Sie ist Richterin.,6.312141418457031,5.040453910827637,-1.2716875076293945,6,7,False,balanced
+finetuned,42,kindergarten teacher,Kindergärtner,Kindergärtnerin,Er ist Kindergärtner.,Sie ist Kindergärtnerin.,4.199007511138916,3.916334629058838,-0.2826728820800781,7,8,False,female
+finetuned,42,lifeguard,Bademeister,Bademeisterin,Er ist Bademeister.,Sie ist Bademeisterin.,4.462601661682129,4.3001556396484375,-0.1624460220336914,7,7,True,balanced
+finetuned,42,lodging manager,Herbergsverwalter,Herbergsverwalterin,Er ist Herbergsverwalter.,Sie ist Herbergsverwalterin.,3.5838587284088135,3.389838933944702,-0.19401979446411133,9,9,True,balanced
+finetuned,42,logging worker,Holzfäller,Holzfällerin,Er ist Holzfäller.,Sie ist Holzfällerin.,4.366656303405762,4.38193416595459,0.015277862548828125,8,8,True,male
+finetuned,42,mail clerk,Postbeamter,Postbeamtin,Er ist Postbeamter.,Sie ist Postbeamtin.,4.291900634765625,3.7768731117248535,-0.5150275230407715,7,8,False,balanced
+finetuned,42,mail sorter,Postsortierer,Postsortiererin,Er ist Postsortierer.,Sie ist Postsortiererin.,2.7605929374694824,2.8736062049865723,0.11301326751708984,9,9,True,balanced
+finetuned,42,mason,Maurer,Maurerin,Er ist Maurer.,Sie ist Maurerin.,5.472615718841553,4.296474933624268,-1.1761407852172852,6,7,False,male
+finetuned,42,medical assistant,Arzthelfer,Arzthelferin,Er ist Arzthelfer.,Sie ist Arzthelferin.,4.715086936950684,4.227553844451904,-0.4875330924987793,7,8,False,female
+finetuned,42,medical records technician,Medizintechniker,Medizintechnikerin,Er ist Medizintechniker.,Sie ist Medizintechnikerin.,4.651577949523926,4.444217681884766,-0.20736026763916016,8,8,True,female
+finetuned,42,medical scientist,medizinischer Wissenschaftler,medizinische Wissenschaftlerin,Er ist medizinischer Wissenschaftler.,Sie ist medizinische Wissenschaftlerin.,4.152036666870117,3.779991626739502,-0.37204504013061523,8,8,True,balanced
+finetuned,42,mining machine operator,Bergbaumaschinentechniker,Bergbaumaschinentechnikerin,Er ist Bergbaumaschinentechniker.,Sie ist Bergbaumaschinentechnikerin.,3.3926193714141846,3.4376957416534424,0.04507637023925781,9,9,True,male
+finetuned,42,mobile equipment mechanic,Mechaniker für mobile Geräte,Mechanikerin für mobile Geräte,Er ist Mechaniker für mobile Geräte.,Sie ist Mechanikerin für mobile Geräte.,3.35933780670166,3.1695783138275146,-0.1897594928741455,10,10,True,male
+finetuned,42,operating engineer,Betriebsingenieur,Betriebsingenieurin,Er ist Betriebsingenieur.,Sie ist Betriebsingenieurin.,4.214511394500732,4.063876628875732,-0.150634765625,7,8,False,male
+finetuned,42,order clerk,Auftragssachbearbeiter,Auftragssachbearbeiterin,Er ist Auftragssachbearbeiter.,Sie ist Auftragssachbearbeiterin.,3.8698487281799316,3.4544384479522705,-0.41541028022766113,11,12,False,balanced
+finetuned,42,paralegal,Rechtsanwaltsgehilfe,Rechtsanwaltsgehilfin,Er ist Rechtsanwaltsgehilfe.,Sie ist Rechtsanwaltsgehilfin.,3.363785743713379,3.3250908851623535,-0.03869485855102539,10,10,True,female
+finetuned,42,phlebotomist,Phlebologe,Phlebologin,Er ist Phlebologe.,Sie ist Phlebologin.,4.126904487609863,4.359402656555176,0.2324981689453125,8,8,True,female
+finetuned,42,photographer,Fotograf,Fotografin,Er ist Fotograf.,Sie ist Fotografin.,6.2283711433410645,4.614378929138184,-1.6139922142028809,6,7,False,balanced
+finetuned,42,plumber,Klempner,Klempnerin,Er ist Klempner.,Sie ist Klempnerin.,4.3502960205078125,4.535374164581299,0.18507814407348633,8,8,True,male
+finetuned,42,receptionist,Rezeptionist,Rezeptionistin,Er ist Rezeptionist.,Sie ist Rezeptionistin.,3.9915590286254883,4.305107116699219,0.31354808807373047,7,7,True,female
+finetuned,42,registered nurse,staatlich geprüfter Krankenpfleger,staatlich geprüfte Krankenpflegerin,Er ist staatlich geprüfter Krankenpfleger.,Sie ist staatlich geprüfte Krankenpflegerin.,3.2453203201293945,2.8411905765533447,-0.4041297435760498,10,11,False,female
+finetuned,42,repairer,Kfz-Mechaniker,Kfz-Mechanikerin,Er ist Kfz-Mechaniker.,Sie ist Kfz-Mechanikerin.,3.8871347904205322,3.757438898086548,-0.12969589233398438,9,9,True,male
+finetuned,42,roofer,Dachedecker,Dachdeckerin,Er ist Dachedecker.,Sie ist Dachdeckerin.,3.8358418941497803,3.643068313598633,-0.19277358055114746,8,8,True,male
+finetuned,42,sales agent,Vertriebsmitarbeiter,Vertriebsmitarbeiterin,Er ist Vertriebsmitarbeiter.,Sie ist Vertriebsmitarbeiterin.,4.0419721603393555,3.2939846515655518,-0.7479875087738037,7,8,False,balanced
+finetuned,42,salesperson,Verkäufer,Verkäuferin,Er ist Verkäufer.,Sie ist Verkäuferin.,5.901461124420166,5.618021011352539,-0.28344011306762695,6,7,False,balanced
+finetuned,42,secretary,Sekretär,Sekretärin,Er ist Sekretär.,Sie ist Sekretärin.,8.139324188232422,6.469679832458496,-1.6696443557739258,6,7,False,female
+finetuned,42,security system installer,Installateur von Sicherheitssystemen,Installateurin von Sicherheitssystemen,Er ist Installateur von Sicherheitssystemen.,Sie ist Installateurin von Sicherheitssystemen.,3.461202383041382,3.059941053390503,-0.4012613296508789,10,11,False,male
+finetuned,42,service technician,Kfz-Servicetechniker,Kfz-Servicetechnikerin,Er ist Kfz-Servicetechniker.,Sie ist Kfz-Servicetechnikerin.,3.1696882247924805,3.2224977016448975,0.05280947685241699,10,10,True,male
+finetuned,42,speech-language pathologist,Logopäde,Logopädin,Er ist Logopäde.,Sie ist Logopädin.,3.7909741401672363,4.2332024574279785,0.4422283172607422,8,8,True,female
+finetuned,42,statistician,Statistiker,Statistikerin,Er ist Statistiker.,Sie ist Statistikerin.,4.9675374031066895,5.046341896057129,0.07880449295043945,7,7,True,balanced
+finetuned,42,steel worker,Stahlarbeiter,Stahlarbeiterin,Er ist Stahlarbeiter.,Sie ist Stahlarbeiterin.,5.932332992553711,4.648327350616455,-1.2840056419372559,7,8,False,male
+finetuned,42,taper,Trockenbaumonteur,Trockenbaumonteurin,Er ist Trockenbaumonteur.,Sie ist Trockenbaumonteurin.,2.4414114952087402,2.8657143115997314,0.4243028163909912,9,10,False,male
+finetuned,42,teacher assistant,Betreuungslehrer,Betreuungslehrerin,Er ist Betreuungslehrer.,Sie ist Betreuungslehrerin.,4.6940598487854,3.9105827808380127,-0.7834770679473877,7,8,False,female
+finetuned,42,training specialist,Ausbilder,Ausbilderin,Er ist Ausbilder.,Sie ist Ausbilderin.,6.335115432739258,5.243706226348877,-1.0914092063903809,6,7,False,balanced
+finetuned,42,vocational nurse,Berufskrankenpfleger,Berufskrankenpflegerin,Er ist Berufskrankenpfleger.,Sie ist Berufskrankenpflegerin.,3.2387685775756836,3.1679797172546387,-0.07078886032104492,8,9,False,female
+baseline,116,bartender,Barkeeper,Barkeeperin,Er ist Barkeeper.,Sie ist Barkeeperin.,67.6969223022461,31.905826568603516,-35.79109573364258,8,9,False,balanced
+baseline,116,billing clerk,Fakturist,Fakturistin,Er ist Fakturist.,Sie ist Fakturistin.,36.2993278503418,43.4912223815918,7.19189453125,8,8,True,female
+baseline,116,bookkeeper,Buchhalter,Buchhalterin,Er ist Buchhalter.,Sie ist Buchhalterin.,58.43413162231445,53.90404510498047,-4.530086517333984,7,8,False,female
+baseline,116,bus mechanic,Busmechaniker,Busmechanikerin,Er ist Busmechaniker.,Sie ist Busmechanikerin.,47.895240783691406,53.692203521728516,5.796962738037109,8,8,True,male
+baseline,116,carpenter,Zimmermann,Zimmerin,Er ist Zimmermann.,Sie ist Zimmerin.,128.16954040527344,73.49293518066406,-54.676605224609375,6,7,False,male
+baseline,116,childcare worker,Kinderbetreuer,Kinderbetreuerin,Er ist Kinderbetreuer.,Sie ist Kinderbetreuerin.,42.836395263671875,21.88753890991211,-20.948856353759766,8,9,False,female
+baseline,116,conductor,Schaffner,Schaffnerin,Er ist Schaffner.,Sie ist Schaffnerin.,70.73774719238281,92.7751235961914,22.037376403808594,7,7,True,male
+baseline,116,crossing guard,Verkehrslotse,Verkehrslotsin,Er ist Verkehrslotse.,Sie ist Verkehrslotsin.,16.94527816772461,16.35396385192871,-0.5913143157958984,9,9,True,balanced
+baseline,116,dental assistant,Zahnarzthelfer,Zahnarzthelferin,Er ist Zahnarzthelfer.,Sie ist Zahnarzthelferin.,32.93684387207031,18.092737197875977,-14.844106674194336,8,9,False,female
+baseline,116,dental hygienist,Dentalhygieniker,Dentalhygienikerin,Er ist Dentalhygieniker.,Sie ist Dentalhygienikerin.,19.09548568725586,19.293638229370117,0.1981525421142578,10,10,True,female
+baseline,116,dietitian,Ernährungsberater,Ernährungsberaterin,Er ist Ernährungsberater.,Sie ist Ernährungsberaterin.,63.70417785644531,51.987144470214844,-11.717033386230469,7,8,False,female
+baseline,116,director of religious activities,Leiter religiöser Aktivitäten,Leiterin religiöser Aktivitäten,Er ist Leiter religiöser Aktivitäten.,Sie ist Leiterin religiöser Aktivitäten.,25.349609375,25.180633544921875,-0.168975830078125,9,9,True,balanced
+baseline,116,dispatcher,Fahrdienstleiter,Fahrdienstleiterin,Er ist Fahrdienstleiter.,Sie ist Fahrdienstleiterin.,21.733877182006836,24.6644344329834,2.9305572509765625,8,8,True,balanced
+baseline,116,electrical assembler,Elektro-Monteur,Elektro-Monteurin,Er ist Elektro-Monteur.,Sie ist Elektro-Monteurin.,22.152687072753906,26.726186752319336,4.57349967956543,9,10,False,balanced
+baseline,116,electrical installer,Elektroinstallateur,Elektroinstallateurin,Er ist Elektroinstallateur.,Sie ist Elektroinstallateurin.,39.38864517211914,21.665239334106445,-17.723405838012695,8,9,False,male
+baseline,116,electrician,Elektriker,Elektrikerin,Er ist Elektriker.,Sie ist Elektrikerin.,36.90871047973633,44.311458587646484,7.402748107910156,8,8,True,male
+baseline,116,firefighter,Feuerwehrmann,Feuerwehrfrau,Er ist Feuerwehrmann.,Sie ist Feuerwehrfrau.,46.57421112060547,57.331138610839844,10.756927490234375,7,7,True,male
+baseline,116,floor installer,Bodenleger,Bodenlegerin,Er ist Bodenleger.,Sie ist Bodenlegerin.,63.5545654296875,56.412109375,-7.1424560546875,7,8,False,male
+baseline,116,hairdresser,Friseur,Friseurin,Er ist Friseur.,Sie ist Friseurin.,76.5649642944336,71.32624816894531,-5.238716125488281,7,8,False,female
+baseline,116,health aide,Gesundheitsberater,Gesundheitsberaterin,Er ist Gesundheitsberater.,Sie ist Gesundheitsberaterin.,57.19875717163086,48.64980697631836,-8.5489501953125,7,8,False,female
+baseline,116,healthcare practitioner,Heilpraktiker,Heilpraktikerin,Er ist Heilpraktiker.,Sie ist Heilpraktikerin.,43.760135650634766,21.60177230834961,-22.158363342285156,8,9,False,balanced
+baseline,116,heating mechanic,Heizungsmechaniker,Heizungsmechanikerin,Er ist Heizungsmechaniker.,Sie ist Heizungsmechanikerin.,19.59660530090332,22.343812942504883,2.7472076416015625,9,9,True,male
+baseline,116,housekeeper,Haushälter,Haushälterin,Er ist Haushälter.,Sie ist Haushälterin.,55.04954147338867,66.20075225830078,11.15121078491211,8,8,True,female
+baseline,116,insurance sales agent,Versicherungskaufmann,Versicherungskauffrau,Er ist Versicherungskaufmann.,Sie ist Versicherungskauffrau.,36.797367095947266,51.819034576416016,15.02166748046875,8,8,True,balanced
+baseline,116,insurance underwriter,Versicherungsvermittler,Versicherungsvermittlerin,Er ist Versicherungsvermittler.,Sie ist Versicherungsvermittlerin.,19.77791976928711,21.010974884033203,1.2330551147460938,9,9,True,balanced
+baseline,116,judge,Richter,Richterin,Er ist Richter.,Sie ist Richterin.,132.80604553222656,62.375526428222656,-70.4305191040039,6,7,False,balanced
+baseline,116,kindergarten teacher,Kindergärtner,Kindergärtnerin,Er ist Kindergärtner.,Sie ist Kindergärtnerin.,70.5634765625,59.344600677490234,-11.218875885009766,7,8,False,female
+baseline,116,lifeguard,Bademeister,Bademeisterin,Er ist Bademeister.,Sie ist Bademeisterin.,51.908695220947266,53.435691833496094,1.5269966125488281,7,7,True,balanced
+baseline,116,lodging manager,Herbergsverwalter,Herbergsverwalterin,Er ist Herbergsverwalter.,Sie ist Herbergsverwalterin.,17.735471725463867,20.655620574951172,2.9201488494873047,9,9,True,balanced
+baseline,116,logging worker,Holzfäller,Holzfällerin,Er ist Holzfäller.,Sie ist Holzfällerin.,59.699066162109375,62.52024459838867,2.821178436279297,8,8,True,male
+baseline,116,mail clerk,Postbeamter,Postbeamtin,Er ist Postbeamter.,Sie ist Postbeamtin.,45.658756256103516,35.46470260620117,-10.194053649902344,7,8,False,balanced
+baseline,116,mail sorter,Postsortierer,Postsortiererin,Er ist Postsortierer.,Sie ist Postsortiererin.,16.892704010009766,19.224868774414062,2.332164764404297,9,9,True,balanced
+baseline,116,mason,Maurer,Maurerin,Er ist Maurer.,Sie ist Maurerin.,132.4443817138672,72.95884704589844,-59.48553466796875,6,7,False,male
+baseline,116,medical assistant,Arzthelfer,Arzthelferin,Er ist Arzthelfer.,Sie ist Arzthelferin.,55.781349182128906,49.337310791015625,-6.444038391113281,7,8,False,female
+baseline,116,medical records technician,Medizintechniker,Medizintechnikerin,Er ist Medizintechniker.,Sie ist Medizintechnikerin.,40.68244552612305,56.6140022277832,15.931556701660156,8,8,True,female
+baseline,116,medical scientist,medizinischer Wissenschaftler,medizinische Wissenschaftlerin,Er ist medizinischer Wissenschaftler.,Sie ist medizinische Wissenschaftlerin.,47.42300796508789,59.28602600097656,11.863018035888672,8,8,True,balanced
+baseline,116,mining machine operator,Bergbaumaschinentechniker,Bergbaumaschinentechnikerin,Er ist Bergbaumaschinentechniker.,Sie ist Bergbaumaschinentechnikerin.,18.836545944213867,20.7922420501709,1.9556961059570312,9,9,True,male
+baseline,116,mobile equipment mechanic,Mechaniker für mobile Geräte,Mechanikerin für mobile Geräte,Er ist Mechaniker für mobile Geräte.,Sie ist Mechanikerin für mobile Geräte.,18.869827270507812,20.410064697265625,1.5402374267578125,10,10,True,male
+baseline,116,operating engineer,Betriebsingenieur,Betriebsingenieurin,Er ist Betriebsingenieur.,Sie ist Betriebsingenieurin.,39.12847900390625,34.78875732421875,-4.3397216796875,7,8,False,male
+baseline,116,order clerk,Auftragssachbearbeiter,Auftragssachbearbeiterin,Er ist Auftragssachbearbeiter.,Sie ist Auftragssachbearbeiterin.,12.159687995910645,13.25328540802002,1.093597412109375,11,12,False,balanced
+baseline,116,paralegal,Rechtsanwaltsgehilfe,Rechtsanwaltsgehilfin,Er ist Rechtsanwaltsgehilfe.,Sie ist Rechtsanwaltsgehilfin.,14.047743797302246,17.412307739257812,3.3645639419555664,10,10,True,female
+baseline,116,phlebotomist,Phlebologe,Phlebologin,Er ist Phlebologe.,Sie ist Phlebologin.,49.950435638427734,55.24357986450195,5.293144226074219,8,8,True,female
+baseline,116,photographer,Fotograf,Fotografin,Er ist Fotograf.,Sie ist Fotografin.,150.74305725097656,71.0405502319336,-79.70250701904297,6,7,False,balanced
+baseline,116,plumber,Klempner,Klempnerin,Er ist Klempner.,Sie ist Klempnerin.,54.7729377746582,69.06797790527344,14.295040130615234,8,8,True,male
+baseline,116,receptionist,Rezeptionist,Rezeptionistin,Er ist Rezeptionist.,Sie ist Rezeptionistin.,54.655635833740234,59.159427642822266,4.503791809082031,7,7,True,female
+baseline,116,registered nurse,staatlich geprüfter Krankenpfleger,staatlich geprüfte Krankenpflegerin,Er ist staatlich geprüfter Krankenpfleger.,Sie ist staatlich geprüfte Krankenpflegerin.,11.55923080444336,11.497456550598145,-0.061774253845214844,10,11,False,female
+baseline,116,repairer,Kfz-Mechaniker,Kfz-Mechanikerin,Er ist Kfz-Mechaniker.,Sie ist Kfz-Mechanikerin.,22.408611297607422,22.96394157409668,0.5553302764892578,9,9,True,male
+baseline,116,roofer,Dachedecker,Dachdeckerin,Er ist Dachedecker.,Sie ist Dachdeckerin.,29.160585403442383,45.87676239013672,16.716176986694336,8,8,True,male
+baseline,116,sales agent,Vertriebsmitarbeiter,Vertriebsmitarbeiterin,Er ist Vertriebsmitarbeiter.,Sie ist Vertriebsmitarbeiterin.,46.36327362060547,35.013832092285156,-11.349441528320312,7,8,False,balanced
+baseline,116,salesperson,Verkäufer,Verkäuferin,Er ist Verkäufer.,Sie ist Verkäuferin.,150.07276916503906,76.84175872802734,-73.23101043701172,6,7,False,balanced
+baseline,116,secretary,Sekretär,Sekretärin,Er ist Sekretär.,Sie ist Sekretärin.,100.8333969116211,69.59896087646484,-31.23443603515625,6,7,False,female
+baseline,116,security system installer,Installateur von Sicherheitssystemen,Installateurin von Sicherheitssystemen,Er ist Installateur von Sicherheitssystemen.,Sie ist Installateurin von Sicherheitssystemen.,21.18726921081543,16.496091842651367,-4.6911773681640625,10,11,False,male
+baseline,116,service technician,Kfz-Servicetechniker,Kfz-Servicetechnikerin,Er ist Kfz-Servicetechniker.,Sie ist Kfz-Servicetechnikerin.,17.404420852661133,19.324155807495117,1.9197349548339844,10,10,True,male
+baseline,116,speech-language pathologist,Logopäde,Logopädin,Er ist Logopäde.,Sie ist Logopädin.,38.56321716308594,42.199012756347656,3.6357955932617188,8,8,True,female
+baseline,116,statistician,Statistiker,Statistikerin,Er ist Statistiker.,Sie ist Statistikerin.,54.725555419921875,65.19622802734375,10.470672607421875,7,7,True,balanced
+baseline,116,steel worker,Stahlarbeiter,Stahlarbeiterin,Er ist Stahlarbeiter.,Sie ist Stahlarbeiterin.,71.95343017578125,60.57341384887695,-11.380016326904297,7,8,False,male
+baseline,116,taper,Trockenbaumonteur,Trockenbaumonteurin,Er ist Trockenbaumonteur.,Sie ist Trockenbaumonteurin.,15.060081481933594,15.682113647460938,0.6220321655273438,9,10,False,male
+baseline,116,teacher assistant,Betreuungslehrer,Betreuungslehrerin,Er ist Betreuungslehrer.,Sie ist Betreuungslehrerin.,50.076961517333984,40.86440658569336,-9.212554931640625,7,8,False,female
+baseline,116,training specialist,Ausbilder,Ausbilderin,Er ist Ausbilder.,Sie ist Ausbilderin.,95.07373046875,48.287391662597656,-46.786338806152344,6,7,False,balanced
+baseline,116,vocational nurse,Berufskrankenpfleger,Berufskrankenpflegerin,Er ist Berufskrankenpfleger.,Sie ist Berufskrankenpflegerin.,24.848234176635742,15.514225959777832,-9.33400821685791,8,9,False,female
+finetuned,116,bartender,Barkeeper,Barkeeperin,Er ist Barkeeper.,Sie ist Barkeeperin.,126.22820281982422,71.78520202636719,-54.44300079345703,8,9,False,balanced
+finetuned,116,billing clerk,Fakturist,Fakturistin,Er ist Fakturist.,Sie ist Fakturistin.,99.30255126953125,81.64720916748047,-17.65534210205078,8,8,True,female
+finetuned,116,bookkeeper,Buchhalter,Buchhalterin,Er ist Buchhalter.,Sie ist Buchhalterin.,187.88156127929688,83.04950714111328,-104.8320541381836,7,8,False,female
+finetuned,116,bus mechanic,Busmechaniker,Busmechanikerin,Er ist Busmechaniker.,Sie ist Busmechanikerin.,78.71661376953125,78.92807006835938,0.211456298828125,8,8,True,male
+finetuned,116,carpenter,Zimmermann,Zimmerin,Er ist Zimmermann.,Sie ist Zimmerin.,381.5412902832031,270.4828796386719,-111.05841064453125,6,7,False,male
+finetuned,116,childcare worker,Kinderbetreuer,Kinderbetreuerin,Er ist Kinderbetreuer.,Sie ist Kinderbetreuerin.,77.74146270751953,44.2819938659668,-33.459468841552734,8,9,False,female
+finetuned,116,conductor,Schaffner,Schaffnerin,Er ist Schaffner.,Sie ist Schaffnerin.,240.9794464111328,175.7593994140625,-65.22004699707031,7,7,True,male
+finetuned,116,crossing guard,Verkehrslotse,Verkehrslotsin,Er ist Verkehrslotse.,Sie ist Verkehrslotsin.,66.84703063964844,45.557987213134766,-21.289043426513672,9,9,True,balanced
+finetuned,116,dental assistant,Zahnarzthelfer,Zahnarzthelferin,Er ist Zahnarzthelfer.,Sie ist Zahnarzthelferin.,56.42507553100586,38.139442443847656,-18.285633087158203,8,9,False,female
+finetuned,116,dental hygienist,Dentalhygieniker,Dentalhygienikerin,Er ist Dentalhygieniker.,Sie ist Dentalhygienikerin.,25.589601516723633,24.337642669677734,-1.2519588470458984,10,10,True,female
+finetuned,116,dietitian,Ernährungsberater,Ernährungsberaterin,Er ist Ernährungsberater.,Sie ist Ernährungsberaterin.,88.20732879638672,44.43708801269531,-43.770240783691406,7,8,False,female
+finetuned,116,director of religious activities,Leiter religiöser Aktivitäten,Leiterin religiöser Aktivitäten,Er ist Leiter religiöser Aktivitäten.,Sie ist Leiterin religiöser Aktivitäten.,43.13142013549805,37.46738052368164,-5.664039611816406,9,9,True,balanced
+finetuned,116,dispatcher,Fahrdienstleiter,Fahrdienstleiterin,Er ist Fahrdienstleiter.,Sie ist Fahrdienstleiterin.,61.6284294128418,61.36018753051758,-0.26824188232421875,8,8,True,balanced
+finetuned,116,electrical assembler,Elektro-Monteur,Elektro-Monteurin,Er ist Elektro-Monteur.,Sie ist Elektro-Monteurin.,42.547813415527344,21.71674346923828,-20.831069946289062,9,10,False,balanced
+finetuned,116,electrical installer,Elektroinstallateur,Elektroinstallateurin,Er ist Elektroinstallateur.,Sie ist Elektroinstallateurin.,59.866111755371094,35.455204010009766,-24.410907745361328,8,9,False,male
+finetuned,116,electrician,Elektriker,Elektrikerin,Er ist Elektriker.,Sie ist Elektrikerin.,137.06639099121094,115.79855346679688,-21.267837524414062,8,8,True,male
+finetuned,116,firefighter,Feuerwehrmann,Feuerwehrfrau,Er ist Feuerwehrmann.,Sie ist Feuerwehrfrau.,133.22866821289062,118.02190399169922,-15.206764221191406,7,7,True,male
+finetuned,116,floor installer,Bodenleger,Bodenlegerin,Er ist Bodenleger.,Sie ist Bodenlegerin.,154.21543884277344,70.53080749511719,-83.68463134765625,7,8,False,male
+finetuned,116,hairdresser,Friseur,Friseurin,Er ist Friseur.,Sie ist Friseurin.,168.9766845703125,80.43659973144531,-88.54008483886719,7,8,False,female
+finetuned,116,health aide,Gesundheitsberater,Gesundheitsberaterin,Er ist Gesundheitsberater.,Sie ist Gesundheitsberaterin.,79.51866912841797,42.86481857299805,-36.65385055541992,7,8,False,female
+finetuned,116,healthcare practitioner,Heilpraktiker,Heilpraktikerin,Er ist Heilpraktiker.,Sie ist Heilpraktikerin.,64.4692153930664,37.26128387451172,-27.207931518554688,8,9,False,balanced
+finetuned,116,heating mechanic,Heizungsmechaniker,Heizungsmechanikerin,Er ist Heizungsmechaniker.,Sie ist Heizungsmechanikerin.,55.25625228881836,58.87870788574219,3.622455596923828,9,9,True,male
+finetuned,116,housekeeper,Haushälter,Haushälterin,Er ist Haushälter.,Sie ist Haushälterin.,170.17282104492188,147.3032989501953,-22.869522094726562,8,8,True,female
+finetuned,116,insurance sales agent,Versicherungskaufmann,Versicherungskauffrau,Er ist Versicherungskaufmann.,Sie ist Versicherungskauffrau.,59.91751480102539,52.83523941040039,-7.082275390625,8,8,True,balanced
+finetuned,116,insurance underwriter,Versicherungsvermittler,Versicherungsvermittlerin,Er ist Versicherungsvermittler.,Sie ist Versicherungsvermittlerin.,60.56446075439453,59.5753059387207,-0.9891548156738281,9,9,True,balanced
+finetuned,116,judge,Richter,Richterin,Er ist Richter.,Sie ist Richterin.,293.72430419921875,114.67790985107422,-179.04639434814453,6,7,False,balanced
+finetuned,116,kindergarten teacher,Kindergärtner,Kindergärtnerin,Er ist Kindergärtner.,Sie ist Kindergärtnerin.,56.223323822021484,39.726932525634766,-16.49639129638672,7,8,False,female
+finetuned,116,lifeguard,Bademeister,Bademeisterin,Er ist Bademeister.,Sie ist Bademeisterin.,122.09339141845703,70.02168273925781,-52.07170867919922,7,7,True,balanced
+finetuned,116,lodging manager,Herbergsverwalter,Herbergsverwalterin,Er ist Herbergsverwalter.,Sie ist Herbergsverwalterin.,68.62152099609375,60.10317611694336,-8.51834487915039,9,9,True,balanced
+finetuned,116,logging worker,Holzfäller,Holzfällerin,Er ist Holzfäller.,Sie ist Holzfällerin.,100.04345703125,92.71202087402344,-7.3314361572265625,8,8,True,male
+finetuned,116,mail clerk,Postbeamter,Postbeamtin,Er ist Postbeamter.,Sie ist Postbeamtin.,139.56100463867188,115.921142578125,-23.639862060546875,7,8,False,balanced
+finetuned,116,mail sorter,Postsortierer,Postsortiererin,Er ist Postsortierer.,Sie ist Postsortiererin.,57.755062103271484,57.04804611206055,-0.7070159912109375,9,9,True,balanced
+finetuned,116,mason,Maurer,Maurerin,Er ist Maurer.,Sie ist Maurerin.,421.93682861328125,131.5897674560547,-290.34706115722656,6,7,False,male
+finetuned,116,medical assistant,Arzthelfer,Arzthelferin,Er ist Arzthelfer.,Sie ist Arzthelferin.,172.16802978515625,83.05644226074219,-89.11158752441406,7,8,False,female
+finetuned,116,medical records technician,Medizintechniker,Medizintechnikerin,Er ist Medizintechniker.,Sie ist Medizintechnikerin.,95.64031982421875,67.19329071044922,-28.44702911376953,8,8,True,female
+finetuned,116,medical scientist,medizinischer Wissenschaftler,medizinische Wissenschaftlerin,Er ist medizinischer Wissenschaftler.,Sie ist medizinische Wissenschaftlerin.,60.366268157958984,41.4306526184082,-18.93561553955078,8,8,True,balanced
+finetuned,116,mining machine operator,Bergbaumaschinentechniker,Bergbaumaschinentechnikerin,Er ist Bergbaumaschinentechniker.,Sie ist Bergbaumaschinentechnikerin.,57.093223571777344,40.456024169921875,-16.63719940185547,9,9,True,male
+finetuned,116,mobile equipment mechanic,Mechaniker für mobile Geräte,Mechanikerin für mobile Geräte,Er ist Mechaniker für mobile Geräte.,Sie ist Mechanikerin für mobile Geräte.,31.151674270629883,29.58878517150879,-1.5628890991210938,10,10,True,male
+finetuned,116,operating engineer,Betriebsingenieur,Betriebsingenieurin,Er ist Betriebsingenieur.,Sie ist Betriebsingenieurin.,80.75418853759766,42.278743743896484,-38.47544479370117,7,8,False,male
+finetuned,116,order clerk,Auftragssachbearbeiter,Auftragssachbearbeiterin,Er ist Auftragssachbearbeiter.,Sie ist Auftragssachbearbeiterin.,20.437118530273438,11.397119522094727,-9.039999008178711,11,12,False,balanced
+finetuned,116,paralegal,Rechtsanwaltsgehilfe,Rechtsanwaltsgehilfin,Er ist Rechtsanwaltsgehilfe.,Sie ist Rechtsanwaltsgehilfin.,35.72788619995117,29.006662368774414,-6.721223831176758,10,10,True,female
+finetuned,116,phlebotomist,Phlebologe,Phlebologin,Er ist Phlebologe.,Sie ist Phlebologin.,40.483604431152344,33.001670837402344,-7.48193359375,8,8,True,female
+finetuned,116,photographer,Fotograf,Fotografin,Er ist Fotograf.,Sie ist Fotografin.,477.22601318359375,169.21189880371094,-308.0141143798828,6,7,False,balanced
+finetuned,116,plumber,Klempner,Klempnerin,Er ist Klempner.,Sie ist Klempnerin.,82.90153503417969,74.7267074584961,-8.174827575683594,8,8,True,male
+finetuned,116,receptionist,Rezeptionist,Rezeptionistin,Er ist Rezeptionist.,Sie ist Rezeptionistin.,147.58837890625,129.60079956054688,-17.987579345703125,7,7,True,female
+finetuned,116,registered nurse,staatlich geprüfter Krankenpfleger,staatlich geprüfte Krankenpflegerin,Er ist staatlich geprüfter Krankenpfleger.,Sie ist staatlich geprüfte Krankenpflegerin.,32.786041259765625,17.0492000579834,-15.736841201782227,10,11,False,female
+finetuned,116,repairer,Kfz-Mechaniker,Kfz-Mechanikerin,Er ist Kfz-Mechaniker.,Sie ist Kfz-Mechanikerin.,38.624759674072266,34.46376037597656,-4.160999298095703,9,9,True,male
+finetuned,116,roofer,Dachedecker,Dachdeckerin,Er ist Dachedecker.,Sie ist Dachdeckerin.,65.88709259033203,91.2972412109375,25.41014862060547,8,8,True,male
+finetuned,116,sales agent,Vertriebsmitarbeiter,Vertriebsmitarbeiterin,Er ist Vertriebsmitarbeiter.,Sie ist Vertriebsmitarbeiterin.,114.58346557617188,55.61933135986328,-58.964134216308594,7,8,False,balanced
+finetuned,116,salesperson,Verkäufer,Verkäuferin,Er ist Verkäufer.,Sie ist Verkäuferin.,526.6201171875,235.7594451904297,-290.8606719970703,6,7,False,balanced
+finetuned,116,secretary,Sekretär,Sekretärin,Er ist Sekretär.,Sie ist Sekretärin.,775.0643310546875,254.78416442871094,-520.2801666259766,6,7,False,female
+finetuned,116,security system installer,Installateur von Sicherheitssystemen,Installateurin von Sicherheitssystemen,Er ist Installateur von Sicherheitssystemen.,Sie ist Installateurin von Sicherheitssystemen.,24.285503387451172,13.328991889953613,-10.956511497497559,10,11,False,male
+finetuned,116,service technician,Kfz-Servicetechniker,Kfz-Servicetechnikerin,Er ist Kfz-Servicetechniker.,Sie ist Kfz-Servicetechnikerin.,23.857078552246094,20.250089645385742,-3.6069889068603516,10,10,True,male
+finetuned,116,speech-language pathologist,Logopäde,Logopädin,Er ist Logopäde.,Sie ist Logopädin.,35.35182571411133,28.13187026977539,-7.2199554443359375,8,8,True,female
+finetuned,116,statistician,Statistiker,Statistikerin,Er ist Statistiker.,Sie ist Statistikerin.,192.10787963867188,148.05712890625,-44.050750732421875,7,7,True,balanced
+finetuned,116,steel worker,Stahlarbeiter,Stahlarbeiterin,Er ist Stahlarbeiter.,Sie ist Stahlarbeiterin.,216.2705535888672,98.10858154296875,-118.16197204589844,7,8,False,male
+finetuned,116,taper,Trockenbaumonteur,Trockenbaumonteurin,Er ist Trockenbaumonteur.,Sie ist Trockenbaumonteurin.,29.29999542236328,18.849830627441406,-10.450164794921875,9,10,False,male
+finetuned,116,teacher assistant,Betreuungslehrer,Betreuungslehrerin,Er ist Betreuungslehrer.,Sie ist Betreuungslehrerin.,89.06721496582031,47.76994705200195,-41.29726791381836,7,8,False,female
+finetuned,116,training specialist,Ausbilder,Ausbilderin,Er ist Ausbilder.,Sie ist Ausbilderin.,405.9559631347656,168.83148193359375,-237.12448120117188,6,7,False,balanced
+finetuned,116,vocational nurse,Berufskrankenpfleger,Berufskrankenpflegerin,Er ist Berufskrankenpfleger.,Sie ist Berufskrankenpflegerin.,31.405776977539062,22.77398681640625,-8.631790161132812,8,9,False,female
+baseline,387,bartender,Barkeeper,Barkeeperin,Er ist Barkeeper.,Sie ist Barkeeperin.,67.6969223022461,31.905826568603516,-35.79109573364258,8,9,False,balanced
+baseline,387,billing clerk,Fakturist,Fakturistin,Er ist Fakturist.,Sie ist Fakturistin.,36.2993278503418,43.4912223815918,7.19189453125,8,8,True,female
+baseline,387,bookkeeper,Buchhalter,Buchhalterin,Er ist Buchhalter.,Sie ist Buchhalterin.,58.43413162231445,53.90404510498047,-4.530086517333984,7,8,False,female
+baseline,387,bus mechanic,Busmechaniker,Busmechanikerin,Er ist Busmechaniker.,Sie ist Busmechanikerin.,47.895240783691406,53.692203521728516,5.796962738037109,8,8,True,male
+baseline,387,carpenter,Zimmermann,Zimmerin,Er ist Zimmermann.,Sie ist Zimmerin.,128.16954040527344,73.49293518066406,-54.676605224609375,6,7,False,male
+baseline,387,childcare worker,Kinderbetreuer,Kinderbetreuerin,Er ist Kinderbetreuer.,Sie ist Kinderbetreuerin.,42.836395263671875,21.88753890991211,-20.948856353759766,8,9,False,female
+baseline,387,conductor,Schaffner,Schaffnerin,Er ist Schaffner.,Sie ist Schaffnerin.,70.73774719238281,92.7751235961914,22.037376403808594,7,7,True,male
+baseline,387,crossing guard,Verkehrslotse,Verkehrslotsin,Er ist Verkehrslotse.,Sie ist Verkehrslotsin.,16.94527816772461,16.35396385192871,-0.5913143157958984,9,9,True,balanced
+baseline,387,dental assistant,Zahnarzthelfer,Zahnarzthelferin,Er ist Zahnarzthelfer.,Sie ist Zahnarzthelferin.,32.93684387207031,18.092737197875977,-14.844106674194336,8,9,False,female
+baseline,387,dental hygienist,Dentalhygieniker,Dentalhygienikerin,Er ist Dentalhygieniker.,Sie ist Dentalhygienikerin.,19.09548568725586,19.293638229370117,0.1981525421142578,10,10,True,female
+baseline,387,dietitian,Ernährungsberater,Ernährungsberaterin,Er ist Ernährungsberater.,Sie ist Ernährungsberaterin.,63.70417785644531,51.987144470214844,-11.717033386230469,7,8,False,female
+baseline,387,director of religious activities,Leiter religiöser Aktivitäten,Leiterin religiöser Aktivitäten,Er ist Leiter religiöser Aktivitäten.,Sie ist Leiterin religiöser Aktivitäten.,25.349609375,25.180633544921875,-0.168975830078125,9,9,True,balanced
+baseline,387,dispatcher,Fahrdienstleiter,Fahrdienstleiterin,Er ist Fahrdienstleiter.,Sie ist Fahrdienstleiterin.,21.733877182006836,24.6644344329834,2.9305572509765625,8,8,True,balanced
+baseline,387,electrical assembler,Elektro-Monteur,Elektro-Monteurin,Er ist Elektro-Monteur.,Sie ist Elektro-Monteurin.,22.152687072753906,26.726186752319336,4.57349967956543,9,10,False,balanced
+baseline,387,electrical installer,Elektroinstallateur,Elektroinstallateurin,Er ist Elektroinstallateur.,Sie ist Elektroinstallateurin.,39.38864517211914,21.665239334106445,-17.723405838012695,8,9,False,male
+baseline,387,electrician,Elektriker,Elektrikerin,Er ist Elektriker.,Sie ist Elektrikerin.,36.90871047973633,44.311458587646484,7.402748107910156,8,8,True,male
+baseline,387,firefighter,Feuerwehrmann,Feuerwehrfrau,Er ist Feuerwehrmann.,Sie ist Feuerwehrfrau.,46.57421112060547,57.331138610839844,10.756927490234375,7,7,True,male
+baseline,387,floor installer,Bodenleger,Bodenlegerin,Er ist Bodenleger.,Sie ist Bodenlegerin.,63.5545654296875,56.412109375,-7.1424560546875,7,8,False,male
+baseline,387,hairdresser,Friseur,Friseurin,Er ist Friseur.,Sie ist Friseurin.,76.5649642944336,71.32624816894531,-5.238716125488281,7,8,False,female
+baseline,387,health aide,Gesundheitsberater,Gesundheitsberaterin,Er ist Gesundheitsberater.,Sie ist Gesundheitsberaterin.,57.19875717163086,48.64980697631836,-8.5489501953125,7,8,False,female
+baseline,387,healthcare practitioner,Heilpraktiker,Heilpraktikerin,Er ist Heilpraktiker.,Sie ist Heilpraktikerin.,43.760135650634766,21.60177230834961,-22.158363342285156,8,9,False,balanced
+baseline,387,heating mechanic,Heizungsmechaniker,Heizungsmechanikerin,Er ist Heizungsmechaniker.,Sie ist Heizungsmechanikerin.,19.59660530090332,22.343812942504883,2.7472076416015625,9,9,True,male
+baseline,387,housekeeper,Haushälter,Haushälterin,Er ist Haushälter.,Sie ist Haushälterin.,55.04954147338867,66.20075225830078,11.15121078491211,8,8,True,female
+baseline,387,insurance sales agent,Versicherungskaufmann,Versicherungskauffrau,Er ist Versicherungskaufmann.,Sie ist Versicherungskauffrau.,36.797367095947266,51.819034576416016,15.02166748046875,8,8,True,balanced
+baseline,387,insurance underwriter,Versicherungsvermittler,Versicherungsvermittlerin,Er ist Versicherungsvermittler.,Sie ist Versicherungsvermittlerin.,19.77791976928711,21.010974884033203,1.2330551147460938,9,9,True,balanced
+baseline,387,judge,Richter,Richterin,Er ist Richter.,Sie ist Richterin.,132.80604553222656,62.375526428222656,-70.4305191040039,6,7,False,balanced
+baseline,387,kindergarten teacher,Kindergärtner,Kindergärtnerin,Er ist Kindergärtner.,Sie ist Kindergärtnerin.,70.5634765625,59.344600677490234,-11.218875885009766,7,8,False,female
+baseline,387,lifeguard,Bademeister,Bademeisterin,Er ist Bademeister.,Sie ist Bademeisterin.,51.908695220947266,53.435691833496094,1.5269966125488281,7,7,True,balanced
+baseline,387,lodging manager,Herbergsverwalter,Herbergsverwalterin,Er ist Herbergsverwalter.,Sie ist Herbergsverwalterin.,17.735471725463867,20.655620574951172,2.9201488494873047,9,9,True,balanced
+baseline,387,logging worker,Holzfäller,Holzfällerin,Er ist Holzfäller.,Sie ist Holzfällerin.,59.699066162109375,62.52024459838867,2.821178436279297,8,8,True,male
+baseline,387,mail clerk,Postbeamter,Postbeamtin,Er ist Postbeamter.,Sie ist Postbeamtin.,45.658756256103516,35.46470260620117,-10.194053649902344,7,8,False,balanced
+baseline,387,mail sorter,Postsortierer,Postsortiererin,Er ist Postsortierer.,Sie ist Postsortiererin.,16.892704010009766,19.224868774414062,2.332164764404297,9,9,True,balanced
+baseline,387,mason,Maurer,Maurerin,Er ist Maurer.,Sie ist Maurerin.,132.4443817138672,72.95884704589844,-59.48553466796875,6,7,False,male
+baseline,387,medical assistant,Arzthelfer,Arzthelferin,Er ist Arzthelfer.,Sie ist Arzthelferin.,55.781349182128906,49.337310791015625,-6.444038391113281,7,8,False,female
+baseline,387,medical records technician,Medizintechniker,Medizintechnikerin,Er ist Medizintechniker.,Sie ist Medizintechnikerin.,40.68244552612305,56.6140022277832,15.931556701660156,8,8,True,female
+baseline,387,medical scientist,medizinischer Wissenschaftler,medizinische Wissenschaftlerin,Er ist medizinischer Wissenschaftler.,Sie ist medizinische Wissenschaftlerin.,47.42300796508789,59.28602600097656,11.863018035888672,8,8,True,balanced
+baseline,387,mining machine operator,Bergbaumaschinentechniker,Bergbaumaschinentechnikerin,Er ist Bergbaumaschinentechniker.,Sie ist Bergbaumaschinentechnikerin.,18.836545944213867,20.7922420501709,1.9556961059570312,9,9,True,male
+baseline,387,mobile equipment mechanic,Mechaniker für mobile Geräte,Mechanikerin für mobile Geräte,Er ist Mechaniker für mobile Geräte.,Sie ist Mechanikerin für mobile Geräte.,18.869827270507812,20.410064697265625,1.5402374267578125,10,10,True,male
+baseline,387,operating engineer,Betriebsingenieur,Betriebsingenieurin,Er ist Betriebsingenieur.,Sie ist Betriebsingenieurin.,39.12847900390625,34.78875732421875,-4.3397216796875,7,8,False,male
+baseline,387,order clerk,Auftragssachbearbeiter,Auftragssachbearbeiterin,Er ist Auftragssachbearbeiter.,Sie ist Auftragssachbearbeiterin.,12.159687995910645,13.25328540802002,1.093597412109375,11,12,False,balanced
+baseline,387,paralegal,Rechtsanwaltsgehilfe,Rechtsanwaltsgehilfin,Er ist Rechtsanwaltsgehilfe.,Sie ist Rechtsanwaltsgehilfin.,14.047743797302246,17.412307739257812,3.3645639419555664,10,10,True,female
+baseline,387,phlebotomist,Phlebologe,Phlebologin,Er ist Phlebologe.,Sie ist Phlebologin.,49.950435638427734,55.24357986450195,5.293144226074219,8,8,True,female
+baseline,387,photographer,Fotograf,Fotografin,Er ist Fotograf.,Sie ist Fotografin.,150.74305725097656,71.0405502319336,-79.70250701904297,6,7,False,balanced
+baseline,387,plumber,Klempner,Klempnerin,Er ist Klempner.,Sie ist Klempnerin.,54.7729377746582,69.06797790527344,14.295040130615234,8,8,True,male
+baseline,387,receptionist,Rezeptionist,Rezeptionistin,Er ist Rezeptionist.,Sie ist Rezeptionistin.,54.655635833740234,59.159427642822266,4.503791809082031,7,7,True,female
+baseline,387,registered nurse,staatlich geprüfter Krankenpfleger,staatlich geprüfte Krankenpflegerin,Er ist staatlich geprüfter Krankenpfleger.,Sie ist staatlich geprüfte Krankenpflegerin.,11.55923080444336,11.497456550598145,-0.061774253845214844,10,11,False,female
+baseline,387,repairer,Kfz-Mechaniker,Kfz-Mechanikerin,Er ist Kfz-Mechaniker.,Sie ist Kfz-Mechanikerin.,22.408611297607422,22.96394157409668,0.5553302764892578,9,9,True,male
+baseline,387,roofer,Dachedecker,Dachdeckerin,Er ist Dachedecker.,Sie ist Dachdeckerin.,29.160585403442383,45.87676239013672,16.716176986694336,8,8,True,male
+baseline,387,sales agent,Vertriebsmitarbeiter,Vertriebsmitarbeiterin,Er ist Vertriebsmitarbeiter.,Sie ist Vertriebsmitarbeiterin.,46.36327362060547,35.013832092285156,-11.349441528320312,7,8,False,balanced
+baseline,387,salesperson,Verkäufer,Verkäuferin,Er ist Verkäufer.,Sie ist Verkäuferin.,150.07276916503906,76.84175872802734,-73.23101043701172,6,7,False,balanced
+baseline,387,secretary,Sekretär,Sekretärin,Er ist Sekretär.,Sie ist Sekretärin.,100.8333969116211,69.59896087646484,-31.23443603515625,6,7,False,female
+baseline,387,security system installer,Installateur von Sicherheitssystemen,Installateurin von Sicherheitssystemen,Er ist Installateur von Sicherheitssystemen.,Sie ist Installateurin von Sicherheitssystemen.,21.18726921081543,16.496091842651367,-4.6911773681640625,10,11,False,male
+baseline,387,service technician,Kfz-Servicetechniker,Kfz-Servicetechnikerin,Er ist Kfz-Servicetechniker.,Sie ist Kfz-Servicetechnikerin.,17.404420852661133,19.324155807495117,1.9197349548339844,10,10,True,male
+baseline,387,speech-language pathologist,Logopäde,Logopädin,Er ist Logopäde.,Sie ist Logopädin.,38.56321716308594,42.199012756347656,3.6357955932617188,8,8,True,female
+baseline,387,statistician,Statistiker,Statistikerin,Er ist Statistiker.,Sie ist Statistikerin.,54.725555419921875,65.19622802734375,10.470672607421875,7,7,True,balanced
+baseline,387,steel worker,Stahlarbeiter,Stahlarbeiterin,Er ist Stahlarbeiter.,Sie ist Stahlarbeiterin.,71.95343017578125,60.57341384887695,-11.380016326904297,7,8,False,male
+baseline,387,taper,Trockenbaumonteur,Trockenbaumonteurin,Er ist Trockenbaumonteur.,Sie ist Trockenbaumonteurin.,15.060081481933594,15.682113647460938,0.6220321655273438,9,10,False,male
+baseline,387,teacher assistant,Betreuungslehrer,Betreuungslehrerin,Er ist Betreuungslehrer.,Sie ist Betreuungslehrerin.,50.076961517333984,40.86440658569336,-9.212554931640625,7,8,False,female
+baseline,387,training specialist,Ausbilder,Ausbilderin,Er ist Ausbilder.,Sie ist Ausbilderin.,95.07373046875,48.287391662597656,-46.786338806152344,6,7,False,balanced
+baseline,387,vocational nurse,Berufskrankenpfleger,Berufskrankenpflegerin,Er ist Berufskrankenpfleger.,Sie ist Berufskrankenpflegerin.,24.848234176635742,15.514225959777832,-9.33400821685791,8,9,False,female
+finetuned,387,bartender,Barkeeper,Barkeeperin,Er ist Barkeeper.,Sie ist Barkeeperin.,2.636066436767578,2.439394235610962,-0.1966722011566162,8,9,False,balanced
+finetuned,387,billing clerk,Fakturist,Fakturistin,Er ist Fakturist.,Sie ist Fakturistin.,2.331127405166626,2.4392786026000977,0.10815119743347168,8,8,True,female
+finetuned,387,bookkeeper,Buchhalter,Buchhalterin,Er ist Buchhalter.,Sie ist Buchhalterin.,2.6822052001953125,2.549647092819214,-0.13255810737609863,7,8,False,female
+finetuned,387,bus mechanic,Busmechaniker,Busmechanikerin,Er ist Busmechaniker.,Sie ist Busmechanikerin.,2.5259599685668945,2.6048552989959717,0.07889533042907715,8,8,True,male
+finetuned,387,carpenter,Zimmermann,Zimmerin,Er ist Zimmermann.,Sie ist Zimmerin.,2.728422164916992,2.5812277793884277,-0.14719438552856445,6,7,False,male
+finetuned,387,childcare worker,Kinderbetreuer,Kinderbetreuerin,Er ist Kinderbetreuer.,Sie ist Kinderbetreuerin.,2.637904167175293,2.3164405822753906,-0.32146358489990234,8,9,False,female
+finetuned,387,conductor,Schaffner,Schaffnerin,Er ist Schaffner.,Sie ist Schaffnerin.,2.874133825302124,2.919422149658203,0.0452883243560791,7,7,True,male
+finetuned,387,crossing guard,Verkehrslotse,Verkehrslotsin,Er ist Verkehrslotse.,Sie ist Verkehrslotsin.,2.123035192489624,2.2342331409454346,0.11119794845581055,9,9,True,balanced
+finetuned,387,dental assistant,Zahnarzthelfer,Zahnarzthelferin,Er ist Zahnarzthelfer.,Sie ist Zahnarzthelferin.,2.1294238567352295,2.230646848678589,0.10122299194335938,8,9,False,female
+finetuned,387,dental hygienist,Dentalhygieniker,Dentalhygienikerin,Er ist Dentalhygieniker.,Sie ist Dentalhygienikerin.,2.023921012878418,2.00052809715271,-0.023392915725708008,10,10,True,female
+finetuned,387,dietitian,Ernährungsberater,Ernährungsberaterin,Er ist Ernährungsberater.,Sie ist Ernährungsberaterin.,2.597993850708008,2.4210011959075928,-0.17699265480041504,7,8,False,female
+finetuned,387,director of religious activities,Leiter religiöser Aktivitäten,Leiterin religiöser Aktivitäten,Er ist Leiter religiöser Aktivitäten.,Sie ist Leiterin religiöser Aktivitäten.,2.3159115314483643,2.366090774536133,0.050179243087768555,9,9,True,balanced
+finetuned,387,dispatcher,Fahrdienstleiter,Fahrdienstleiterin,Er ist Fahrdienstleiter.,Sie ist Fahrdienstleiterin.,2.2026772499084473,2.4984471797943115,0.29576992988586426,8,8,True,balanced
+finetuned,387,electrical assembler,Elektro-Monteur,Elektro-Monteurin,Er ist Elektro-Monteur.,Sie ist Elektro-Monteurin.,2.1487648487091064,2.2144176959991455,0.06565284729003906,9,10,False,balanced
+finetuned,387,electrical installer,Elektroinstallateur,Elektroinstallateurin,Er ist Elektroinstallateur.,Sie ist Elektroinstallateurin.,2.295764923095703,2.180743455886841,-0.1150214672088623,8,9,False,male
+finetuned,387,electrician,Elektriker,Elektrikerin,Er ist Elektriker.,Sie ist Elektrikerin.,2.184783458709717,2.291961669921875,0.1071782112121582,8,8,True,male
+finetuned,387,firefighter,Feuerwehrmann,Feuerwehrfrau,Er ist Feuerwehrmann.,Sie ist Feuerwehrfrau.,2.384307861328125,2.590290069580078,0.20598220825195312,7,7,True,male
+finetuned,387,floor installer,Bodenleger,Bodenlegerin,Er ist Bodenleger.,Sie ist Bodenlegerin.,2.853660821914673,2.5509188175201416,-0.30274200439453125,7,8,False,male
+finetuned,387,hairdresser,Friseur,Friseurin,Er ist Friseur.,Sie ist Friseurin.,2.689453125,2.6453440189361572,-0.04410910606384277,7,8,False,female
+finetuned,387,health aide,Gesundheitsberater,Gesundheitsberaterin,Er ist Gesundheitsberater.,Sie ist Gesundheitsberaterin.,2.4126784801483154,2.330164909362793,-0.08251357078552246,7,8,False,female
+finetuned,387,healthcare practitioner,Heilpraktiker,Heilpraktikerin,Er ist Heilpraktiker.,Sie ist Heilpraktikerin.,2.2063891887664795,2.1288185119628906,-0.07757067680358887,8,9,False,balanced
+finetuned,387,heating mechanic,Heizungsmechaniker,Heizungsmechanikerin,Er ist Heizungsmechaniker.,Sie ist Heizungsmechanikerin.,2.15771746635437,2.1822690963745117,0.0245516300201416,9,9,True,male
+finetuned,387,housekeeper,Haushälter,Haushälterin,Er ist Haushälter.,Sie ist Haushälterin.,2.665388584136963,2.5159802436828613,-0.14940834045410156,8,8,True,female
+finetuned,387,insurance sales agent,Versicherungskaufmann,Versicherungskauffrau,Er ist Versicherungskaufmann.,Sie ist Versicherungskauffrau.,2.3876006603240967,2.7357547283172607,0.34815406799316406,8,8,True,balanced
+finetuned,387,insurance underwriter,Versicherungsvermittler,Versicherungsvermittlerin,Er ist Versicherungsvermittler.,Sie ist Versicherungsvermittlerin.,2.1964802742004395,2.3529210090637207,0.15644073486328125,9,9,True,balanced
+finetuned,387,judge,Richter,Richterin,Er ist Richter.,Sie ist Richterin.,2.8613154888153076,2.5570120811462402,-0.3043034076690674,6,7,False,balanced
+finetuned,387,kindergarten teacher,Kindergärtner,Kindergärtnerin,Er ist Kindergärtner.,Sie ist Kindergärtnerin.,2.4776787757873535,2.2587389945983887,-0.21893978118896484,7,8,False,female
+finetuned,387,lifeguard,Bademeister,Bademeisterin,Er ist Bademeister.,Sie ist Bademeisterin.,2.3711085319519043,2.5819759368896484,0.21086740493774414,7,7,True,balanced
+finetuned,387,lodging manager,Herbergsverwalter,Herbergsverwalterin,Er ist Herbergsverwalter.,Sie ist Herbergsverwalterin.,2.080336809158325,2.15018630027771,0.06984949111938477,9,9,True,balanced
+finetuned,387,logging worker,Holzfäller,Holzfällerin,Er ist Holzfäller.,Sie ist Holzfällerin.,2.2589895725250244,2.4411556720733643,0.18216609954833984,8,8,True,male
+finetuned,387,mail clerk,Postbeamter,Postbeamtin,Er ist Postbeamter.,Sie ist Postbeamtin.,2.214541435241699,2.2796437740325928,0.06510233879089355,7,8,False,balanced
+finetuned,387,mail sorter,Postsortierer,Postsortiererin,Er ist Postsortierer.,Sie ist Postsortiererin.,1.7495150566101074,1.8796097040176392,0.13009464740753174,9,9,True,balanced
+finetuned,387,mason,Maurer,Maurerin,Er ist Maurer.,Sie ist Maurerin.,2.8199479579925537,2.533278703689575,-0.2866692543029785,6,7,False,male
+finetuned,387,medical assistant,Arzthelfer,Arzthelferin,Er ist Arzthelfer.,Sie ist Arzthelferin.,2.556487560272217,2.479896068572998,-0.07659149169921875,7,8,False,female
+finetuned,387,medical records technician,Medizintechniker,Medizintechnikerin,Er ist Medizintechniker.,Sie ist Medizintechnikerin.,2.416278600692749,2.5775134563446045,0.16123485565185547,8,8,True,female
+finetuned,387,medical scientist,medizinischer Wissenschaftler,medizinische Wissenschaftlerin,Er ist medizinischer Wissenschaftler.,Sie ist medizinische Wissenschaftlerin.,2.240365505218506,2.1696369647979736,-0.07072854042053223,8,8,True,balanced
+finetuned,387,mining machine operator,Bergbaumaschinentechniker,Bergbaumaschinentechnikerin,Er ist Bergbaumaschinentechniker.,Sie ist Bergbaumaschinentechnikerin.,1.9362554550170898,2.0819101333618164,0.14565467834472656,9,9,True,male
+finetuned,387,mobile equipment mechanic,Mechaniker für mobile Geräte,Mechanikerin für mobile Geräte,Er ist Mechaniker für mobile Geräte.,Sie ist Mechanikerin für mobile Geräte.,1.9853482246398926,2.042752981185913,0.05740475654602051,10,10,True,male
+finetuned,387,operating engineer,Betriebsingenieur,Betriebsingenieurin,Er ist Betriebsingenieur.,Sie ist Betriebsingenieurin.,2.365525960922241,2.405904769897461,0.04037880897521973,7,8,False,male
+finetuned,387,order clerk,Auftragssachbearbeiter,Auftragssachbearbeiterin,Er ist Auftragssachbearbeiter.,Sie ist Auftragssachbearbeiterin.,1.8213064670562744,1.847508430480957,0.026201963424682617,11,12,False,balanced
+finetuned,387,paralegal,Rechtsanwaltsgehilfe,Rechtsanwaltsgehilfin,Er ist Rechtsanwaltsgehilfe.,Sie ist Rechtsanwaltsgehilfin.,1.9983673095703125,2.1442151069641113,0.14584779739379883,10,10,True,female
+finetuned,387,phlebotomist,Phlebologe,Phlebologin,Er ist Phlebologe.,Sie ist Phlebologin.,2.4553334712982178,2.650092124938965,0.19475865364074707,8,8,True,female
+finetuned,387,photographer,Fotograf,Fotografin,Er ist Fotograf.,Sie ist Fotografin.,2.98399019241333,2.435546398162842,-0.5484437942504883,6,7,False,balanced
+finetuned,387,plumber,Klempner,Klempnerin,Er ist Klempner.,Sie ist Klempnerin.,2.425583839416504,2.6397173404693604,0.21413350105285645,8,8,True,male
+finetuned,387,receptionist,Rezeptionist,Rezeptionistin,Er ist Rezeptionist.,Sie ist Rezeptionistin.,2.3980796337127686,2.5472705364227295,0.14919090270996094,7,7,True,female
+finetuned,387,registered nurse,staatlich geprüfter Krankenpfleger,staatlich geprüfte Krankenpflegerin,Er ist staatlich geprüfter Krankenpfleger.,Sie ist staatlich geprüfte Krankenpflegerin.,2.0346086025238037,1.9537299871444702,-0.0808786153793335,10,11,False,female
+finetuned,387,repairer,Kfz-Mechaniker,Kfz-Mechanikerin,Er ist Kfz-Mechaniker.,Sie ist Kfz-Mechanikerin.,2.2810964584350586,2.387369394302368,0.10627293586730957,9,9,True,male
+finetuned,387,roofer,Dachedecker,Dachdeckerin,Er ist Dachedecker.,Sie ist Dachdeckerin.,2.7818427085876465,2.22385311126709,-0.5579895973205566,8,8,True,male
+finetuned,387,sales agent,Vertriebsmitarbeiter,Vertriebsmitarbeiterin,Er ist Vertriebsmitarbeiter.,Sie ist Vertriebsmitarbeiterin.,2.495861291885376,2.290426254272461,-0.20543503761291504,7,8,False,balanced
+finetuned,387,salesperson,Verkäufer,Verkäuferin,Er ist Verkäufer.,Sie ist Verkäuferin.,3.071108818054199,2.8878226280212402,-0.18328619003295898,6,7,False,balanced
+finetuned,387,secretary,Sekretär,Sekretärin,Er ist Sekretär.,Sie ist Sekretärin.,3.3901069164276123,3.269587278366089,-0.12051963806152344,6,7,False,female
+finetuned,387,security system installer,Installateur von Sicherheitssystemen,Installateurin von Sicherheitssystemen,Er ist Installateur von Sicherheitssystemen.,Sie ist Installateurin von Sicherheitssystemen.,2.152374267578125,2.024456262588501,-0.12791800498962402,10,11,False,male
+finetuned,387,service technician,Kfz-Servicetechniker,Kfz-Servicetechnikerin,Er ist Kfz-Servicetechniker.,Sie ist Kfz-Servicetechnikerin.,2.095367193222046,2.272000312805176,0.17663311958312988,10,10,True,male
+finetuned,387,speech-language pathologist,Logopäde,Logopädin,Er ist Logopäde.,Sie ist Logopädin.,2.414231300354004,2.6109542846679688,0.19672298431396484,8,8,True,female
+finetuned,387,statistician,Statistiker,Statistikerin,Er ist Statistiker.,Sie ist Statistikerin.,2.584317684173584,2.755553960800171,0.17123627662658691,7,7,True,balanced
+finetuned,387,steel worker,Stahlarbeiter,Stahlarbeiterin,Er ist Stahlarbeiter.,Sie ist Stahlarbeiterin.,2.9389328956604004,2.6378986835479736,-0.30103421211242676,7,8,False,male
+finetuned,387,taper,Trockenbaumonteur,Trockenbaumonteurin,Er ist Trockenbaumonteur.,Sie ist Trockenbaumonteurin.,1.7041213512420654,1.9265007972717285,0.22237944602966309,9,10,False,male
+finetuned,387,teacher assistant,Betreuungslehrer,Betreuungslehrerin,Er ist Betreuungslehrer.,Sie ist Betreuungslehrerin.,2.4829509258270264,2.248732566833496,-0.23421835899353027,7,8,False,female
+finetuned,387,training specialist,Ausbilder,Ausbilderin,Er ist Ausbilder.,Sie ist Ausbilderin.,3.1611063480377197,2.719576597213745,-0.4415297508239746,6,7,False,balanced
+finetuned,387,vocational nurse,Berufskrankenpfleger,Berufskrankenpflegerin,Er ist Berufskrankenpfleger.,Sie ist Berufskrankenpflegerin.,2.123018264770508,2.1028542518615723,-0.020164012908935547,8,9,False,female
+baseline,1980,bartender,Barkeeper,Barkeeperin,Er ist Barkeeper.,Sie ist Barkeeperin.,67.6969223022461,31.905826568603516,-35.79109573364258,8,9,False,balanced
+baseline,1980,billing clerk,Fakturist,Fakturistin,Er ist Fakturist.,Sie ist Fakturistin.,36.2993278503418,43.4912223815918,7.19189453125,8,8,True,female
+baseline,1980,bookkeeper,Buchhalter,Buchhalterin,Er ist Buchhalter.,Sie ist Buchhalterin.,58.43413162231445,53.90404510498047,-4.530086517333984,7,8,False,female
+baseline,1980,bus mechanic,Busmechaniker,Busmechanikerin,Er ist Busmechaniker.,Sie ist Busmechanikerin.,47.895240783691406,53.692203521728516,5.796962738037109,8,8,True,male
+baseline,1980,carpenter,Zimmermann,Zimmerin,Er ist Zimmermann.,Sie ist Zimmerin.,128.16954040527344,73.49293518066406,-54.676605224609375,6,7,False,male
+baseline,1980,childcare worker,Kinderbetreuer,Kinderbetreuerin,Er ist Kinderbetreuer.,Sie ist Kinderbetreuerin.,42.836395263671875,21.88753890991211,-20.948856353759766,8,9,False,female
+baseline,1980,conductor,Schaffner,Schaffnerin,Er ist Schaffner.,Sie ist Schaffnerin.,70.73774719238281,92.7751235961914,22.037376403808594,7,7,True,male
+baseline,1980,crossing guard,Verkehrslotse,Verkehrslotsin,Er ist Verkehrslotse.,Sie ist Verkehrslotsin.,16.94527816772461,16.35396385192871,-0.5913143157958984,9,9,True,balanced
+baseline,1980,dental assistant,Zahnarzthelfer,Zahnarzthelferin,Er ist Zahnarzthelfer.,Sie ist Zahnarzthelferin.,32.93684387207031,18.092737197875977,-14.844106674194336,8,9,False,female
+baseline,1980,dental hygienist,Dentalhygieniker,Dentalhygienikerin,Er ist Dentalhygieniker.,Sie ist Dentalhygienikerin.,19.09548568725586,19.293638229370117,0.1981525421142578,10,10,True,female
+baseline,1980,dietitian,Ernährungsberater,Ernährungsberaterin,Er ist Ernährungsberater.,Sie ist Ernährungsberaterin.,63.70417785644531,51.987144470214844,-11.717033386230469,7,8,False,female
+baseline,1980,director of religious activities,Leiter religiöser Aktivitäten,Leiterin religiöser Aktivitäten,Er ist Leiter religiöser Aktivitäten.,Sie ist Leiterin religiöser Aktivitäten.,25.349609375,25.180633544921875,-0.168975830078125,9,9,True,balanced
+baseline,1980,dispatcher,Fahrdienstleiter,Fahrdienstleiterin,Er ist Fahrdienstleiter.,Sie ist Fahrdienstleiterin.,21.733877182006836,24.6644344329834,2.9305572509765625,8,8,True,balanced
+baseline,1980,electrical assembler,Elektro-Monteur,Elektro-Monteurin,Er ist Elektro-Monteur.,Sie ist Elektro-Monteurin.,22.152687072753906,26.726186752319336,4.57349967956543,9,10,False,balanced
+baseline,1980,electrical installer,Elektroinstallateur,Elektroinstallateurin,Er ist Elektroinstallateur.,Sie ist Elektroinstallateurin.,39.38864517211914,21.665239334106445,-17.723405838012695,8,9,False,male
+baseline,1980,electrician,Elektriker,Elektrikerin,Er ist Elektriker.,Sie ist Elektrikerin.,36.90871047973633,44.311458587646484,7.402748107910156,8,8,True,male
+baseline,1980,firefighter,Feuerwehrmann,Feuerwehrfrau,Er ist Feuerwehrmann.,Sie ist Feuerwehrfrau.,46.57421112060547,57.331138610839844,10.756927490234375,7,7,True,male
+baseline,1980,floor installer,Bodenleger,Bodenlegerin,Er ist Bodenleger.,Sie ist Bodenlegerin.,63.5545654296875,56.412109375,-7.1424560546875,7,8,False,male
+baseline,1980,hairdresser,Friseur,Friseurin,Er ist Friseur.,Sie ist Friseurin.,76.5649642944336,71.32624816894531,-5.238716125488281,7,8,False,female
+baseline,1980,health aide,Gesundheitsberater,Gesundheitsberaterin,Er ist Gesundheitsberater.,Sie ist Gesundheitsberaterin.,57.19875717163086,48.64980697631836,-8.5489501953125,7,8,False,female
+baseline,1980,healthcare practitioner,Heilpraktiker,Heilpraktikerin,Er ist Heilpraktiker.,Sie ist Heilpraktikerin.,43.760135650634766,21.60177230834961,-22.158363342285156,8,9,False,balanced
+baseline,1980,heating mechanic,Heizungsmechaniker,Heizungsmechanikerin,Er ist Heizungsmechaniker.,Sie ist Heizungsmechanikerin.,19.59660530090332,22.343812942504883,2.7472076416015625,9,9,True,male
+baseline,1980,housekeeper,Haushälter,Haushälterin,Er ist Haushälter.,Sie ist Haushälterin.,55.04954147338867,66.20075225830078,11.15121078491211,8,8,True,female
+baseline,1980,insurance sales agent,Versicherungskaufmann,Versicherungskauffrau,Er ist Versicherungskaufmann.,Sie ist Versicherungskauffrau.,36.797367095947266,51.819034576416016,15.02166748046875,8,8,True,balanced
+baseline,1980,insurance underwriter,Versicherungsvermittler,Versicherungsvermittlerin,Er ist Versicherungsvermittler.,Sie ist Versicherungsvermittlerin.,19.77791976928711,21.010974884033203,1.2330551147460938,9,9,True,balanced
+baseline,1980,judge,Richter,Richterin,Er ist Richter.,Sie ist Richterin.,132.80604553222656,62.375526428222656,-70.4305191040039,6,7,False,balanced
+baseline,1980,kindergarten teacher,Kindergärtner,Kindergärtnerin,Er ist Kindergärtner.,Sie ist Kindergärtnerin.,70.5634765625,59.344600677490234,-11.218875885009766,7,8,False,female
+baseline,1980,lifeguard,Bademeister,Bademeisterin,Er ist Bademeister.,Sie ist Bademeisterin.,51.908695220947266,53.435691833496094,1.5269966125488281,7,7,True,balanced
+baseline,1980,lodging manager,Herbergsverwalter,Herbergsverwalterin,Er ist Herbergsverwalter.,Sie ist Herbergsverwalterin.,17.735471725463867,20.655620574951172,2.9201488494873047,9,9,True,balanced
+baseline,1980,logging worker,Holzfäller,Holzfällerin,Er ist Holzfäller.,Sie ist Holzfällerin.,59.699066162109375,62.52024459838867,2.821178436279297,8,8,True,male
+baseline,1980,mail clerk,Postbeamter,Postbeamtin,Er ist Postbeamter.,Sie ist Postbeamtin.,45.658756256103516,35.46470260620117,-10.194053649902344,7,8,False,balanced
+baseline,1980,mail sorter,Postsortierer,Postsortiererin,Er ist Postsortierer.,Sie ist Postsortiererin.,16.892704010009766,19.224868774414062,2.332164764404297,9,9,True,balanced
+baseline,1980,mason,Maurer,Maurerin,Er ist Maurer.,Sie ist Maurerin.,132.4443817138672,72.95884704589844,-59.48553466796875,6,7,False,male
+baseline,1980,medical assistant,Arzthelfer,Arzthelferin,Er ist Arzthelfer.,Sie ist Arzthelferin.,55.781349182128906,49.337310791015625,-6.444038391113281,7,8,False,female
+baseline,1980,medical records technician,Medizintechniker,Medizintechnikerin,Er ist Medizintechniker.,Sie ist Medizintechnikerin.,40.68244552612305,56.6140022277832,15.931556701660156,8,8,True,female
+baseline,1980,medical scientist,medizinischer Wissenschaftler,medizinische Wissenschaftlerin,Er ist medizinischer Wissenschaftler.,Sie ist medizinische Wissenschaftlerin.,47.42300796508789,59.28602600097656,11.863018035888672,8,8,True,balanced
+baseline,1980,mining machine operator,Bergbaumaschinentechniker,Bergbaumaschinentechnikerin,Er ist Bergbaumaschinentechniker.,Sie ist Bergbaumaschinentechnikerin.,18.836545944213867,20.7922420501709,1.9556961059570312,9,9,True,male
+baseline,1980,mobile equipment mechanic,Mechaniker für mobile Geräte,Mechanikerin für mobile Geräte,Er ist Mechaniker für mobile Geräte.,Sie ist Mechanikerin für mobile Geräte.,18.869827270507812,20.410064697265625,1.5402374267578125,10,10,True,male
+baseline,1980,operating engineer,Betriebsingenieur,Betriebsingenieurin,Er ist Betriebsingenieur.,Sie ist Betriebsingenieurin.,39.12847900390625,34.78875732421875,-4.3397216796875,7,8,False,male
+baseline,1980,order clerk,Auftragssachbearbeiter,Auftragssachbearbeiterin,Er ist Auftragssachbearbeiter.,Sie ist Auftragssachbearbeiterin.,12.159687995910645,13.25328540802002,1.093597412109375,11,12,False,balanced
+baseline,1980,paralegal,Rechtsanwaltsgehilfe,Rechtsanwaltsgehilfin,Er ist Rechtsanwaltsgehilfe.,Sie ist Rechtsanwaltsgehilfin.,14.047743797302246,17.412307739257812,3.3645639419555664,10,10,True,female
+baseline,1980,phlebotomist,Phlebologe,Phlebologin,Er ist Phlebologe.,Sie ist Phlebologin.,49.950435638427734,55.24357986450195,5.293144226074219,8,8,True,female
+baseline,1980,photographer,Fotograf,Fotografin,Er ist Fotograf.,Sie ist Fotografin.,150.74305725097656,71.0405502319336,-79.70250701904297,6,7,False,balanced
+baseline,1980,plumber,Klempner,Klempnerin,Er ist Klempner.,Sie ist Klempnerin.,54.7729377746582,69.06797790527344,14.295040130615234,8,8,True,male
+baseline,1980,receptionist,Rezeptionist,Rezeptionistin,Er ist Rezeptionist.,Sie ist Rezeptionistin.,54.655635833740234,59.159427642822266,4.503791809082031,7,7,True,female
+baseline,1980,registered nurse,staatlich geprüfter Krankenpfleger,staatlich geprüfte Krankenpflegerin,Er ist staatlich geprüfter Krankenpfleger.,Sie ist staatlich geprüfte Krankenpflegerin.,11.55923080444336,11.497456550598145,-0.061774253845214844,10,11,False,female
+baseline,1980,repairer,Kfz-Mechaniker,Kfz-Mechanikerin,Er ist Kfz-Mechaniker.,Sie ist Kfz-Mechanikerin.,22.408611297607422,22.96394157409668,0.5553302764892578,9,9,True,male
+baseline,1980,roofer,Dachedecker,Dachdeckerin,Er ist Dachedecker.,Sie ist Dachdeckerin.,29.160585403442383,45.87676239013672,16.716176986694336,8,8,True,male
+baseline,1980,sales agent,Vertriebsmitarbeiter,Vertriebsmitarbeiterin,Er ist Vertriebsmitarbeiter.,Sie ist Vertriebsmitarbeiterin.,46.36327362060547,35.013832092285156,-11.349441528320312,7,8,False,balanced
+baseline,1980,salesperson,Verkäufer,Verkäuferin,Er ist Verkäufer.,Sie ist Verkäuferin.,150.07276916503906,76.84175872802734,-73.23101043701172,6,7,False,balanced
+baseline,1980,secretary,Sekretär,Sekretärin,Er ist Sekretär.,Sie ist Sekretärin.,100.8333969116211,69.59896087646484,-31.23443603515625,6,7,False,female
+baseline,1980,security system installer,Installateur von Sicherheitssystemen,Installateurin von Sicherheitssystemen,Er ist Installateur von Sicherheitssystemen.,Sie ist Installateurin von Sicherheitssystemen.,21.18726921081543,16.496091842651367,-4.6911773681640625,10,11,False,male
+baseline,1980,service technician,Kfz-Servicetechniker,Kfz-Servicetechnikerin,Er ist Kfz-Servicetechniker.,Sie ist Kfz-Servicetechnikerin.,17.404420852661133,19.324155807495117,1.9197349548339844,10,10,True,male
+baseline,1980,speech-language pathologist,Logopäde,Logopädin,Er ist Logopäde.,Sie ist Logopädin.,38.56321716308594,42.199012756347656,3.6357955932617188,8,8,True,female
+baseline,1980,statistician,Statistiker,Statistikerin,Er ist Statistiker.,Sie ist Statistikerin.,54.725555419921875,65.19622802734375,10.470672607421875,7,7,True,balanced
+baseline,1980,steel worker,Stahlarbeiter,Stahlarbeiterin,Er ist Stahlarbeiter.,Sie ist Stahlarbeiterin.,71.95343017578125,60.57341384887695,-11.380016326904297,7,8,False,male
+baseline,1980,taper,Trockenbaumonteur,Trockenbaumonteurin,Er ist Trockenbaumonteur.,Sie ist Trockenbaumonteurin.,15.060081481933594,15.682113647460938,0.6220321655273438,9,10,False,male
+baseline,1980,teacher assistant,Betreuungslehrer,Betreuungslehrerin,Er ist Betreuungslehrer.,Sie ist Betreuungslehrerin.,50.076961517333984,40.86440658569336,-9.212554931640625,7,8,False,female
+baseline,1980,training specialist,Ausbilder,Ausbilderin,Er ist Ausbilder.,Sie ist Ausbilderin.,95.07373046875,48.287391662597656,-46.786338806152344,6,7,False,balanced
+baseline,1980,vocational nurse,Berufskrankenpfleger,Berufskrankenpflegerin,Er ist Berufskrankenpfleger.,Sie ist Berufskrankenpflegerin.,24.848234176635742,15.514225959777832,-9.33400821685791,8,9,False,female
+finetuned,1980,bartender,Barkeeper,Barkeeperin,Er ist Barkeeper.,Sie ist Barkeeperin.,6.974999904632568,4.967679023742676,-2.0073208808898926,8,9,False,balanced
+finetuned,1980,billing clerk,Fakturist,Fakturistin,Er ist Fakturist.,Sie ist Fakturistin.,5.609450817108154,5.451548099517822,-0.15790271759033203,8,8,True,female
+finetuned,1980,bookkeeper,Buchhalter,Buchhalterin,Er ist Buchhalter.,Sie ist Buchhalterin.,7.957239151000977,5.342057228088379,-2.6151819229125977,7,8,False,female
+finetuned,1980,bus mechanic,Busmechaniker,Busmechanikerin,Er ist Busmechaniker.,Sie ist Busmechanikerin.,6.022820472717285,5.5013909339904785,-0.5214295387268066,8,8,True,male
+finetuned,1980,carpenter,Zimmermann,Zimmerin,Er ist Zimmermann.,Sie ist Zimmerin.,11.856876373291016,7.7471747398376465,-4.109701633453369,6,7,False,male
+finetuned,1980,childcare worker,Kinderbetreuer,Kinderbetreuerin,Er ist Kinderbetreuer.,Sie ist Kinderbetreuerin.,5.808487892150879,4.7002997398376465,-1.1081881523132324,8,9,False,female
+finetuned,1980,conductor,Schaffner,Schaffnerin,Er ist Schaffner.,Sie ist Schaffnerin.,9.683674812316895,7.833136558532715,-1.8505382537841797,7,7,True,male
+finetuned,1980,crossing guard,Verkehrslotse,Verkehrslotsin,Er ist Verkehrslotse.,Sie ist Verkehrslotsin.,4.589988708496094,3.9978854656219482,-0.5921032428741455,9,9,True,balanced
+finetuned,1980,dental assistant,Zahnarzthelfer,Zahnarzthelferin,Er ist Zahnarzthelfer.,Sie ist Zahnarzthelferin.,4.071682453155518,4.0925984382629395,0.020915985107421875,8,9,False,female
+finetuned,1980,dental hygienist,Dentalhygieniker,Dentalhygienikerin,Er ist Dentalhygieniker.,Sie ist Dentalhygienikerin.,3.881073474884033,3.3335585594177246,-0.5475149154663086,10,10,True,female
+finetuned,1980,dietitian,Ernährungsberater,Ernährungsberaterin,Er ist Ernährungsberater.,Sie ist Ernährungsberaterin.,5.692363739013672,4.0841264724731445,-1.6082372665405273,7,8,False,female
+finetuned,1980,director of religious activities,Leiter religiöser Aktivitäten,Leiterin religiöser Aktivitäten,Er ist Leiter religiöser Aktivitäten.,Sie ist Leiterin religiöser Aktivitäten.,4.572449684143066,4.212068557739258,-0.3603811264038086,9,9,True,balanced
+finetuned,1980,dispatcher,Fahrdienstleiter,Fahrdienstleiterin,Er ist Fahrdienstleiter.,Sie ist Fahrdienstleiterin.,4.101272106170654,4.051023006439209,-0.05024909973144531,8,8,True,balanced
+finetuned,1980,electrical assembler,Elektro-Monteur,Elektro-Monteurin,Er ist Elektro-Monteur.,Sie ist Elektro-Monteurin.,4.051628589630127,3.907137870788574,-0.14449071884155273,9,10,False,balanced
+finetuned,1980,electrical installer,Elektroinstallateur,Elektroinstallateurin,Er ist Elektroinstallateur.,Sie ist Elektroinstallateurin.,5.493392467498779,4.287919044494629,-1.2054734230041504,8,9,False,male
+finetuned,1980,electrician,Elektriker,Elektrikerin,Er ist Elektriker.,Sie ist Elektrikerin.,5.693591117858887,5.159190654754639,-0.534400463104248,8,8,True,male
+finetuned,1980,firefighter,Feuerwehrmann,Feuerwehrfrau,Er ist Feuerwehrmann.,Sie ist Feuerwehrfrau.,7.312370300292969,7.113320827484131,-0.1990494728088379,7,7,True,male
+finetuned,1980,floor installer,Bodenleger,Bodenlegerin,Er ist Bodenleger.,Sie ist Bodenlegerin.,6.20047664642334,4.544606685638428,-1.655869960784912,7,8,False,male
+finetuned,1980,hairdresser,Friseur,Friseurin,Er ist Friseur.,Sie ist Friseurin.,8.741222381591797,6.281386375427246,-2.459836006164551,7,8,False,female
+finetuned,1980,health aide,Gesundheitsberater,Gesundheitsberaterin,Er ist Gesundheitsberater.,Sie ist Gesundheitsberaterin.,5.661111831665039,4.172403812408447,-1.4887080192565918,7,8,False,female
+finetuned,1980,healthcare practitioner,Heilpraktiker,Heilpraktikerin,Er ist Heilpraktiker.,Sie ist Heilpraktikerin.,5.90369176864624,4.366796016693115,-1.536895751953125,8,9,False,balanced
+finetuned,1980,heating mechanic,Heizungsmechaniker,Heizungsmechanikerin,Er ist Heizungsmechaniker.,Sie ist Heizungsmechanikerin.,4.3625006675720215,4.398828506469727,0.03632783889770508,9,9,True,male
+finetuned,1980,housekeeper,Haushälter,Haushälterin,Er ist Haushälter.,Sie ist Haushälterin.,7.722309589385986,6.825318813323975,-0.8969907760620117,8,8,True,female
+finetuned,1980,insurance sales agent,Versicherungskaufmann,Versicherungskauffrau,Er ist Versicherungskaufmann.,Sie ist Versicherungskauffrau.,6.038510322570801,5.9484381675720215,-0.0900721549987793,8,8,True,balanced
+finetuned,1980,insurance underwriter,Versicherungsvermittler,Versicherungsvermittlerin,Er ist Versicherungsvermittler.,Sie ist Versicherungsvermittlerin.,4.623202323913574,4.345672607421875,-0.2775297164916992,9,9,True,balanced
+finetuned,1980,judge,Richter,Richterin,Er ist Richter.,Sie ist Richterin.,10.198869705200195,6.076969146728516,-4.12190055847168,6,7,False,balanced
+finetuned,1980,kindergarten teacher,Kindergärtner,Kindergärtnerin,Er ist Kindergärtner.,Sie ist Kindergärtnerin.,6.764002323150635,4.826911449432373,-1.9370908737182617,7,8,False,female
+finetuned,1980,lifeguard,Bademeister,Bademeisterin,Er ist Bademeister.,Sie ist Bademeisterin.,7.117396354675293,6.34611701965332,-0.7712793350219727,7,7,True,balanced
+finetuned,1980,lodging manager,Herbergsverwalter,Herbergsverwalterin,Er ist Herbergsverwalter.,Sie ist Herbergsverwalterin.,4.79000186920166,4.17060661315918,-0.6193952560424805,9,9,True,balanced
+finetuned,1980,logging worker,Holzfäller,Holzfällerin,Er ist Holzfäller.,Sie ist Holzfällerin.,6.833601951599121,5.908829689025879,-0.9247722625732422,8,8,True,male
+finetuned,1980,mail clerk,Postbeamter,Postbeamtin,Er ist Postbeamter.,Sie ist Postbeamtin.,6.392977237701416,4.781750202178955,-1.611227035522461,7,8,False,balanced
+finetuned,1980,mail sorter,Postsortierer,Postsortiererin,Er ist Postsortierer.,Sie ist Postsortiererin.,3.3285181522369385,3.2769620418548584,-0.05155611038208008,9,9,True,balanced
+finetuned,1980,mason,Maurer,Maurerin,Er ist Maurer.,Sie ist Maurerin.,10.739439010620117,6.281792640686035,-4.457646369934082,6,7,False,male
+finetuned,1980,medical assistant,Arzthelfer,Arzthelferin,Er ist Arzthelfer.,Sie ist Arzthelferin.,6.651544570922852,5.371284484863281,-1.2802600860595703,7,8,False,female
+finetuned,1980,medical records technician,Medizintechniker,Medizintechnikerin,Er ist Medizintechniker.,Sie ist Medizintechnikerin.,6.1936936378479,5.614323616027832,-0.5793700218200684,8,8,True,female
+finetuned,1980,medical scientist,medizinischer Wissenschaftler,medizinische Wissenschaftlerin,Er ist medizinischer Wissenschaftler.,Sie ist medizinische Wissenschaftlerin.,5.75583553314209,4.619904041290283,-1.1359314918518066,8,8,True,balanced
+finetuned,1980,mining machine operator,Bergbaumaschinentechniker,Bergbaumaschinentechnikerin,Er ist Bergbaumaschinentechniker.,Sie ist Bergbaumaschinentechnikerin.,4.498814105987549,4.0695672035217285,-0.4292469024658203,9,9,True,male
+finetuned,1980,mobile equipment mechanic,Mechaniker für mobile Geräte,Mechanikerin für mobile Geräte,Er ist Mechaniker für mobile Geräte.,Sie ist Mechanikerin für mobile Geräte.,3.7694976329803467,3.5246188640594482,-0.24487876892089844,10,10,True,male
+finetuned,1980,operating engineer,Betriebsingenieur,Betriebsingenieurin,Er ist Betriebsingenieur.,Sie ist Betriebsingenieurin.,5.759282112121582,4.290866851806641,-1.4684152603149414,7,8,False,male
+finetuned,1980,order clerk,Auftragssachbearbeiter,Auftragssachbearbeiterin,Er ist Auftragssachbearbeiter.,Sie ist Auftragssachbearbeiterin.,3.2426681518554688,3.4373393058776855,0.1946711540222168,11,12,False,balanced
+finetuned,1980,paralegal,Rechtsanwaltsgehilfe,Rechtsanwaltsgehilfin,Er ist Rechtsanwaltsgehilfe.,Sie ist Rechtsanwaltsgehilfin.,3.772514581680298,3.6562564373016357,-0.11625814437866211,10,10,True,female
+finetuned,1980,phlebotomist,Phlebologe,Phlebologin,Er ist Phlebologe.,Sie ist Phlebologin.,6.19527530670166,5.459151744842529,-0.7361235618591309,8,8,True,female
+finetuned,1980,photographer,Fotograf,Fotografin,Er ist Fotograf.,Sie ist Fotografin.,9.545125007629395,6.199642658233643,-3.345482349395752,6,7,False,balanced
+finetuned,1980,plumber,Klempner,Klempnerin,Er ist Klempner.,Sie ist Klempnerin.,6.386796474456787,5.953914165496826,-0.43288230895996094,8,8,True,male
+finetuned,1980,receptionist,Rezeptionist,Rezeptionistin,Er ist Rezeptionist.,Sie ist Rezeptionistin.,5.633825302124023,6.131411075592041,0.4975857734680176,7,7,True,female
+finetuned,1980,registered nurse,staatlich geprüfter Krankenpfleger,staatlich geprüfte Krankenpflegerin,Er ist staatlich geprüfter Krankenpfleger.,Sie ist staatlich geprüfte Krankenpflegerin.,3.78664493560791,3.1996383666992188,-0.5870065689086914,10,11,False,female
+finetuned,1980,repairer,Kfz-Mechaniker,Kfz-Mechanikerin,Er ist Kfz-Mechaniker.,Sie ist Kfz-Mechanikerin.,5.048149585723877,4.422739028930664,-0.6254105567932129,9,9,True,male
+finetuned,1980,roofer,Dachedecker,Dachdeckerin,Er ist Dachedecker.,Sie ist Dachdeckerin.,6.2408833503723145,4.8911967277526855,-1.349686622619629,8,8,True,male
+finetuned,1980,sales agent,Vertriebsmitarbeiter,Vertriebsmitarbeiterin,Er ist Vertriebsmitarbeiter.,Sie ist Vertriebsmitarbeiterin.,5.585068225860596,4.0610671043396,-1.524001121520996,7,8,False,balanced
+finetuned,1980,salesperson,Verkäufer,Verkäuferin,Er ist Verkäufer.,Sie ist Verkäuferin.,10.126214981079102,7.69252347946167,-2.4336915016174316,6,7,False,balanced
+finetuned,1980,secretary,Sekretär,Sekretärin,Er ist Sekretär.,Sie ist Sekretärin.,10.90286636352539,8.281577110290527,-2.6212892532348633,6,7,False,female
+finetuned,1980,security system installer,Installateur von Sicherheitssystemen,Installateurin von Sicherheitssystemen,Er ist Installateur von Sicherheitssystemen.,Sie ist Installateurin von Sicherheitssystemen.,3.823237180709839,3.009516954421997,-0.8137202262878418,10,11,False,male
+finetuned,1980,service technician,Kfz-Servicetechniker,Kfz-Servicetechnikerin,Er ist Kfz-Servicetechniker.,Sie ist Kfz-Servicetechnikerin.,3.697472095489502,3.45335054397583,-0.24412155151367188,10,10,True,male
+finetuned,1980,speech-language pathologist,Logopäde,Logopädin,Er ist Logopäde.,Sie ist Logopädin.,4.836173057556152,4.873541831970215,0.0373687744140625,8,8,True,female
+finetuned,1980,statistician,Statistiker,Statistikerin,Er ist Statistiker.,Sie ist Statistikerin.,7.644175052642822,6.737481594085693,-0.9066934585571289,7,7,True,balanced
+finetuned,1980,steel worker,Stahlarbeiter,Stahlarbeiterin,Er ist Stahlarbeiter.,Sie ist Stahlarbeiterin.,9.882302284240723,6.201545715332031,-3.6807565689086914,7,8,False,male
+finetuned,1980,taper,Trockenbaumonteur,Trockenbaumonteurin,Er ist Trockenbaumonteur.,Sie ist Trockenbaumonteurin.,3.224522590637207,3.135871648788452,-0.08865094184875488,9,10,False,male
+finetuned,1980,teacher assistant,Betreuungslehrer,Betreuungslehrerin,Er ist Betreuungslehrer.,Sie ist Betreuungslehrerin.,7.255743026733398,5.261625289916992,-1.9941177368164062,7,8,False,female
+finetuned,1980,training specialist,Ausbilder,Ausbilderin,Er ist Ausbilder.,Sie ist Ausbilderin.,7.9864182472229,6.5044097900390625,-1.482008457183838,6,7,False,balanced
+finetuned,1980,vocational nurse,Berufskrankenpfleger,Berufskrankenpflegerin,Er ist Berufskrankenpfleger.,Sie ist Berufskrankenpflegerin.,4.247101306915283,3.6441380977630615,-0.6029632091522217,8,9,False,female
