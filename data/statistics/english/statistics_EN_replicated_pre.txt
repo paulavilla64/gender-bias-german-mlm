@@ -1,0 +1,37 @@
+
+----- ANALYSIS FOR BERT MODEL -----
+
+MEAN VALUES:
+Mean for female gender within statistically female professions: 0.4964
+Mean for male gender within statistically female professions: -0.6827
+Mean for female gender within statistically male professions: -0.8325
+Mean for male gender within statistically male professions: 0.1549
+Mean for female gender within statistically balanced professions: -0.3504
+Mean for male gender within statistically balanced professions: 0.0504
+
+STANDARD DEVIATIONS:
+SD for Female Professions - Female Person Words: 1.3063
+SD for Female Professions - Male Person Words: 1.5338
+SD for Male Professions - Female Person Words: 1.2448
+SD for Male Professions - Male Person Words: 1.1023
+SD for Balanced Professions - Female Person Words: 1.2939
+SD for Balanced Professions - Male Person Words: 1.1253
+
+WILCOXON TESTS:
+Female Professions - Wilcoxon test statistic: 60655.0
+Female Professions - P-value: 4.11e-74
+Female Professions - Effect size (r): 0.70
+Female Professions - Reject null hypothesis: There is a significant difference.
+
+Male Professions - Wilcoxon test statistic: 16633.0
+Male Professions - P-value: 8.83e-126
+Male Professions - Effect size (r): 0.92
+Male Professions - Reject null hypothesis: There is a significant difference.
+
+Balanced Professions - Wilcoxon test statistic: 97158.0
+Balanced Professions - P-value: 9.99e-42
+Balanced Professions - Effect size (r): 0.52
+Balanced Professions - Reject null hypothesis: There is a significant difference.
+
+
+Analysis complete for all models.
