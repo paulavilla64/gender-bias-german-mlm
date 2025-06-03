@@ -14,3 +14,21 @@ conda env create -f env.yml
 
 # Activate the environment
 conda activate gender-bias-german-mlm
+
+```
+
+## Repository Structure
+
+├── code/                   # Main source code
+├── datasets/               # Dataset files and evaluation corpora
+├── results/                # Generated results and outputs
+├── env.yml                 # Conda environment specification
+└── README.md               # This file
+
+## Data
+
+The repository includes datasets and evaluation corpora specifically designed for measuring and mitigating gender bias in German masked language models.
+
+## Results
+
+Generated results, analysis outputs, and visualizations are stored in the results/ directory.
