@@ -1,3 +1,27 @@
+"""
+Statistical Analysis of Gender Bias in BERT Models
+
+This script performs comprehensive statistical analysis on gender bias measurements 
+across multiple BERT models using the Wilcoxon signed-rank test. It analyzes
+pre-association scores between gendered person words and professions categorized by
+their statistical gender distribution (male-dominated, female-dominated, balanced).
+
+Key Features:
+- Analyzes 4 German BERT models: dbmdz, google-bert, deepset-bert, distilbert
+- Compares gender pre-associations within profession categories (male/female/balanced)
+- Performs Wilcoxon signed-rank tests to detect significant bias differences
+- Calculates descriptive statistics (means, standard deviations)
+- Computes effect sizes for statistical significance
+- Outputs detailed results to structured text files
+
+The analysis examines whether models show systematic bias by comparing how strongly
+they associate male vs. female person words with professions of different gender
+stereotypes. Results help quantify the extent of gender bias present in each model.
+
+Input: Tab-separated CSV files with pre-computed association scores
+Output: Statistical analysis report saved to results/statistics/ directory
+"""
+
 import pandas as pd
 from scipy.stats import wilcoxon
 import numpy as np
@@ -5,10 +29,10 @@ import sys
 import os
 import math
 
-typ = "both"
+typ = "regular"
 
 # Define output file path
-output_file_path = f'../../data/statistics/german/regular/Lou/statistics_DE_pre_all_models_regular_{typ}_avg_one_mask.txt'
+output_file_path = f'../results/statistics/german/Lou/{typ}/statistics_Lou_pre_all_models_{typ}_both_adapted.txt'
 
 # Create directory if it doesn't exist
 os.makedirs(os.path.dirname(output_file_path), exist_ok=True)
@@ -18,7 +42,7 @@ original_stdout = sys.stdout
 sys.stdout = open(output_file_path, 'w')
 
 # Read the CSV file
-data = pd.read_csv(f'../../data/output_csv_files/german/Lou/regular/results_Lou_{typ}_DE_regular_avg_one_mask.csv', sep="\t")
+data = pd.read_csv(f'../results/association_files/german/Lou/regular/results_Lou_all_models_replicated_both_{typ}_adapted.csv', sep="\t")
 
 # Print available columns for debugging
 print("Available columns in the dataset:")
