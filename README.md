@@ -39,10 +39,10 @@ The `datasets/` folder contains:
 BEC-Pro/                # Template-based corpus for measuring gender bias
 Gap corpus/             # Training corpus for fine-tuning models to mitigate bias
 Lou corpus/             # Additional training corpus for bias mitigation fine-tuning
-ag_news/                # English validation set for cross-lingual evaluation
-deu_news/               # German validation set for model evaluation
+ag_news/                # English validation set for English model evaluation
+deu_news/               # German validation set for German model evaluation
 ```
 
 ## Results
 
-Generated results, analysis outputs, and visualizations are stored in the results/ directory
+Generated results, analysis outputs, and visualizations are stored in the results/ directory.
