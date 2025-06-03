@@ -34,7 +34,7 @@ def extract_unique_pronouns(tsv_filepath):
 
 # Example usage
 if __name__ == "__main__":
-    filepath = "../../Gap/gap_flipped.tsv" 
+    filepath = "../datasets/Gap/gap_flipped.tsv" 
     pronouns = extract_unique_pronouns(filepath)
     print("Unique pronouns found:")
     for pronoun in pronouns:
