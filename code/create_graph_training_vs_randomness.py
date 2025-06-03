@@ -4,10 +4,10 @@ import numpy as np
 from matplotlib.lines import Line2D
 
 # Load the CSV files
-original_data = pd.read_csv("../data/output_csv_files/english/results_EN.csv", sep='\t')
-random_seed_116 = pd.read_csv("../data/random_seeds/replicated_randomized1.csv", sep='\t')
-random_seed_387 = pd.read_csv("../data/random_seeds/replicated_randomized2.csv", sep='\t')
-random_seed_1980 = pd.read_csv("../data/random_seeds/replicated_randomized3.csv", sep='\t')
+original_data = pd.read_csv("../../results/association_files/english/results_bert_replicated.csv", sep='\t')
+random_seed_116 = pd.read_csv("../../results/random_seeds/replicated_randomized1.csv", sep='\t')
+random_seed_387 = pd.read_csv("../../results/random_seeds/replicated_randomized2.csv", sep='\t')
+random_seed_1980 = pd.read_csv("../../results/random_seeds/replicated_randomized3.csv", sep='\t')
 
 # Gender categories
 gender_categories = ['female', 'male', 'balanced']
@@ -145,7 +145,7 @@ ax.legend(
 plt.tight_layout(rect=[0, 0, 0.85, 1])  # Adjust the right boundary
 
 # Save plot
-plt.savefig("../data/plots/english/graph_training_vs_randomness_with_avg.png",
+plt.savefig("../../results/plots/english/training_vs_randomness.png",
             bbox_inches='tight', dpi=300)
 
 plt.show()
