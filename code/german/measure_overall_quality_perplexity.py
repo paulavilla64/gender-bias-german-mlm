@@ -1,3 +1,33 @@
+"""
+German BERT Models Perplexity Evaluation Across Training Epochs
+
+This script evaluates language modeling performance of four German BERT variants 
+(DBMDZ, Google BERT, G-BERT, DistilBERT) across training epochs 0-3 using German 
+validation data from Leipzig corpus.
+
+Features:
+- Evaluates multiple German BERT models with their respective tokenizers
+- Processes checkpoints from epochs 0-3 for each model
+- Uses German news corpus (Leipzig) for perplexity calculation
+- Computes masked language modeling perplexity for performance assessment
+- Handles missing checkpoints with HuggingFace baseline fallback
+- Calculates improvement metrics relative to epoch 0 baseline
+- Identifies best performing epoch for each model
+
+Models Evaluated:
+- DBMDZ BERT (bert-base-german-dbmdz-cased)
+- Google BERT (google-bert/bert-base-german-cased)  
+- G-BERT (deepset/gbert-base)
+- DistilBERT (distilbert/distilbert-base-german-cased)
+
+Output:
+- Individual CSV files with perplexity scores for each model
+- Comprehensive summary comparing all models across epochs
+- Best epoch identification for each model variant
+
+Usage: Run to assess German BERT variants' language modeling quality progression
+"""
+
 import pandas as pd
 import math
 import torch
@@ -9,11 +39,6 @@ from torch.utils.data import TensorDataset, DataLoader, SequentialSampler
 from transformers import AutoTokenizer, AutoModelForMaskedLM
 from bias_utils.utils import input_pipeline, mask_tokens
 
-# Defines a function to compute perplexity for language models
-# Loads validation data from a Leipzig corpus
-# Evaluates four German BERT models (dbmdz, google_bert, deepset_bert, and distilbert)
-# Compares models across epochs 0-3
-# Saves and reports perplexity metrics
 
 
 print(f"Torch version: {torch.__version__}")
@@ -43,7 +68,7 @@ def set_all_seeds(seed):
     torch.backends.cudnn.benchmark = False
 
 seed = 42
-typ = "neutral"
+typ = "both"
 
 set_all_seeds(seed)
 
@@ -73,7 +98,7 @@ def compute_perplexity(model, val_dataloader, device, description=""):
 
 # Load and prepare validation data for perplexity calculation
 print("Preparing validation data...")
-eval_corpus = pd.read_csv('../data/leipzig_corpus/deu_news_leipzig.tsv', sep='\t') 
+eval_corpus = pd.read_csv('../../datasets/deu_news_leipzig_corpus/deu_news_leipzig.tsv', sep='\t') 
 eval_data = []
 for text in eval_corpus.Sentence:
     eval_data += sent_tokenize(text)
@@ -220,9 +245,9 @@ for model_config in models_config:
     # Convert results to DataFrame and save for this model
     if model_results:
         results_df = pd.DataFrame(model_results)
-        results_dir = f"../data/output_csv_files/german/Lou/perplexity/{model_name}"
+        results_dir = f"../../results/association_files/german/Lou/{model_name}"
         os.makedirs(results_dir, exist_ok=True)
-        results_file = f"{results_dir}/results_DE_{model_name}_{typ}_{seed}_perplexity.csv"
+        results_file = f"{results_dir}/results_{model_name}_{typ}_{seed}_perplexity.csv"
         results_df.to_csv(results_file, index=False)
         print(f"\nResults for {model_name} saved to {results_file}")
         
