@@ -1,3 +1,17 @@
+"""
+Comprehensive visualization script for perplexity-based gender bias analysis in BERT language models.
+
+This script generates multiple types of comparative visualizations:
+- English BERT: Baseline vs fine-tuned analysis across profession categories
+- German BERT: Single model baseline measurements (DBMDZ)
+- German Multi-Model: Baseline comparison across 4 BERT variants
+- Single Model Analysis: Detailed baseline vs fine-tuned with bias distributions
+- Multi-Model Comparison: Side-by-side baseline vs fine-tuned for model pairs
+- Configurable template types (regular, token_balanced, gender_neutral)
+
+"""
+
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns

@@ -1,3 +1,27 @@
+"""
+Perplexity-based gender bias measurement script for BERT models.
+
+This script evaluates gender bias in masked language models by calculating sentence-level 
+perplexity differences between male and female profession templates. The analysis compares 
+baseline and fine-tuned model variants across multiple random seeds for statistical robustness.
+
+Key Features:
+- Processes gender-paired profession sentences from BEC-Pro dataset
+- Calculates perplexity for male vs female profession templates
+- Compares baseline (epoch 0) and fine-tuned models
+- Runs across multiple random seeds (42, 116, 387, 1980) for reliability
+- Categorizes professions by gender distribution (male/female/balanced)
+- Computes bias scores as perplexity difference (female - male)
+- Handles GPU memory management and error recovery
+
+Output:
+- Raw results with all seed combinations
+- Averaged results across seeds with statistical measures
+- Profession gender group statistics
+
+Usage: Configure model paths, template type, and run to generate bias measurements.
+"""
+
 import torch
 from transformers import AutoModelForMaskedLM, AutoTokenizer
 import pandas as pd
@@ -24,7 +48,7 @@ else:
 typ = "gender_neutral"
 
 # Load your template dataset
-df = pd.read_csv(f'../BEC-Pro/modified_file_DE_gender_neutral_one_MASK.tsv', sep='\t')
+df = pd.read_csv(f'../datasets/BEC-Pro/modified_corpus/BEC-Pro_DE_{typ}_adapted.csv', sep='\t')
 
 print(f"Loaded template dataset with {len(df)} rows")
 
@@ -224,7 +248,7 @@ if not all_results:
 
 # Combine all results
 combined_results = pd.concat(all_results)
-combined_results.to_csv(f'./Lou/perplexity_measure_{typ}/{name_of_model}/all_seeds_bias_{name_of_model}_{typ}_one_MASK_groups.csv', index=False)
+combined_results.to_csv(f'../results/perplexity_measure/Lou/{typ}/{name_of_model}/lou_all_seeds_bias_{name_of_model}_{typ}_adapted.csv', index=False)
 print(f"Saved raw results with {len(combined_results)} rows")
 
 # Calculate average results across seeds
@@ -260,7 +284,7 @@ prof_gender_stats = combined_results.groupby(['model', 'prof_gender']).agg({
 prof_gender_stats.columns = ['_'.join(col).strip('_') for col in prof_gender_stats.columns.values]
 
 # Save averaged results
-avg_results.to_csv(f'./Lou/perplexity_measure_{typ}/{name_of_model}/averaged_bias_{name_of_model}_{typ}_one_MASK_groups.csv', index=False)
+avg_results.to_csv(f'../results/perplexity_measure/Lou/{typ}/{name_of_model}/lou_averaged_bias_{name_of_model}_{typ}_adapted.csv', index=False)
 print("Saved averaged results")
 
 print("Analysis complete! Results saved to CSV files.")
