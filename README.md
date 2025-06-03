@@ -45,4 +45,4 @@ deu_news/               # German validation set for model evaluation
 
 ## Results
 
-Generated results, analysis outputs, and visualizations are stored in the results/ directory.
+Generated results, analysis outputs, and visualizations are stored in the results/ directory
