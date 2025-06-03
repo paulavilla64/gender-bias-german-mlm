@@ -19,20 +19,13 @@ conda activate gender-bias-german-mlm
 
 ## Repository Structure
 
-### code/
-Main source code
-
-### datasets/
-Dataset files and evaluation corpora
-
-### results/
-Generated results and outputs
-
-### env.yml
-Conda environment specification
-
-### README.md
-This file
+```
+code/                   # Main source code
+datasets/               # Dataset files and evaluation corpora
+results/                # Generated results and outputs
+env.yml                 # Conda environment specification
+README.md               # This file
+```
 
 ## Data
 
@@ -42,20 +35,13 @@ The repository includes datasets and evaluation corpora specifically designed fo
 
 The `datasets/` folder contains:
 
-#### BEC-Pro
-Template-based corpus for measuring gender bias in German masked language models
-
-#### Gap corpus
-Training corpus used for fine-tuning models to mitigate bias
-
-#### Lou corpus
-Additional training corpus for bias mitigation fine-tuning
-
-#### ag_news
-English validation set for cross-lingual evaluation
-
-#### deu_news
-German validation set for model evaluation
+```
+BEC-Pro/                # Template-based corpus for measuring gender bias
+Gap corpus/             # Training corpus for fine-tuning models to mitigate bias
+Lou corpus/             # Additional training corpus for bias mitigation fine-tuning
+ag_news/                # English validation set for cross-lingual evaluation
+deu_news/               # German validation set for model evaluation
+```
 
 ## Results
 
