@@ -1,3 +1,34 @@
+"""
+German BERT Fine-tuning with Gender-Inclusive Language for Bias Mitigation
+
+This script fine-tunes German BERT models on gender-inclusive language data (Lou dataset) 
+and evaluates gender bias before and after training using association-based measurements 
+on German BEC-Pro dataset.
+
+Features:
+- Loads German BEC-Pro dataset for bias evaluation
+- Calculates pre-training gender bias associations using word-level measurements
+- Fine-tunes German BERT on Lou gender-inclusive corpus (neutral + gender star texts)
+- Processes both neutral and gender star (*) forms for comprehensive training
+- Saves model checkpoints after each epoch (including epoch 0 baseline)
+- Applies masked language modeling during training with batch monitoring
+- Calculates post-training gender bias associations
+- Uses fixed random seed for reproducibility
+
+Supported Models:
+- DBMDZ BERT (default active)
+- Google BERT (commented)
+- G-BERT/deepset BERT (commented)
+- DistilBERT (commented)
+
+Output:
+- Model checkpoints for each training epoch
+- CSV file with pre/post association scores for bias analysis
+- Final fine-tuned model state
+
+Usage: Uncomment desired model and run to fine-tune German BERT on gender-inclusive data
+"""
+
 import pandas as pd
 import math
 import random
@@ -51,7 +82,7 @@ model_name = "dbmdz"
 print('-- Prepare evaluation data --')
 
 # Read a TSV file
-data = pd.read_csv('../BEC-Pro/modified_file_DE_gender_neutral_one_MASK.tsv', sep='\t')
+data = pd.read_csv('../../datasets/BEC-Pro/modified_corpus/BEC-Pro_DE_gender_neutral_adapted.tsv', sep='\t')
 
 # Take only the first 50 rows of data
 # data = data.head(50)
@@ -259,21 +290,21 @@ def fine_tune(model, train_dataloader, epochs, tokenizer, device):
 print('-- Import fine-tuning data --')
 
 # Fine-tune
-tune_corpus = pd.read_csv('../Lou/neutral_genderstern_texts.tsv', sep='\t')
-tune_data = []
-for text in tune_corpus.GenderStern_Text:
-    tune_data += sent_tokenize(text)
-
-# # Initialize an empty list for your tuning data
+tune_corpus = pd.read_csv('../../datasets/Lou/neutral_genderstern_texts.tsv', sep='\t')
 # tune_data = []
+# for text in tune_corpus.GenderStern_Text:
+#     tune_data += sent_tokenize(text)
 
-# # Assuming you want to process both 'GenderStern_Text' and another column (e.g., 'Original_Text')
-# for neutral_text, genderstern_text in zip(tune_corpus.Neutral_Text, tune_corpus.GenderStern_Text):
-#     # Process the first column
-#     tune_data += sent_tokenize(neutral_text)
+# Initialize an empty list for your tuning data
+tune_data = []
+
+# Assuming you want to process both 'GenderStern_Text' and another column (e.g., 'Original_Text')
+for neutral_text, genderstern_text in zip(tune_corpus.Neutral_Text, tune_corpus.GenderStern_Text):
+    # Process the first column
+    tune_data += sent_tokenize(neutral_text)
     
-#     # Process the second column
-#     tune_data += sent_tokenize(genderstern_text)
+    # Process the second column
+    tune_data += sent_tokenize(genderstern_text)
 
 
 # make able to handle
@@ -319,6 +350,6 @@ post_associations = model_evaluation(
 data = data.assign(Post_Assoc=post_associations)
 
 # Save the results
-output_file = f"../data/output_csv_files/german/Lou/results_Lou_DE_gender_neutral_{typ}_{model_name}_{seed}.csv"
+output_file = f"../../results/association_files/german/Lou/{typ}/results_Lou_gender_neutral_{typ}_{model_name}_{seed}.csv"
 data.to_csv(output_file, sep='\t', index=False)
 print(f"Results saved to {output_file}")
