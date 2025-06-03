@@ -1,3 +1,17 @@
+"""
+Tokenization Analysis for German Gender Bias Study
+
+This script analyzes how different German BERT tokenizers handle gendered and 
+gender-neutral profession terms. It contains three lists of German professions:
+- male_professions: Traditional masculine forms (e.g., "Mechaniker")  
+- female_professions: Corresponding feminine forms (e.g., "Mechanikerin")
+- gender_neutral_professions: Gender-inclusive alternatives (e.g., "Fachkraft")
+
+The script uses transformers library to tokenize professions with:
+- German BERT model (dbmdz/bert-base-german-cased) 
+- English BERT model (bert-base-uncased) for comparison
+"""
+
 from transformers import AutoTokenizer, BertTokenizer
 
 tokenizer = AutoTokenizer.from_pretrained("dbmdz/bert-base-german-cased")
