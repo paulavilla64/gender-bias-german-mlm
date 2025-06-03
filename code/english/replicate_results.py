@@ -1,3 +1,28 @@
+"""
+English BERT Fine-tuning with Gender Bias Evaluation
+
+This script fine-tunes BERT-base-uncased on gender-swapped data (GAP corpus) and evaluates 
+gender bias before and after training using association-based measurements on BEC-Pro dataset.
+
+Features:
+- Loads English BEC-Pro dataset for bias evaluation
+- Calculates pre-training gender bias associations 
+- Fine-tunes BERT on GAP gender-swapped corpus for 3 epochs
+- Saves model checkpoints after each epoch (including epoch 0 baseline)
+- Applies masked language modeling during training
+- Calculates post-training gender bias associations
+- Uses fixed random seed (configurable) for reproducibility
+
+Output: 
+- Model checkpoints for each training epoch
+- CSV file with pre/post association scores for bias analysis
+- Final fine-tuned model state
+
+Usage: Run to replicate English BERT debiasing experiments with checkpoint tracking
+"""
+
+
+
 import pandas as pd
 import math
 import random
@@ -39,12 +64,14 @@ def set_seed(seed):
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
 
-set_seed(1980) 
+seed = 42
+
+set_seed({seed}) 
 
 print('-- Prepare evaluation data --')
 
 # Read a TSV file
-data = pd.read_csv('../BEC-Pro/BEC-Pro_EN.tsv', sep='\t')
+data = pd.read_csv('../../datasets/BEC-Pro/BEC-Pro_EN.csv', sep='\t')
 
 # Take only the first 50 rows of data
 # data = data.head(50)
@@ -87,11 +114,11 @@ pre_associations = model_evaluation(data, tokenizer, model, device)
 data = data.assign(Pre_Assoc=pre_associations)
 
 # Create directory for model checkpoints
-model_dir = '../models/bert_checkpoints/random_seed_1980'
+model_dir = f'../models/bert_checkpoints/random_seed_{seed}'
 os.makedirs(model_dir, exist_ok=True)
 
 # Save the original model as epoch 0 (baseline)
-baseline_checkpoint_path = os.path.join(model_dir, 'finetuned_bert_1980_epoch_0.pt')
+baseline_checkpoint_path = os.path.join(model_dir, f'finetuned_bert_{seed}_epoch_0.pt')
 torch.save({
     'epoch': 0,
     'model_state_dict': model.state_dict(),
@@ -100,7 +127,7 @@ torch.save({
 print(f"Baseline model (epoch 0) saved at {baseline_checkpoint_path}")
 
 def fine_tune(model, train_dataloader, epochs, tokenizer, device):
-    model_dir = '../models/bert_checkpoints/random_seed_1980'
+    model_dir = f'../models/bert_checkpoints/random_seed_{seed}'
 
     model.to(device)
 
@@ -198,7 +225,7 @@ def fine_tune(model, train_dataloader, epochs, tokenizer, device):
         print(f"[Epoch {epoch_i + 1}] Training epoch took: {format_time(time.time() - t0)}")
 
         # Save model after each epoch - save everything needed to resume training
-        epoch_checkpoint_path = os.path.join(model_dir, f'finetuned_bert_1980_epoch_{epoch_i+1}.pt')
+        epoch_checkpoint_path = os.path.join(model_dir, f'finetuned_bert_{seed}_epoch_{epoch_i+1}.pt')
         torch.save({
             'epoch': epoch_i+1,
             'model_state_dict': model.state_dict(),
@@ -217,7 +244,7 @@ def fine_tune(model, train_dataloader, epochs, tokenizer, device):
 print('-- Import fine-tuning data --')
 
 # Fine-tune
-tune_corpus = pd.read_csv('../Gap/gap_flipped.tsv', sep='\t')
+tune_corpus = pd.read_csv('../../datasets/Gap/gap_flipped.tsv', sep='\t')
 tune_data = []
 for text in tune_corpus.Text:
     tune_data += sent_tokenize(text)
@@ -251,7 +278,7 @@ epochs = 3
 model = fine_tune(model, train_dataloader, epochs, tokenizer, device)
 
 # Save the final model state
-torch.save(model.state_dict(), '../models/finetuned_bert_1980_final.pt')
+torch.save(model.state_dict(), f'../models/finetuned_bert_{seed}_final.pt')
 print("Final model saved")
 
 print('-- Calculate associations after fine-tuning --')
@@ -263,6 +290,6 @@ post_associations = model_evaluation(
 data = data.assign(Post_Assoc=post_associations)
 
 # Save the results
-output_file = "../data/output_csv_files/english/results_EN_bert_1980.csv"
+output_file = f"../../results/association_files/english/results_bert_{seed}.csv"
 data.to_csv(output_file, sep='\t', index=False)
 print(f"Results saved to {output_file}")
