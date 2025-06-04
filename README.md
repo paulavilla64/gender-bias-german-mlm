@@ -41,9 +41,9 @@ python replicate_results_german.py
 
 Model Selection: Uncomment the desired German BERT model in the script:
 
-`bert-base-german-dbmdz-cased` - DBMDZ BERT (default active)
-`google-bert/bert-base-german-cased` - Google BERT
-`deepset/gbert-base` - G-BERT
+`bert-base-german-dbmdz-cased` - DBMDZ BERT (default active)  
+`google-bert/bert-base-german-cased` - Google BERT  
+`deepset/gbert-base` - G-BERT  
 `distilbert/distilbert-base-german-cased` - DistilBERT
 
 
@@ -65,10 +65,10 @@ python wilcoxon_test_post.py
 
 Template Type: Change the variable `typ` to select different profession templates:
 
-`english` - English standard profession templates
-`regular` - German standard profession templates
-`token_balanced` - German Token-balanced templates
-`gender_neutral` - German Gender-inclusive templates
+`english` - English standard profession templates  
+`regular` - German standard profession templates  
+`token_balanced` - German Token-balanced templates  
+`gender_neutral` - German Gender-inclusive templates  
 
 ### Perplexity-based Gender Bias Measurement
 
@@ -85,17 +85,17 @@ python measure_perplexity_for_bias_evaluation.py
 
 Template Type: Change the variable `typ` to select different profession templates:
 
-`english` - English standard profession templates
-`regular` - German standard profession templates
-`token_balanced` - German Token-balanced templates
-`gender_neutral` - German Gender-inclusive templates
+`english` - English standard profession templates  
+`regular` - German standard profession templates  
+`token_balanced` - German Token-balanced templates  
+`gender_neutral` - German Gender-inclusive templates  
 
 Model Selection: Modify the variables `name_of_model` and `base_model_id` to choose the BERT model:
 
-`bert-base-uncased` - English BERT
-`bert-base-german-dbmdz-cased` - DBMDZ BERT
-`google-bert/bert-base-german-cased` - Google BERT
-`deepset/gbert-base` - G-BERT
+`bert-base-uncased` - English BERT  
+`bert-base-german-dbmdz-cased` - DBMDZ BERT  
+`google-bert/bert-base-german-cased` - Google BERT  
+`deepset/gbert-base` - G-BERT  
 `distilbert/distilbert-base-german-cased` - DistilBERT
 
 
