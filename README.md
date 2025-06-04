@@ -25,6 +25,7 @@ To replicate the English BERT debiasing experiments with association-based measu
 
 ```bash
 cd code/english/
+
 python replicate_results.py
 ```
 
@@ -34,6 +35,7 @@ To run the German BERT debiasing experiments with association-based measurements
 
 ```bash
 cd code/german/
+
 python replicate_results_german.py
 ```
 
@@ -54,8 +56,10 @@ To perform comprehensive statistical analysis for association scores comparing p
 
 ```bash
 cd code/
+
 # To compare association scores between female and male person words
 python wilcoxon_test_pre.py
+
 # To compare pre- and post association scores
 python wilcoxon_test_post.py
 
@@ -77,6 +81,7 @@ The main script for measuring gender bias using perplexity differences can be fo
 ```bash
 
 cd code/
+
 python measure_perplexity_for_bias_evaluation.py
 
 ```
